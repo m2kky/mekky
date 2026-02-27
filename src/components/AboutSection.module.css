@@ -1,0 +1,53 @@
+.about {
+  padding: var(--space-3xl) var(--container-padding);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+}
+
+.topMeta {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  margin-bottom: var(--space-xl);
+}
+
+.quote {
+  font-size: var(--text-huge);
+  line-height: 1.1;
+  color: var(--text-primary);
+  max-width: 90vw;
+  margin-bottom: var(--space-2xl);
+  overflow: hidden;
+}
+
+.bioGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  max-width: 60vw;
+  margin-left: auto;
+}
+
+.paragraph {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .bioGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}

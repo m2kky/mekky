@@ -1,0 +1,53 @@
+.testimonials {
+  padding: var(--space-3xl) var(--container-padding);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+}
+
+.topMeta {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  margin-bottom: var(--space-xl);
+}
+
+.quote {
+  font-size: var(--text-heading); /* Very large quote */
+  line-height: 1.1;
+  color: var(--text-primary);
+  max-width: 80vw;
+  margin-bottom: var(--space-xl);
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.name {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+.role {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}

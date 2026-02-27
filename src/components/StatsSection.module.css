@@ -1,0 +1,115 @@
+.stats {
+  padding: 10vh 5%;
+  background-color: #1a1a1a; /* نفس لون الخلفية عشان يكمل انسيابية */
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.container {
+  width: 100%;
+}
+
+.statement {
+  margin-bottom: 12vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* سطر عشان نخفي جواه النص قبل ما يطلع (Masking) */
+.lineWrapper {
+  overflow: hidden; 
+}
+
+.statement p {
+  font-family: 'Cormorant Garamond', Georgia, serif; /* السطر الأول أنيق */
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: #a0a0a0;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.boldText {
+  font-family: var(--font-heading, sans-serif) !important;
+  font-size: clamp(3rem, 7vw, 7rem) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  font-style: normal !important;
+  letter-spacing: -0.02em;
+  line-height: 1.1 !important;
+  margin-top: -10px !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.1); /* خط ناعم جداً */
+}
+
+.statItem:last-child {
+  border-right: none;
+}
+
+.statNumberGroup {
+  display: flex;
+  align-items: baseline;
+  line-height: 0.8;
+  margin-bottom: 1rem;
+}
+
+.prefix, .suffix {
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(2rem, 4vw, 4rem);
+  color: #EB5E28; /* لون الـ Accent بتاعك */
+  font-weight: 600;
+}
+
+.number {
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(4rem, 8vw, 9rem);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.statLabel {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #a0a0a0;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 4rem;
+  }
+  .statItem:nth-child(2) { border-right: none; }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    row-gap: 3rem;
+  }
+  .statItem { border-right: none; }
+  .boldText {
+    margin-top: 0 !important;
+  }
+}
