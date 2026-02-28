@@ -4,14 +4,22 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
-import { PROJECTS } from '@/lib/constants';
 import styles from './ProjectsSection.module.css';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function ProjectsSection() {
+interface ProjectData {
+    title: string;
+    slug: string;
+    category: string;
+    description: string;
+    image: string;
+    color: string;
+}
+
+export default function ProjectsSection({ items = [] }: { items?: ProjectData[] }) {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -41,11 +49,11 @@ export default function ProjectsSection() {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h2 className={styles.title}>SELECTED<br />WORK</h2>
-                    <span className={styles.sectionNumber}>({PROJECTS.sectionNumber})</span>
+                    <span className={styles.sectionNumber}>(05)</span>
                 </div>
 
                 <div className={styles.list}>
-                    {PROJECTS.items.map((project, i) => (
+                    {items.map((project, i) => (
                         <Link href={`/portfolio/${project.slug}`} key={i} className={styles.projectRow}>
                             <div className={styles.projectInfo}>
                                 <span className={styles.projectIndex}>0{i + 1}</span>

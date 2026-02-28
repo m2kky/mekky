@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import FloatingCTA from '@/components/FloatingCTA';
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,9 +44,23 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-X6PE0BH0QF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-X6PE0BH0QF');
+          `}
+        </Script>
         <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
         <FloatingCTA />
+        <Analytics />
       </body>
     </html>
   );

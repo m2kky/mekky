@@ -18,10 +18,10 @@ export default function MotivationSection() {
         if (!sectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            // The Blur text animation
+            // The Blur text animation - BALANCED GHOST EFFECT (4px)
             gsap.to(blurRefs.current, {
-                filter: 'blur(12px)', // Reduced blur so it's not a complete smudge
-                opacity: 0.35,        // Higher opacity so it stays visible as a shadow/ghost text
+                filter: 'blur(4px)',
+                opacity: 0.8,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: sectionRef.current,

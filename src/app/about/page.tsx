@@ -8,6 +8,7 @@ import AboutCorneredSection from '@/components/about/AboutCorneredSection';
 import AboutKeywordsSection from '@/components/about/AboutKeywordsSection';
 import AboutOnePercentSection from '@/components/about/AboutOnePercentSection';
 import AboutContactSection from '@/components/about/AboutContactSection';
+import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import FooterSection from '@/components/FooterSection';
 
 export default function AboutPage() {
@@ -16,6 +17,19 @@ export default function AboutPage() {
             <Navbar />
             <div className="page-wrapper">
                 <AboutHeroSection />
+                <ImpactTransitionSection
+                    blurredPart="DISTRA"
+                    sharpPart="ACTION"
+                    questions={[
+                        "ARE YOU DROWNING IN MANUAL TASKS?",
+                        "DO YOU RUN YOUR SYSTEMS, OR DO THEY RUN YOU?",
+                        "TIRED OF PUTTING OUT FIRES INSTEAD OF SCALING?",
+                        "READY TO TAKE THE HELM OF YOUR BUSINESS?"
+                    ]}
+                    topLabel="THE 1% TEST"
+                    bottomNote="Action is the only antidote to distraction."
+                    id="distraction-section"
+                />
                 <AboutManifestoSection />
                 <AboutStorySection />
                 <AboutPhilosophySection />

@@ -70,11 +70,11 @@
 
 .giantText {
   font-family: var(--font-serif);
-  font-size: clamp(6rem, 16vw, 20rem);
+  font-size: clamp(3.5rem, 10vw, 12rem); /* Reduced from 16vw/20rem */
   color: var(--text-primary);
   white-space: nowrap;
   text-transform: uppercase;
-  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); /* Helps readability over the image */
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); 
 }
 
 @media (max-width: 768px) {

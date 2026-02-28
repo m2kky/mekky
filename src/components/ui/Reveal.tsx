@@ -52,7 +52,7 @@ export default function Reveal({
         });
 
         return () => ctx.revert();
-    }, [direction, delay, duration]);
+    }, [direction, delay, duration, once]);
 
     const initialStyles: React.CSSProperties = {
         opacity: 0,

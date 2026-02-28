@@ -3,14 +3,20 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CASE_STUDIES } from '@/lib/constants';
 import styles from './CaseStudiesList.module.css';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function CaseStudiesList() {
+interface CaseStudyData {
+    title: string;
+    slug: string;
+    category: string;
+    description: string;
+}
+
+export default function CaseStudiesList({ items = [] }: { items?: CaseStudyData[] }) {
     const sectionRef = useRef<HTMLElement>(null);
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -56,7 +62,7 @@ export default function CaseStudiesList() {
 
     return (
         <section ref={sectionRef} className={styles.section}>
-            {CASE_STUDIES.items.map((study, i) => (
+            {items.map((study, i) => (
                 <div
                     key={i}
                     ref={(el) => { cardsRef.current[i] = el; }}

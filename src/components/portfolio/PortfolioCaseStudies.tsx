@@ -3,21 +3,30 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CASE_STUDIES } from '@/lib/constants';
 import Reveal from '@/components/ui/Reveal';
 import styles from './PortfolioCaseStudies.module.css';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 
-export default function PortfolioCaseStudies() {
+interface CaseStudyData {
+    title: string;
+    slug: string;
+    category: string;
+    description: string;
+    image: string;
+    challenge: string;
+    solution: string;
+    results: string[];
+}
+
+export default function PortfolioCaseStudies({ items = [] }: { items?: CaseStudyData[] }) {
     const listRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!listRef.current) return;
         const ctx = gsap.context(() => {
             const cards = listRef.current!.querySelectorAll(`.${styles.card}`);
-            cards.forEach((card, i) => {
-                const number = card.querySelector(`.${styles.num}`);
+            cards.forEach((card) => {
                 const image = card.querySelector(`.${styles.imageWrapper}`);
 
                 // Image parallax
@@ -55,7 +64,7 @@ export default function PortfolioCaseStudies() {
                 </div>
 
                 <div ref={listRef} className={styles.cardsContainer}>
-                    {CASE_STUDIES.items.map((cs, i) => (
+                    {items.map((cs, i) => (
                         <Reveal key={cs.slug} delay={i * 0.1}>
                             <a href={`/case-studies/${cs.slug}`} className={styles.card}>
                                 <span className={styles.cardNumber}>

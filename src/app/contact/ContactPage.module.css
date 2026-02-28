@@ -1,0 +1,206 @@
+.page {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  padding-top: calc(80px + 10vh); /* Account for navbar + breathing room */
+  padding-bottom: 10vh;
+}
+
+.container {
+  max-width: var(--container-max-width, 1400px);
+  margin: 0 auto;
+  padding: 0 var(--container-padding, 5%);
+}
+
+.headerArea {
+  margin-bottom: 12vh;
+  max-width: 1100px;
+}
+
+.headline {
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.02em;
+}
+
+.wordWrapper {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.1em; /* Prevent clipping descenders if any */
+}
+
+.word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0;
+}
+
+.contentArea {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4rem;
+  border-top: 1px solid var(--border);
+  padding-top: 4rem;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.blockTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 0 0 1rem 0;
+}
+
+.contactLink {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  background-image: linear-gradient(var(--text-primary), var(--text-primary));
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.5s var(--ease-slow, ease);
+  display: inline-table; /* prevents wrapping layout shifts */
+  width: fit-content;
+}
+
+.contactLink:hover {
+  background-size: 100% 2px;
+}
+
+.socialList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.socialLink {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  width: fit-content;
+}
+
+.socialLink:hover {
+  color: var(--text-primary);
+  transform: translateX(10px);
+}
+
+.formBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.input, .textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.75rem 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.input:focus, .textarea:focus {
+  border-bottom-color: var(--text-primary);
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.submitButton {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 9999px; /* Pill shape */
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  width: fit-content;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: #ef4444; /* red-500 */
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .headline {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+  
+  .contentArea {
+    gap: 3rem;
+  }
+}

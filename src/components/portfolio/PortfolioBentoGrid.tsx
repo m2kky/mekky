@@ -3,16 +3,25 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PROJECTS } from '@/lib/constants';
+import Link from 'next/link';
 import styles from './PortfolioBentoGrid.module.css';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function PortfolioBentoGrid() {
+interface ProjectData {
+    title: string;
+    slug: string;
+    category: string;
+    description: string;
+    image: string;
+    color: string;
+}
+
+export default function PortfolioBentoGrid({ items = [] }: { items?: ProjectData[] }) {
     const sectionRef = useRef<HTMLElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -56,12 +65,13 @@ export default function PortfolioBentoGrid() {
         <section ref={sectionRef} className={styles.section}>
             <div className={styles.header}>
                 <h2 className={styles.sectionTitle}>Selected Work</h2>
-                <span className={styles.sectionNumber}>({PROJECTS.sectionNumber})</span>
+                <span className={styles.sectionNumber}>({items.length < 10 ? `0${items.length}` : items.length})</span>
             </div>
 
             <div className={styles.grid}>
-                {PROJECTS.items.map((project, i) => (
-                    <div
+                {items.map((project, i) => (
+                    <Link
+                        href={`/portfolio/${project.slug}`}
                         key={i}
                         ref={(el) => { cardsRef.current[i] = el; }}
                         className={styles.card}
@@ -92,7 +102,7 @@ export default function PortfolioBentoGrid() {
                             <h3 className={styles.cardTitle}>{project.title}</h3>
                             <p className={styles.cardDesc}>{project.description}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>
