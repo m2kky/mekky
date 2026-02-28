@@ -16,54 +16,104 @@ export default function Navbar() {
     const timeline = useRef<gsap.core.Timeline | null>(null);
 
     useEffect(() => {
+        const handleScroll = () => {
+            const headerOffset = 50; // Distance from top to check
+
+            // Getting elements at the specific point where the header is
+            // We select an element slightly below the top to ensure we are inside the section
+            const elementsAtPoint = document.elementsFromPoint(window.innerWidth / 2, headerOffset);
+
+            let isLightUnderneath = false;
+
+            for (const el of elementsAtPoint) {
+                // Find nearest section or main block
+                const bg = window.getComputedStyle(el).backgroundColor;
+                // Exclude transparent and rgba transparent
+                if (bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+                    const rgb = bg.match(/\d+/g);
+                    if (rgb && rgb.length >= 3) {
+                        const r = parseInt(rgb[0]);
+                        const g = parseInt(rgb[1]);
+                        const b = parseInt(rgb[2]);
+
+                        // Perceived brightness formula
+                        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                        if (brightness > 128) {
+                            isLightUnderneath = true;
+                        }
+                        break; // Stop at the first non-transparent background element
+                    }
+                }
+            }
+
+            const navElement = document.getElementById('main-nav');
+            if (navElement) {
+                if (isLightUnderneath) {
+                    navElement.classList.add(styles.lightMode);
+                } else {
+                    navElement.classList.remove(styles.lightMode);
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll, { passive: true });
+        // Initial call
+        setTimeout(handleScroll, 100);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+        };
+    }, []);
+
+    // Animation overlay changes ...
+    useEffect(() => {
         const ctx = gsap.context(() => {
-            // 1. إعدادات البداية:
-            // هنستخدم clip-path عشان نقفل الشاشة من تحت لفوق كأنها ستارة
             gsap.set(overlayRef.current, {
                 clipPath: 'inset(0% 0% 100% 0%)',
                 visibility: 'hidden'
             });
 
-            // النصوص هتبدأ من تحت ومائلة شوية (skew) لزيادة الانسيابية
             gsap.set(menuTitleRef.current, { yPercent: 120, skewY: 5, opacity: 0 });
             gsap.set(linksRef.current, { yPercent: 120, skewY: 5, opacity: 0 });
 
             timeline.current = gsap.timeline({ paused: true })
-                // 2. فتح الـ Overlay
                 .to(overlayRef.current, {
-                    clipPath: 'inset(0% 0% 0% 0%)', // يكشف الشاشة كلها
+                    clipPath: 'inset(0% 0% 0% 0%)',
                     visibility: 'visible',
-                    duration: 1.2, // مدة أطول شوية لنعومة أكتر
-                    ease: 'expo.inOut', // easing قوي جداً ومميز
+                    duration: 1.2,
+                    ease: 'expo.inOut',
                 })
-                // 3. ظهور كلمة MENU
                 .to(menuTitleRef.current, {
                     yPercent: 0,
-                    skewY: 0, // تتعدل وهي طالعة
+                    skewY: 0,
                     opacity: 1,
                     duration: 0.8,
                     ease: 'power4.out',
-                }, "-=0.6") // بتبدأ قبل ما الـ overlay يخلص بنص ثانية
-                // 4. ظهور اللينكات
+                }, "-=0.6")
                 .to(linksRef.current, {
                     yPercent: 0,
                     skewY: 0,
                     opacity: 1,
                     duration: 0.8,
                     ease: 'power4.out',
-                    stagger: 0.1, // التتابع بين اللينكات
+                    stagger: 0.1,
                 }, "-=0.7");
         });
 
         return () => ctx.revert();
     }, []);
 
-    // تشغيل أو عكس الأنيميشن لما الحالة تتغير
     useEffect(() => {
         if (isMenuOpen) {
             timeline.current?.play();
+            // Force nav to white mode when menu is open because overlay is dark
+            document.getElementById('main-nav')?.classList.remove(styles.lightMode);
         } else {
             timeline.current?.reverse();
+            // It will naturally recalculate on next scroll, but let's trigger it
+            window.dispatchEvent(new Event('scroll'));
         }
     }, [isMenuOpen]);
 
@@ -74,7 +124,8 @@ export default function Navbar() {
     return (
         <>
             {/* ── Navbar ── */}
-            <nav className={styles.nav}>
+            <nav id="main-nav" className={`${styles.nav} ${isMenuOpen ? styles.menuIsOpenOverride : ''}`}>
+                <div className={styles.navBackground}></div>
                 <div className={styles.left}>
                     <span className={styles.label}>
                         Marketing Automation Strategist<br />FOR AMBITIOUS TEAMS

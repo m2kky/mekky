@@ -30,7 +30,7 @@ export default function StatsSection() {
                 stagger: 0.15,
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: 'top 75%', 
+                    start: 'top 75%',
                 }
             });
 
@@ -83,16 +83,16 @@ export default function StatsSection() {
 
                 <div className={styles.statement}>
                     <div className={styles.lineWrapper}>
-                        <p 
-                            ref={(el) => { textLinesRef.current[0] = el; }} 
+                        <p
+                            ref={(el) => { textLinesRef.current[0] = el; }}
                             className="text-serif"
                         >
                             Don&apos;t just build things.
                         </p>
                     </div>
                     <div className={styles.lineWrapper}>
-                        <p 
-                            ref={(el) => { textLinesRef.current[1] = el; }} 
+                        <p
+                            ref={(el) => { textLinesRef.current[1] = el; }}
                             className={styles.boldText}
                         >
                             BUILD ENGINES.
@@ -102,13 +102,13 @@ export default function StatsSection() {
 
                 <div className={styles.grid}>
                     {STATS.map((stat, i) => (
-                        <div 
-                            key={i} 
+                        <div
+                            key={i}
                             ref={(el) => { statItemsRef.current[i] = el; }}
                             className={styles.statItem}
                         >
                             <div className={styles.statNumberGroup}>
-                                <span className={styles.prefix}>{stat.prefix || ''}</span>
+                                <span className={styles.prefix}>{('prefix' in stat ? (stat as any).prefix : '')}</span>
                                 <span
                                     ref={(el) => { numberRefs.current[i] = el; }}
                                     className={styles.number}

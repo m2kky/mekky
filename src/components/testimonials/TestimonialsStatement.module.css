@@ -1,0 +1,30 @@
+/* ═══════════════════════════════════════
+   TESTIMONIALS STATEMENT
+   ═══════════════════════════════════════ */
+
+.section {
+  position: relative;
+  background-color: var(--bg-primary);
+  padding: var(--space-2xl) var(--container-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 45vh;
+}
+
+.lineWrapper { overflow: hidden; }
+
+.textWrapper { text-align: center; }
+
+.line {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 8vw, 9rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.bold { font-weight: 800; }

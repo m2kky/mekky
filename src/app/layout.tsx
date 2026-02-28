@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SEO } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
+import NoiseOverlay from '@/components/NoiseOverlay';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning>
+        <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>

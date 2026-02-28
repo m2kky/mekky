@@ -5,8 +5,8 @@
    ═══════════════════════════════════════ */
 :root {
   /* Colors */
-  --bg-primary: #252422;
-  --bg-surface: #403D39; 
+  --bg-primary: #050505;
+  --bg-surface: #1a1a1a; 
   --text-primary: #FFFCF2;
   --text-secondary: #CCC5B9;
   --text-muted: rgba(255, 252, 242, 0.15);
@@ -50,7 +50,6 @@ body {
   font-size: var(--text-body);
   color: var(--text-secondary);
   background-color: var(--bg-primary);
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -119,4 +118,13 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes infinite-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 20s linear infinite;
 }

@@ -1,8 +1,19 @@
+import Navbar from '@/components/Navbar';
+import FooterSection from '@/components/FooterSection';
+import StickyCTA from '@/components/StickyCTA';
+import CaseStudiesHero from '@/components/case-studies/CaseStudiesHero';
+import CaseStudiesList from '@/components/case-studies/CaseStudiesList';
+
 export default function CaseStudiesPage() {
     return (
-        <main style={{ padding: '10rem 2rem', textAlign: 'center' }}>
-            <h1>Case Studies</h1>
-            <p>This page is currently under construction.</p>
-        </main>
+        <>
+            <Navbar />
+            <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
+                <CaseStudiesHero />
+                <CaseStudiesList />
+                <FooterSection />
+            </div>
+            <StickyCTA />
+        </>
     );
 }
