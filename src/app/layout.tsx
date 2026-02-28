@@ -5,6 +5,7 @@ import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import FloatingCTA from '@/components/FloatingCTA';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({
         <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
         <FloatingCTA />
+        <Analytics />
       </body>
     </html>
   );
