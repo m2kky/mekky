@@ -45,6 +45,34 @@
   color: var(--text-secondary);
 }
 
+/* ── CTA ── */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-primary);
+  text-decoration: none;
+  margin-top: var(--space-lg);
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255,252,242,0.25);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.cta:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.ctaArrow {
+  transition: transform 0.3s ease;
+}
+
+.cta:hover .ctaArrow { transform: translateX(6px); }
+
 @media (max-width: 1024px) {
   .bioGrid {
     grid-template-columns: 1fr;

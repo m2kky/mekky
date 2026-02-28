@@ -4,6 +4,7 @@ import StickyCTA from '@/components/StickyCTA';
 import LecturesHero from '@/components/lectures/LecturesHero';
 import LecturesList from '@/components/lectures/LecturesList';
 import LecturesImpact from '@/components/lectures/LecturesImpact';
+import LecturesCTA from '@/components/lectures/LecturesCTA';
 
 export default function LecturesPage() {
     return (
@@ -13,6 +14,7 @@ export default function LecturesPage() {
                 <LecturesHero />
                 <LecturesList />
                 <LecturesImpact />
+                <LecturesCTA />
                 <FooterSection />
             </div>
             <StickyCTA />

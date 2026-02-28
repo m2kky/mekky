@@ -1,6 +1,6 @@
 .services {
   padding: var(--space-xl) var(--container-padding);
-  background-color: var(--bg-surface);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
 }

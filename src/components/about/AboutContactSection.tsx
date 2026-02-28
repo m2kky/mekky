@@ -31,6 +31,7 @@ export default function AboutContactSection() {
                         scrollTrigger: {
                             trigger: sectionRef.current,
                             start: 'top 75%',
+                            toggleActions: 'play reverse play reverse',
                         }
                     }
                 );

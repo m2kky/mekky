@@ -26,6 +26,9 @@ export default function Navbar() {
             let isLightUnderneath = false;
 
             for (const el of elementsAtPoint) {
+                // Skip navbar itself and its overlay
+                if (el.closest('#main-nav') || el.closest(`.${styles.overlay}`)) continue;
+
                 // Find nearest section or main block
                 const bg = window.getComputedStyle(el).backgroundColor;
                 // Exclude transparent and rgba transparent
@@ -138,7 +141,7 @@ export default function Navbar() {
 
                 <div className={styles.right}>
                     <Link href="/about" className={styles.link}>About</Link>
-                    <Link href="/projects" className={styles.link}>Projects</Link>
+                    <Link href="/portfolio" className={styles.link}>Portfolio</Link>
 
                     {/* زرار الـ Menu */}
                     <button
@@ -169,21 +172,35 @@ export default function Navbar() {
 
                     {/* العمود الأيمن: اللينكات */}
                     <div className={styles.menuLinks}>
-                        {NAV_LINKS.map((item, index) => (
-                            <div key={item.label} className={styles.linkItem}>
+                        <div className={styles.navLinksList}>
+                            {NAV_LINKS.filter(link => !['Consultation', 'Email Me', 'WhatsApp'].includes(link.label)).map((item, index) => (
+                                <div key={item.label} className={styles.linkItem}>
+                                    <Link
+                                        href={item.href}
+                                        className={styles.hugeLink}
+                                        ref={(el) => {
+                                            linksRef.current[index] = el;
+                                        }}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className={styles.menuActions}>
+                            {NAV_LINKS.filter(link => ['Consultation', 'Email Me', 'WhatsApp'].includes(link.label)).map((item) => (
                                 <Link
+                                    key={item.label}
                                     href={item.href}
-                                    className={styles.hugeLink}
-                                    // تسجيل الـ ref لكل لينك عشان الـ GSAP Stagger
-                                    ref={(el) => {
-                                        linksRef.current[index] = el;
-                                    }}
-                                    onClick={() => setIsMenuOpen(false)} // يقفل المنيو لما تدوس على لينك
+                                    className={styles.menuActionButton}
+                                    onClick={() => setIsMenuOpen(false)}
                                 >
                                     {item.label}
                                 </Link>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

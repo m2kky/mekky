@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════
+   LECTURES CTA SECTION 
+   ═══════════════════════════════════════ */
+
+.section {
+  background-color: var(--bg-primary);
+  padding: var(--space-xl) var(--container-padding);
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 9vw, 10rem);
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.outlined {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--text-primary);
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 100px;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btnPrimary:hover {
+  background: var(--accent);
+  filter: brightness(1.1);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(235, 94, 40, 0.2);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.btnSecondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

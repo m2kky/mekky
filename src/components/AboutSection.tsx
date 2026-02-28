@@ -61,6 +61,18 @@ export default function AboutSection() {
                     start: 'top 85%',
                 },
             });
+
+            // Fade in CTA
+            gsap.from(`.${styles.cta}`, {
+                y: 30,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: `.${styles.bioGrid}`,
+                    start: 'bottom 90%',
+                },
+            });
         }, sectionRef);
 
         return () => ctx.revert();
@@ -128,6 +140,10 @@ export default function AboutSection() {
                         into real-world workflows.
                     </p>
                 </div>
+
+                <a href="/about" className={styles.cta}>
+                    See Full Story <span className={styles.ctaArrow}>→</span>
+                </a>
             </div>
         </section>
     );

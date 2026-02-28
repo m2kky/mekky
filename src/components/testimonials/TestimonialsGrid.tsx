@@ -28,6 +28,7 @@ export default function TestimonialsGrid() {
                     scrollTrigger: {
                         trigger: card,
                         start: 'top 90%',
+                        toggleActions: 'play reverse play reverse'
                     },
                     delay: i * 0.1,
                 });

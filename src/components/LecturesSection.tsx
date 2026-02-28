@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
 import { LECTURES } from '@/lib/constants';
 import styles from './LecturesSection.module.css';
 
@@ -47,7 +48,7 @@ export default function LecturesSection() {
 
                 <div className={styles.list}>
                     {LECTURES.map((lecture, i) => (
-                        <div key={i} className={styles.row}>
+                        <Link href={`/lectures/${lecture.slug}`} key={i} className={styles.row}>
                             <div className={styles.left}>
                                 <span className={styles.index}>0{i + 1}</span>
                                 <h3 className={styles.lectureTitle}>{lecture.title}</h3>
@@ -56,7 +57,7 @@ export default function LecturesSection() {
                                 <p className={styles.lectureDesc}>{lecture.description}</p>
                                 <span className={styles.arrow}>↗</span>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
 import { PROJECTS } from '@/lib/constants';
 import styles from './ProjectsSection.module.css';
 
@@ -45,7 +46,7 @@ export default function ProjectsSection() {
 
                 <div className={styles.list}>
                     {PROJECTS.items.map((project, i) => (
-                        <div key={i} className={styles.projectRow}>
+                        <Link href={`/portfolio/${project.slug}`} key={i} className={styles.projectRow}>
                             <div className={styles.projectInfo}>
                                 <span className={styles.projectIndex}>0{i + 1}</span>
                                 <h3 className={styles.projectTitle}>{project.title}</h3>
@@ -58,7 +59,7 @@ export default function ProjectsSection() {
                                 <div className={styles.imageBlocker} style={{ backgroundColor: project.color }}></div>
                                 <img src={project.image} alt={project.title} className={styles.image} />
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

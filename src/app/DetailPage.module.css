@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.heroDark { background-color: var(--bg-surface); }
+.heroDark { background-color: var(--bg-primary); }
 
 .heroImageWrapper {
   position: absolute;
@@ -25,13 +25,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.3;
+  opacity: 0.2; /* Darker hero images */
 }
 
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 20%, var(--bg-primary) 100%);
+  background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 98%);
   z-index: 1;
 }
 
@@ -150,7 +150,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--text-muted);
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 0.5rem 1.2rem;
@@ -182,10 +182,11 @@
   margin-top: 0.15rem;
 }
 
-/* ── Light Mode Block ── */
+/* ── Unified Block ── */
 .lightBlock {
-  background-color: #FFFCF2;
+  background-color: var(--bg-primary);
   padding: var(--space-xl) var(--container-padding);
+  border-top: 1px solid var(--border);
 }
 
 .lightBlockInner {
@@ -198,7 +199,7 @@
   font-size: var(--text-label);
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #EB5E28;
+  color: var(--accent);
   margin-bottom: 1.5rem;
   display: block;
 }
@@ -207,7 +208,7 @@
   font-family: var(--font-heading);
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
   text-transform: uppercase;
   margin: 0 0 1.5rem 0;
 }
@@ -215,7 +216,7 @@
 .lightText {
   font-family: var(--font-body);
   font-size: var(--text-body);
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.8;
 }
 
@@ -234,12 +235,12 @@
   gap: 1rem;
   font-family: var(--font-body);
   font-size: var(--text-body);
-  color: #333;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
 .lightBullet {
-  color: #EB5E28;
+  color: var(--accent);
   font-size: 1.2rem;
   flex-shrink: 0;
 }
@@ -252,7 +253,7 @@
 }
 
 .topicCard {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--text-muted);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;

@@ -4,104 +4,81 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BLOGS } from '@/lib/constants';
+import Reveal from '@/components/ui/Reveal';
 import styles from './BlogGrid.module.css';
 
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
+if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 
 export default function BlogGrid() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const featuredRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-    const [featured, ...rest] = BLOGS.items;
+    const gridRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!sectionRef.current) return;
-
+        if (!gridRef.current) return;
         const ctx = gsap.context(() => {
-            // Featured card reveal
-            if (featuredRef.current) {
-                gsap.from(featuredRef.current, {
-                    y: 60, opacity: 0, duration: 1.2,
-                    ease: 'power3.out',
-                    scrollTrigger: { trigger: featuredRef.current, start: 'top 85%' },
-                });
+            const cards = gridRef.current!.querySelectorAll(`.${styles.card}`);
 
-                // Parallax on featured image
-                const img = featuredRef.current.querySelector(`.${styles.featuredImage}`);
+            cards.forEach((card) => {
+                const img = card.querySelector(`.${styles.imageBox} img`);
                 if (img) {
                     gsap.to(img, {
-                        yPercent: 12, ease: 'none',
+                        yPercent: 10,
+                        ease: 'none',
                         scrollTrigger: {
-                            trigger: featuredRef.current,
-                            start: 'top bottom', end: 'bottom top', scrub: true,
-                        },
+                            trigger: card,
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: true,
+                        }
                     });
                 }
-            }
-
-            // Grid cards stagger
-            cardsRef.current.forEach((card, i) => {
-                if (!card) return;
-                gsap.from(card, {
-                    y: 50, opacity: 0, duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: { trigger: card, start: 'top 90%' },
-                    delay: i * 0.08,
-                });
             });
-        }, sectionRef);
-
+        }, gridRef);
         return () => ctx.revert();
     }, []);
 
     return (
-        <section ref={sectionRef} className={styles.section}>
-            {/* Featured Post */}
-            <div ref={featuredRef} className={styles.featured}>
-                <div className={styles.featuredImageWrapper}>
-                    <img
-                        src={featured.image}
-                        alt={featured.title}
-                        className={styles.featuredImage}
-                    />
+        <section className={styles.section}>
+            <div className={styles.container}>
+                <div className={styles.topRow}>
+                    <span className={styles.label}>● Recent Insights</span>
+                    <p className={styles.meta}>Total {BLOGS.items.length} articles</p>
                 </div>
-                <div className={styles.featuredContent}>
-                    <span className={styles.featuredDate}>{featured.date}</span>
-                    <h2 className={styles.featuredTitle}>{featured.title}</h2>
-                    <p className={styles.featuredExcerpt}>{featured.excerpt}</p>
-                    <a href={`/blog/${featured.slug}`} className={styles.readLink}>
-                        Read Article <span className={styles.arrow}>→</span>
-                    </a>
-                </div>
-            </div>
 
-            {/* Remaining Posts */}
-            <div className={styles.grid}>
-                {rest.map((post, i) => (
-                    <a
-                        key={i}
-                        href={`/blog/${post.slug}`}
-                        ref={(el) => { cardsRef.current[i] = el as HTMLDivElement | null; }}
-                        className={styles.card}
-                    >
-                        <div className={styles.cardImageWrapper}>
-                            <img
-                                src={post.image}
-                                alt={post.title}
-                                className={styles.cardImage}
-                                loading="lazy"
-                            />
-                        </div>
-                        <div className={styles.cardContent}>
-                            <span className={styles.cardDate}>{post.date}</span>
-                            <h3 className={styles.cardTitle}>{post.title}</h3>
-                            <p className={styles.cardExcerpt}>{post.excerpt}</p>
-                        </div>
-                    </a>
-                ))}
+                {/* Featured Post - First Item */}
+                <div className={styles.featured}>
+                    <Reveal delay={0.2}>
+                        <a href={`/blog/${BLOGS.items[0].slug}`} className={styles.featuredCard}>
+                            <div className={styles.featuredImgWrapper}>
+                                <img src={BLOGS.items[0].image} alt={BLOGS.items[0].title} />
+                            </div>
+                            <div className={styles.featuredContent}>
+                                <span className={styles.fLabel}>⭐ Featured Post</span>
+                                <h2 className={styles.fTitle}>{BLOGS.items[0].title}</h2>
+                                <p className={styles.fExcerpt}>{BLOGS.items[0].excerpt}</p>
+                                <span className={styles.fLink}>Read Article →</span>
+                            </div>
+                        </a>
+                    </Reveal>
+                </div>
+
+                {/* Grid - Rest of Items */}
+                <div ref={gridRef} className={styles.grid}>
+                    {BLOGS.items.slice(1).map((post, i) => (
+                        <Reveal key={post.slug} delay={i * 0.1}>
+                            <a href={`/blog/${post.slug}`} className={styles.card}>
+                                <div className={styles.imageBox}>
+                                    <img src={post.image} alt={post.title} loading="lazy" />
+                                    <span className={styles.dateBadge}>{post.date}</span>
+                                </div>
+                                <div className={styles.info}>
+                                    <h3 className={styles.cardTitle}>{post.title}</h3>
+                                    <p className={styles.excerpt}>{post.excerpt}</p>
+                                    <span className={styles.cardLink}>Read More +</span>
+                                </div>
+                            </a>
+                        </Reveal>
+                    ))}
+                </div>
             </div>
         </section>
     );

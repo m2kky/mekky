@@ -5,7 +5,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  background-color: var(--bg-surface);
+  background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
   justify-content: center;

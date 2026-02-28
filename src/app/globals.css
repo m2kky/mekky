@@ -59,6 +59,26 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 /* ═══════════════════════════════════════
+   GLOBAL ANIMATION UTILITIES
+   ═══════════════════════════════════════ */
+.marker-highlight {
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent) 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 0.8s var(--ease-slow);
+}
+
+.marker-highlight.active {
+  background-size: 100% 100%;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
+}
+
+/* ═══════════════════════════════════════
    TYPOGRAPHY
    ═══════════════════════════════════════ */
 .text-massive {

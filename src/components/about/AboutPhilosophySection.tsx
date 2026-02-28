@@ -33,6 +33,7 @@ export default function AboutPhilosophySection() {
                         scrollTrigger: {
                             trigger: headlineRef.current,
                             start: 'top 80%',
+                            toggleActions: 'play reverse play reverse'
                         }
                     });
                 }

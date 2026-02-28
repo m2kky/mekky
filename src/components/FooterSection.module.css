@@ -1,13 +1,12 @@
 .footer {
-  background-color: #1a1a1a;
+  background-color: var(--bg-primary);
   padding: 5vh 5% 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden; 
-  /* السر الأول: خلق منظور للكاميرا عشان الأبعاد تبان حقيقية */
-  perspective: 1000px; 
+  perspective: 1000px;
 }
 
 .scene {
@@ -22,12 +21,12 @@
 }
 
 .subtitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-style: italic;
-  color: #a0a0a0;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
-  transform: translateZ(50px); /* بنرفعها شوية عن الأرض */
+  transform: translateZ(50px);
 }
 
 /* ── True 3D Block ── */
@@ -50,14 +49,13 @@
   font-weight: 900;
   line-height: 0.8; /* المسافات ضيقة جداً عشان يركبوا فوق بعض */
   text-transform: uppercase;
-  color: #ffffff; /* وش الكلمة أبيض */
+  color: var(--text-primary);
   margin: 0;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
   
-  /* السر التالت: السُمك الصلب والعميق (Extrusion) */
   text-shadow: 
-    -1px 1px 0 #e6e6e6,
-    -2px 2px 0 #cccccc,
+    -1px 1px 0 var(--border),
+    -2px 2px 0 var(--border),
     -3px 3px 0 #b3b3b3,
     -4px 4px 0 #999999,
     -5px 5px 0 #8c8c8c,

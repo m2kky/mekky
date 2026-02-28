@@ -38,6 +38,7 @@ export default function AboutManifestoSection() {
                         scrollTrigger: {
                             trigger: sectionRef.current,
                             start: 'top 75%', // Start animating when section reaches bottom
+                            toggleActions: 'play reverse play reverse',
                         }
                     });
                 }
@@ -52,7 +53,7 @@ export default function AboutManifestoSection() {
             <div className={styles.glowBackground} />
 
             <p ref={textRef as any} className={styles.manifestoText}>
-"I help ambitious businesses and driven individuals transition from manual chaos to intelligent automation. By designing smarter, highly scalable systems, I bridge the critical gap between marketing strategies, emerging technologies, and the people who drive them — turning complex workflows into seamless growth engines."
+                "I help ambitious businesses and driven individuals transition from manual chaos to intelligent automation. By designing smarter, highly scalable systems, I bridge the critical gap between marketing strategies, emerging technologies, and the people who drive them — turning complex workflows into seamless growth engines."
             </p>
         </section>
     );

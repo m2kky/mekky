@@ -2,32 +2,61 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import SplitType from 'split-type';
 import styles from './PortfolioHero.module.css';
 
 export default function PortfolioHero() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const textRefs = useRef<(HTMLElement | null)[]>([]);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const labelRef = useRef<HTMLSpanElement>(null);
+    const subtitleRef = useRef<HTMLParagraphElement>(null);
     const tapesRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Hero text entrance
-            gsap.from(textRefs.current, {
-                y: 80,
-                opacity: 0,
-                duration: 1.2,
-                stagger: 0.15,
-                ease: 'expo.out',
-                delay: 0.3,
+            const split = new SplitType(titleRef.current!, { types: 'chars' });
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: 'top top',
+                    toggleActions: 'play reverse play reverse',
+                }
             });
 
-            // Tapes fade in
+            tl.from(labelRef.current, {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            })
+                .from(split.chars, {
+                    y: 100,
+                    rotateX: -90,
+                    opacity: 0,
+                    stagger: 0.02,
+                    duration: 1,
+                    ease: 'expo.out',
+                }, '-=0.5')
+                .from(subtitleRef.current, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                }, '-=0.6');
+
             if (tapesRef.current) {
                 gsap.from(tapesRef.current, {
                     opacity: 0,
+                    scaleY: 0,
                     duration: 1.5,
-                    ease: 'power2.out',
-                    delay: 0.8,
+                    ease: 'power4.inOut',
+                    delay: 0.5,
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: 'top top',
+                        toggleActions: 'play reverse play reverse',
+                    }
                 });
             }
         }, containerRef);
@@ -48,21 +77,21 @@ export default function PortfolioHero() {
             <section className={styles.hero}>
                 <div className={styles.textContainer}>
                     <span
-                        ref={(el) => { textRefs.current[0] = el; }}
+                        ref={labelRef}
                         className={styles.label}
                     >
                         The Archives
                     </span>
 
                     <h1
-                        ref={(el) => { textRefs.current[1] = el; }}
+                        ref={titleRef}
                         className={styles.title}
                     >
                         PROOF OF<br />CONCEPT.
                     </h1>
 
                     <p
-                        ref={(el) => { textRefs.current[2] = el; }}
+                        ref={subtitleRef}
                         className={styles.subtitle}
                     >
                         A curated selection of systems built, brands scaled, and workflows automated.

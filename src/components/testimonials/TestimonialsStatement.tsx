@@ -1,33 +1,49 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SITE } from '@/lib/constants';
 import styles from './TestimonialsStatement.module.css';
 
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
+if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 
 export default function TestimonialsStatement() {
     const sectionRef = useRef<HTMLElement>(null);
     const linesRef = useRef<(HTMLParagraphElement | null)[]>([]);
+    const [email, setEmail] = useState('');
+    const [sent, setSent] = useState(false);
 
     useEffect(() => {
         if (!sectionRef.current) return;
         const ctx = gsap.context(() => {
             gsap.from(linesRef.current, {
-                yPercent: 120,
-                skewY: 4,
-                opacity: 0,
-                duration: 1.2,
-                ease: 'expo.out',
-                stagger: 0.12,
-                scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+                yPercent: 120, skewY: 4, opacity: 0,
+                duration: 1.2, ease: 'expo.out', stagger: 0.12,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 75%',
+                    toggleActions: 'play reverse play reverse',
+                },
+            });
+            gsap.from(sectionRef.current!.querySelector(`.${styles.emailBlock}`), {
+                y: 40, opacity: 0, duration: 1,
+                ease: 'power3.out', delay: 0.4,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 70%',
+                    toggleActions: 'play reverse play reverse',
+                },
             });
         }, sectionRef);
         return () => ctx.revert();
     }, []);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!email) return;
+        setSent(true);
+    };
 
     return (
         <section ref={sectionRef} className={styles.section}>
@@ -42,6 +58,32 @@ export default function TestimonialsStatement() {
                         LOUDER.
                     </p>
                 </div>
+            </div>
+
+            <div className={styles.emailBlock}>
+                <p className={styles.emailText}>
+                    Want results like these? Let&apos;s start with a conversation.
+                </p>
+                {sent ? (
+                    <p className={styles.successMsg}>✦ Got it — I&apos;ll be in touch soon.</p>
+                ) : (
+                    <form className={styles.emailForm} onSubmit={handleSubmit}>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            placeholder="Your email address"
+                            className={styles.emailInput}
+                            required
+                        />
+                        <button type="submit" className={styles.emailBtn}>
+                            Let&apos;s Talk →
+                        </button>
+                    </form>
+                )}
+                <a href={`mailto:${SITE.email}`} className={styles.directLink}>
+                    or email directly — {SITE.email}
+                </a>
             </div>
         </section>
     );

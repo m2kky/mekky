@@ -27,7 +27,11 @@ export default function CaseStudiesList() {
                     gsap.from(number, {
                         x: -100, opacity: 0, duration: 1.4,
                         ease: 'expo.out',
-                        scrollTrigger: { trigger: card, start: 'top 80%' },
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 80%',
+                            toggleActions: 'play reverse play reverse',
+                        },
                     });
                 }
 
@@ -37,7 +41,11 @@ export default function CaseStudiesList() {
                     gsap.from(content, {
                         y: 60, opacity: 0, duration: 1,
                         ease: 'power3.out', delay: 0.2,
-                        scrollTrigger: { trigger: card, start: 'top 80%' },
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 80%',
+                            toggleActions: 'play reverse play reverse',
+                        },
                     });
                 }
             });

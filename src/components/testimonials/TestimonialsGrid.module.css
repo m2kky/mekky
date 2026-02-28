@@ -17,7 +17,7 @@
 /* ── Quote Card ── */
 .card {
   position: relative;
-  background: var(--bg-surface);
+  background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2.5rem;

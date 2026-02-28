@@ -1,31 +1,53 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BLOGS } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import styles from '@/app/DetailPage.module.css';
+import styles from './BlogPost.module.css';
 
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+function ShareRow({ title }: { title: string }) {
+    const [copied, setCopied] = useState(false);
+    const copy = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    return (
+        <div className={styles.shareRow}>
+            <span className={styles.shareLabel}>Share</span>
+            <button onClick={copy} className={styles.shareBtn}>{copied ? '✓ Copied' : '🔗 Link'}</button>
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>𝕏 Twitter</a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>in LinkedIn</a>
+        </div>
+    );
 }
 
 export default function BlogPostPage() {
     const params = useParams();
     const slug = params.slug as string;
     const post = BLOGS.items.find((p) => p.slug === slug);
+    const related = BLOGS.items.filter((p) => p.slug !== slug).slice(0, 3);
     const heroRef = useRef<HTMLElement>(null);
+    const progressRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
+
+    // Reading progress bar + word count
+    const wordCount = post?.content.join(' ').split(' ').length ?? 0;
+    const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
     useEffect(() => {
         if (!heroRef.current) return;
         const ctx = gsap.context(() => {
             gsap.from(heroRef.current!.querySelectorAll('[data-reveal]'), {
                 y: 60, opacity: 0, duration: 1.2,
-                stagger: 0.12, ease: 'expo.out', delay: 0.2,
+                stagger: 0.12, ease: 'expo.out', delay: 0.1,
             });
             if (bodyRef.current) {
                 gsap.from(bodyRef.current.children, {
@@ -35,7 +57,19 @@ export default function BlogPostPage() {
                 });
             }
         }, heroRef);
-        return () => ctx.revert();
+
+        // Reading progress
+        const onScroll = () => {
+            if (!progressRef.current) return;
+            const total = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (window.scrollY / total) * 100;
+            progressRef.current.style.width = `${progress}%`;
+        };
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            ctx.revert();
+            window.removeEventListener('scroll', onScroll);
+        };
     }, []);
 
     if (!post) {
@@ -43,9 +77,7 @@ export default function BlogPostPage() {
             <>
                 <Navbar />
                 <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <h1 style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-heading)', fontSize: '3rem' }}>
-                        Post Not Found
-                    </h1>
+                    <h1 style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-heading)', fontSize: '3rem' }}>Post Not Found</h1>
                 </div>
                 <FooterSection />
             </>
@@ -54,37 +86,83 @@ export default function BlogPostPage() {
 
     return (
         <>
+            {/* Reading progress bar */}
+            <div className={styles.progressBar} ref={progressRef} />
             <Navbar />
+
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
                 {/* Hero */}
-                <section ref={heroRef} className={`${styles.hero} ${styles.heroDark}`}>
+                <section ref={heroRef} className={styles.hero}>
                     <div className={styles.heroImageWrapper}>
                         <img src={post.image} alt={post.title} className={styles.heroImage} />
                         <div className={styles.heroOverlay} />
                     </div>
                     <div className={styles.heroContent}>
                         <a href="/blog" className={styles.backLink} data-reveal>← Back to Blog</a>
-                        <span className={styles.category} data-reveal>{post.date}</span>
+                        <div className={styles.heroMeta} data-reveal>
+                            <span className={styles.date}>{post.date}</span>
+                            <span className={styles.readTime}>· {readTime} min read</span>
+                        </div>
                         <h1 className={styles.title} data-reveal>{post.title}</h1>
+                        <ShareRow title={post.title} />
                     </div>
                 </section>
 
-                {/* Article Body */}
-                <div className={styles.body}>
-                    <div className={styles.bodyInner} ref={bodyRef}>
+                {/* Article body */}
+                <div className={styles.articleLayout}>
+                    <div className={styles.articleBody} ref={bodyRef}>
                         {post.content.map((paragraph, i) => (
-                            <p key={i} className={styles.bodyText}>{paragraph}</p>
+                            <p key={i} className={styles.paragraph}>{paragraph}</p>
                         ))}
+
+                        {/* Bottom share */}
+                        <div className={styles.bottomShare}>
+                            <p className={styles.bottomShareText}>Found this useful? Share it.</p>
+                            <ShareRow title={post.title} />
+                        </div>
                     </div>
+
+                    {/* Sidebar TOC */}
+                    <aside className={styles.tocSidebar}>
+                        <div className={styles.tocCard}>
+                            <span className={styles.tocLabel}>In This Article</span>
+                            <ul className={styles.tocList}>
+                                {post.content.map((_, i) => (
+                                    <li key={i} className={styles.tocItem}>
+                                        <span className={styles.tocNum}>{String(i + 1).padStart(2, '0')}</span>
+                                        <span className={styles.tocText}>Section {i + 1}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className={styles.readTimeBadge}>
+                                🕐 {readTime} min read
+                            </div>
+                        </div>
+                    </aside>
                 </div>
 
-                {/* Bottom CTA */}
-                <div className={styles.bottomCta}>
-                    <p className={styles.ctaText}>Found this useful? More insights coming soon.</p>
-                    <a href="/blog" className={styles.ctaLink}>
-                        Read More Articles →
-                    </a>
-                </div>
+                {/* Related posts */}
+                {related.length > 0 && (
+                    <section className={styles.relatedSection}>
+                        <span className={styles.relatedLabel}>● More Articles</span>
+                        <h2 className={styles.relatedHeading}>KEEP READING.</h2>
+                        <div className={styles.relatedGrid}>
+                            {related.map((r) => (
+                                <a key={r.slug} href={`/blog/${r.slug}`} className={styles.relatedCard}>
+                                    <div className={styles.relatedImg}>
+                                        <img src={r.image} alt={r.title} loading="lazy" />
+                                    </div>
+                                    <div className={styles.relatedInfo}>
+                                        <span className={styles.relatedDate}>{r.date}</span>
+                                        <h3 className={styles.relatedTitle}>{r.title}</h3>
+                                        <p className={styles.relatedExcerpt}>{r.excerpt}</p>
+                                        <span className={styles.relatedLink}>Read Article →</span>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 <FooterSection />
             </div>

@@ -5,7 +5,7 @@
 /* ── Video Hero ── */
 .videoHero {
   position: relative;
-  background-color: #000;
+  background-color: var(--bg-primary);
   width: 100%;
 }
 
@@ -72,8 +72,8 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--accent);
-  background: rgba(235, 94, 40, 0.08);
-  border: 1px solid rgba(235, 94, 40, 0.2);
+  background: var(--text-muted);
+  border: 1px solid var(--border);
   border-radius: 100px;
   padding: 0.4rem 1rem;
   width: fit-content;
@@ -170,7 +170,7 @@
 }
 
 .sidebarCard {
-  background: var(--bg-surface);
+  background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
@@ -233,7 +233,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #ffffff;
+  color: #fff;
   background: var(--accent);
   border: none;
   border-radius: 100px;
@@ -311,6 +311,194 @@
   color: var(--text-primary);
   font-family: var(--font-heading);
   font-size: 3rem;
+}
+
+/* ── Quote block ── */
+.quoteBlock {
+  margin: 0;
+  padding: 2rem;
+  border-left: 3px solid var(--accent);
+  background: var(--text-muted);
+  border-radius: 0 12px 12px 0;
+}
+
+.quoteText {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  color: var(--text-primary);
+  line-height: 1.7;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.quoteAuthor {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+/* ── Share Row ── */
+.shareRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.shareLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  margin-right: 0.5rem;
+}
+
+.shareBtn {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.shareBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Other Workshops ── */
+.otherSection {
+  background-color: var(--bg-primary);
+  padding: var(--space-xl) var(--container-padding);
+  border-top: 1px solid var(--border);
+}
+
+.otherInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.otherLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.otherHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 7rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0 0 3rem 0;
+  line-height: 0.9;
+}
+
+.otherGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.otherCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.4s ease, transform 0.4s ease;
+  background: var(--bg-primary);
+}
+
+.otherCard:hover {
+  border-color: rgba(235, 94, 40, 0.3);
+  transform: translateY(-6px);
+}
+
+.otherCardImg {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.otherCardImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.otherCard:hover .otherCardImg img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.otherCardContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.otherDuration {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.otherTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.otherDesc {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.otherLink {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .otherGrid { grid-template-columns: 1fr; }
 }
 
 /* ── Responsive ── */

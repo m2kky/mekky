@@ -71,6 +71,9 @@ export default function LecturesList() {
                             </span>
                             <h3 className={styles.lectureTitle}>{lecture.title}</h3>
                             <p className={styles.lectureDesc}>{lecture.description}</p>
+                            <a href={`/lectures/${lecture.slug}`} className={styles.watchLink}>
+                                Watch Workshop <span className={styles.arrow}>→</span>
+                            </a>
                         </div>
                     </div>
                 ))}
