@@ -190,7 +190,7 @@ export default function Navbar() {
                         </div>
 
                         <div className={styles.menuActions}>
-                            {NAV_LINKS.filter(link => ['Consultation', 'Email Me', 'WhatsApp'].includes(link.label)).map((item) => (
+                            {NAV_LINKS.filter(link => ['Contact', 'Email Me', 'WhatsApp'].includes(link.label)).map((item) => (
                                 <Link
                                     key={item.label}
                                     href={item.href}

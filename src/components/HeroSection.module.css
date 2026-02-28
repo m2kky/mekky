@@ -142,3 +142,20 @@
   0%, 100% { opacity: 0.3; transform: scaleY(1); }
   50%       { opacity: 1;   transform: scaleY(1.2); }
 }
+
+@media (max-width: 768px) {
+  .massiveTextBg {
+    font-size: clamp(1.5rem, 8vw, 3rem);
+  }
+  .massiveTextFg span:first-child {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+  }
+  .massiveTextFg span:last-child {
+    font-size: clamp(1.8rem, 10vw, 4rem);
+    white-space: normal;
+  }
+  .portraitWrapper {
+    width: clamp(200px, 70vw, 400px);
+    height: clamp(280px, 55vh, 600px);
+  }
+}

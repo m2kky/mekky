@@ -34,26 +34,7 @@
     letter-spacing: -0.01em;
 }
 
-/* MOBILE FIX: Smaller words */
-@media (max-width: 768px) {
-    .wordWrapper {
-        font-size: clamp(32px, 8vw, 60px);
-        margin-bottom: 4vh;
-    }
-
-    .question {
-        font-size: 20px;
-        height: 70px;
-    }
-
-    .list {
-        padding: 135px 0;
-    }
-
-    .teleprompter {
-        height: 300px;
-    }
-}
+ /* Handled in consolidated media query at the bottom */
 
 .blurLetter {
     display: inline-block;
@@ -155,19 +136,30 @@
 
 @media (max-width: 768px) {
     .wordWrapper {
-        font-size: clamp(40px, 15vw, 80px);
+        font-size: clamp(2rem, 12vw, 4.2rem); /* Strictly smaller to prevent overflow */
+        letter-spacing: -0.01em;
     }
     
     .question {
         font-size: 18px;
+        height: 70px; /* Aligned with list padding */
         padding: 10px 10px;
     }
     
     .teleprompter {
-        height: 220px;
+        height: 240px;
     }
     
     .list {
         padding: 85px 0;
+    }
+
+    .topLabel {
+        margin-bottom: 3rem;
+        font-size: 10px;
+    }
+
+    .bottomNote {
+        margin-top: 3rem;
     }
 }

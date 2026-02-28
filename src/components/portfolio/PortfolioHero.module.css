@@ -145,6 +145,10 @@
     min-height: 80vh;
   }
 
+  .title {
+    font-size: clamp(2.5rem, 12vw, 5rem);
+  }
+
   .tapesSection {
     padding: 4rem 0;
   }

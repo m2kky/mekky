@@ -101,4 +101,7 @@
 
 @media (max-width: 768px) {
   .steps { grid-template-columns: 1fr; gap: 3rem; }
+  .title {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+  }
 }

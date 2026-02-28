@@ -189,6 +189,14 @@
     .topLabel {
         text-align: left;
         margin-bottom: 5vh;
-        margin-top: -3rem; /* Tweak to bring it closer to title */
+        margin-top: -3rem;
+    }
+
+    .headline {
+        font-size: clamp(2rem, 8vw, 4rem);
+    }
+
+    .offerText {
+        font-size: clamp(1.1rem, 3.5vw, 1.8rem);
     }
 }

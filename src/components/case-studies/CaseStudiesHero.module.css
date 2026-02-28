@@ -114,6 +114,9 @@
 
 @media (max-width: 768px) {
   .hero { min-height: 80vh; padding-bottom: 4rem; }
-  .titleLine { line-height: 0.92; }
+  .titleLine { 
+    font-size: clamp(2.5rem, 12vw, 5rem);
+    line-height: 0.92; 
+  }
   .bgNumber { right: -3rem; }
 }

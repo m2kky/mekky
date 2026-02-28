@@ -112,4 +112,8 @@
   .sideNote {
     display: none;
   }
+
+  .statementLine {
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
+  }
 }

@@ -79,13 +79,16 @@
 
 @media (max-width: 768px) {
   .sideInfoLeft, .sideInfoRight {
-    display: none; /* Hide side info on extreme mobile to avoid clutter */
+    display: none;
   }
   .imageWrapper {
-    width: 80vw;
-    height: 60vh;
+    width: 220px;
+    height: 350px;
   }
   .giantText {
-    font-size: clamp(4rem, 20vw, 8rem);
+    font-size: clamp(2rem, 11vw, 4rem);
+  }
+  .giantTextWrapper {
+    bottom: -20vh;
   }
 }

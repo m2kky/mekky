@@ -37,6 +37,6 @@
 
 @media (max-width: 768px) {
     .wordItem {
-        font-size: clamp(4rem, 15vw, 6rem);
+        font-size: clamp(2.2rem, 10vw, 4rem);
     }
 }

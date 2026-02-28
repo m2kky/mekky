@@ -117,3 +117,12 @@
   .right { justify-content: flex-start; }
   .lectureDesc { text-align: left; }
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+  .lectureTitle {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+  }
+}

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE, SOCIAL_LINKS } from '@/lib/constants';
+import { submitNewsletter } from '@/app/api/contact/actions';
 import styles from './FooterSection.module.css';
 
 if (typeof window !== 'undefined') {
@@ -16,6 +17,7 @@ export default function FooterSection() {
     const middleRef = useRef<HTMLDivElement>(null);
     const frameRef = useRef<HTMLDivElement>(null);
     const [currentTime, setCurrentTime] = useState<string>('');
+    const [newsStatus, setNewsStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
     useEffect(() => {
         const updateTime = () => {
@@ -120,6 +122,36 @@ export default function FooterSection() {
                     <a href={`mailto:${SITE.email}`} className={styles.email}>
                         {SITE.email}
                     </a>
+                </div>
+
+                <div className={styles.newsletterBlock}>
+                    <span className={styles.label}>The Newsletter</span>
+                    <form
+                        action={async (formData) => {
+                            setNewsStatus("loading");
+                            const res = await submitNewsletter(formData);
+                            if (res?.error) setNewsStatus("error");
+                            else setNewsStatus("success");
+                        }}
+                        className={styles.newsletterForm}
+                    >
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Your Email"
+                            required
+                            className={styles.newsInput}
+                            disabled={newsStatus === "success"}
+                        />
+                        <button
+                            type="submit"
+                            className={styles.newsSubmit}
+                            disabled={newsStatus === "loading" || newsStatus === "success"}
+                        >
+                            {newsStatus === "loading" ? "..." : newsStatus === "success" ? "✓" : "→"}
+                        </button>
+                    </form>
+                    {newsStatus === "success" && <p className={styles.successMsg}>You're in the loop.</p>}
                 </div>
             </div>
 

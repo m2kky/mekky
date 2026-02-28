@@ -14,8 +14,8 @@
   --border: rgba(255, 252, 242, 0.08);
 
   /* Massive Typography Scale */
-  --text-massive: clamp(4rem, 15vw, 18rem);
-  --text-huge: clamp(3rem, 10vw, 12rem); 
+  --text-massive: clamp(2.5rem, 12vw, 18rem);
+  --text-huge: clamp(2rem, 8vw, 12rem); 
   --text-display: clamp(2.5rem, 6vw, 7rem);
   --text-heading: clamp(1.8rem, 3.5vw, 4rem);
   --text-body: clamp(1rem, 1.2vw, 1.5rem);

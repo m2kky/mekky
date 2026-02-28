@@ -107,3 +107,9 @@
     max-width: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  .quote {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+}

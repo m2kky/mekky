@@ -88,7 +88,7 @@ export default function FloatingCTA() {
 
     return (
         <div className={styles.ctaContainer}>
-            <Link href="#contact" ref={ctaRef} className={styles.primaryBtn}>
+            <Link href="/contact" ref={ctaRef} className={styles.primaryBtn}>
                 LET&apos;S TALK SYSTEMS
             </Link>
 

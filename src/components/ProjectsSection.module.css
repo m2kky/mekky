@@ -181,3 +181,11 @@
   .projectRow:nth-child(even) .imageWrapper { order: 2; }
   .imageWrapper { height: 60vh; }
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    word-break: break-word;
+  }
+  .imageWrapper { height: 50vh; }
+}
