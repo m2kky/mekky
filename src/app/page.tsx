@@ -9,7 +9,6 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import LecturesSection from '@/components/LecturesSection';
 import MotivationSection from '@/components/MotivationSection';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 
 export default function Home() {
   return (
@@ -27,7 +26,6 @@ export default function Home() {
         <LecturesSection />
         <FooterSection />
       </div>
-      <StickyCTA />
     </>
   );
 }

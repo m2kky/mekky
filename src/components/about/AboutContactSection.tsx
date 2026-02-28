@@ -48,7 +48,7 @@ export default function AboutContactSection() {
                     <div className={styles.number}>(06)</div>
                     <div className={styles.titleWrapper}>
                         <h2 className={styles.headline} ref={headlineRef as any}>
-                            LET&apos;S TALK
+                            WORK WITH ME
                         </h2>
                         <div className={styles.verticalText}>
                             AVAILABLE FOR NEW PROJECTS

@@ -9,7 +9,6 @@ import AboutKeywordsSection from '@/components/about/AboutKeywordsSection';
 import AboutOnePercentSection from '@/components/about/AboutOnePercentSection';
 import AboutContactSection from '@/components/about/AboutContactSection';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 
 export default function AboutPage() {
     return (
@@ -27,7 +26,6 @@ export default function AboutPage() {
                 <AboutContactSection />
             </div>
             <FooterSection />
-            <StickyCTA />
         </main>
     );
 }

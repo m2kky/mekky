@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 import TestimonialsHero from '@/components/testimonials/TestimonialsHero';
 import TestimonialsMarquee from '@/components/testimonials/TestimonialsMarquee';
 import TestimonialsStatement from '@/components/testimonials/TestimonialsStatement';
@@ -19,7 +18,7 @@ export default function TestimonialsPage() {
                 <TestimonialsLogos />
                 <FooterSection />
             </div>
-            <StickyCTA />
+
         </>
     );
 }

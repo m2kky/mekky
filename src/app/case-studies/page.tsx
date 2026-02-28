@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 import CaseStudiesHero from '@/components/case-studies/CaseStudiesHero';
 import CaseStudiesList from '@/components/case-studies/CaseStudiesList';
 
@@ -13,7 +12,7 @@ export default function CaseStudiesPage() {
                 <CaseStudiesList />
                 <FooterSection />
             </div>
-            <StickyCTA />
+
         </>
     );
 }

@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 import PortfolioHero from '@/components/portfolio/PortfolioHero';
 import PortfolioBentoGrid from '@/components/portfolio/PortfolioBentoGrid';
 import PortfolioCaseStudies from '@/components/portfolio/PortfolioCaseStudies';
@@ -21,7 +20,7 @@ export default function PortfolioPage() {
                 <LecturesCTA />
                 <FooterSection />
             </div>
-            <StickyCTA />
+
         </>
     );
 }

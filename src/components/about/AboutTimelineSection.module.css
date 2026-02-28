@@ -116,20 +116,46 @@
 }
 
 .ctaButton {
+    position: relative;
     background-color: var(--text-primary);
     color: #050505;
-    border: none;
-    padding: 1.5rem 3rem;
-    font-family: var(--font-sans);
-    font-size: 1.125rem;
+    border: 1px solid var(--text-primary);
+    border-radius: 100px;
+    padding: 1.25rem 3rem;
+    font-family: var(--font-heading, var(--font-sans));
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-slow, ease);
     align-self: flex-end;
+    z-index: 1;
+}
+
+.ctaButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-slow, ease);
+    z-index: -1;
 }
 
 .ctaButton:hover {
-    background-color: var(--accent);
-    color: white;
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+.ctaButton:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 @media (max-width: 900px) {

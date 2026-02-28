@@ -338,5 +338,5 @@ export const SEO = {
         'Digital Marketing',
         'Automation Strategist',
     ],
-    image: '/images/og-image.jpg',
+    image: '/images/og-preview.png',
 };

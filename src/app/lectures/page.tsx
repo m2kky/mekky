@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import StickyCTA from '@/components/StickyCTA';
 import LecturesHero from '@/components/lectures/LecturesHero';
 import LecturesList from '@/components/lectures/LecturesList';
 import LecturesImpact from '@/components/lectures/LecturesImpact';
@@ -17,7 +16,7 @@ export default function LecturesPage() {
                 <LecturesCTA />
                 <FooterSection />
             </div>
-            <StickyCTA />
+
         </>
     );
 }

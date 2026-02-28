@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { SEO } from '@/lib/constants';
+import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
+import FloatingCTA from '@/components/FloatingCTA';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,16 +13,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: SEO.title,
   description: SEO.description,
   keywords: SEO.keywords,
   authors: [{ name: 'Muhammed Mekky' }],
   openGraph: {
     type: 'website',
-    url: 'https://muhammedmekky.com',
+    url: SITE.url,
     title: SEO.title,
     description: SEO.description,
-    images: [{ url: SEO.image, width: 1200, height: 630 }],
+    images: [{ url: SEO.image, width: 1200, height: 630, alt: SEO.title }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -42,6 +44,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
+        <FloatingCTA />
       </body>
     </html>
   );
