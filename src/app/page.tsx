@@ -8,7 +8,6 @@ import ProjectsSection from '@/components/ProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import MotivationSection from '@/components/MotivationSection';
 import FooterSection from '@/components/FooterSection';
-import LecturesSection from '@/components/LecturesSection';
 import StickyCTA from '@/components/StickyCTA';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import { createClient } from '@/utils/supabase/server';
@@ -57,7 +56,6 @@ export default async function Home() {
         />
 
         <TestimonialsSection />
-        <LecturesSection />
         <FooterSection />
       </div>
       <StickyCTA />
