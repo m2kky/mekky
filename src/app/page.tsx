@@ -11,6 +11,7 @@ import FooterSection from '@/components/FooterSection';
 import StickyCTA from '@/components/StickyCTA';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import IntegrationSection from '@/components/sections/IntegrationSection';
+import EcosystemSection from '@/components/sections/EcosystemSection';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function Home() {
@@ -57,6 +58,7 @@ export default async function Home() {
         />
 
         <IntegrationSection />
+        <EcosystemSection />
 
         <TestimonialsSection />
         <FooterSection />
