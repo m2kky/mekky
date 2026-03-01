@@ -38,6 +38,9 @@ export default async function AdminDashboard() {
                                     <div className={styles.itemHeader}>
                                         <span className={styles.itemName}>{contact.name}</span>
                                         <a href={`mailto:${contact.email}`} className={styles.itemEmail}>{contact.email}</a>
+                                        <span style={{ marginLeft: 'auto', marginRight: '1rem', padding: '2px 8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                            {contact.source || 'contact_page'}
+                                        </span>
                                         <span className={styles.itemDate}>
                                             {new Date(contact.created_at).toLocaleDateString()}
                                         </span>
@@ -62,6 +65,9 @@ export default async function AdminDashboard() {
                                 <div key={sub.id} className={styles.listItem}>
                                     <div className={styles.itemHeader}>
                                         <a href={`mailto:${sub.email}`} className={styles.itemEmail}>{sub.email}</a>
+                                        <span style={{ marginLeft: 'auto', marginRight: '1rem', padding: '2px 8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                            {sub.source || 'newsletter'}
+                                        </span>
                                         <span className={styles.itemDate}>
                                             {new Date(sub.created_at).toLocaleDateString()}
                                         </span>

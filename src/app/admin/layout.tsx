@@ -27,6 +27,28 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         Blogs
                     </Link>
 
+                    <p className={styles.navGroupTitle}>Scheduling</p>
+                    <Link href="/admin/bookings" className={styles.navLink}>
+                        Scheduled Events
+                    </Link>
+                    <Link href="/admin/event-types" className={styles.navLink}>
+                        Event Types
+                    </Link>
+                    <Link href="/admin/availability" className={styles.navLink}>
+                        Availability
+                    </Link>
+                    <Link href="/admin/booking-profile" className={styles.navLink}>
+                        Booking Profile
+                    </Link>
+
+                    <p className={styles.navGroupTitle}>Settings</p>
+                    <Link href="/admin/email-settings" className={styles.navLink}>
+                        Email Settings
+                    </Link>
+                    <Link href="/admin/integrations" className={styles.navLink}>
+                        Integrations
+                    </Link>
+
                     <p className={styles.navGroupTitle}>System</p>
                     <Link href="/admin/seed" className={styles.navLink}>
                         Migrate Content

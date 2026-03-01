@@ -8,6 +8,8 @@ import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import styles from '@/app/DetailPage.module.css';
 
+import MetricsCharts, { MetricDefinition } from '@/components/portfolio/MetricsChart';
+
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
@@ -21,6 +23,7 @@ interface CaseStudyData {
     challenge: string;
     solution: string;
     results: string[];
+    metrics?: MetricDefinition[];
 }
 
 export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
@@ -100,6 +103,11 @@ export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
                                 </li>
                             ))}
                         </ul>
+
+                        {/* Interactive Data Visualization */}
+                        {study.metrics && study.metrics.length > 0 && (
+                            <MetricsCharts metrics={study.metrics} />
+                        )}
                     </div>
                 </div>
 

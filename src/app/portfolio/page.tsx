@@ -28,8 +28,8 @@ export default async function PortfolioPage() {
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
                 <PortfolioHero />
                 <PortfolioBentoGrid items={projects || []} />
-                <PortfolioCaseStudies items={caseStudies || []} />
                 <PortfolioStatement />
+                <PortfolioCaseStudies items={caseStudies || []} />
                 <PortfolioProcess />
                 <LecturesCTA />
                 <FooterSection />

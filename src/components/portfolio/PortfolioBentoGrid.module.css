@@ -39,12 +39,20 @@
   gap: 1rem;
 }
 
-/* Asymmetric card sizes (desktop) */
-.card:nth-child(1) { grid-column: span 7; grid-row: span 2; }
-.card:nth-child(2) { grid-column: span 5; grid-row: span 1; }
-.card:nth-child(3) { grid-column: span 5; grid-row: span 1; }
-.card:nth-child(4) { grid-column: span 6; grid-row: span 2; }
-.card:nth-child(5) { grid-column: span 6; grid-row: span 2; }
+/* Dynamic repeating pattern for Bento Grid (Desktop) */
+/* Every set of 5 cards forms a visually interesting macro-block */
+.card:nth-child(5n + 1) { grid-column: span 7; grid-row: span 2; }
+.card:nth-child(5n + 2) { grid-column: span 5; grid-row: span 1; }
+.card:nth-child(5n + 3) { grid-column: span 5; grid-row: span 1; }
+.card:nth-child(5n + 4) { grid-column: span 6; grid-row: span 2; }
+.card:nth-child(5n + 0) { grid-column: span 6; grid-row: span 2; }
+
+/* Handle orphan cards (last elements that don't fit the 5-block pattern) gracefully */
+/* If there's 1 card left over in the row, make it take the full width */
+.card:last-child:nth-child(5n + 1) { grid-column: span 12; grid-row: span 2; }
+/* If there are 2 cards left, make them equal halves */
+.card:last-child:nth-child(5n + 2),
+.card:nth-last-child(2):nth-child(5n + 1) { grid-column: span 6; grid-row: span 2; }
 
 /* ── Individual Card ── */
 .card {

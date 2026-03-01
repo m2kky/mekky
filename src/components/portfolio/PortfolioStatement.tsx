@@ -30,8 +30,8 @@ export default function PortfolioStatement() {
                 stagger: 0.07,
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: 'top 78%',
-                    toggleActions: 'play reverse play reverse'
+                    start: 'top 85%', // trigger a bit later
+                    once: true // just play it once
                 },
             });
 
@@ -44,7 +44,7 @@ export default function PortfolioStatement() {
                 ease: 'power2.out',
                 scrollTrigger: {
                     trigger: subtextRef.current,
-                    start: 'top 85%',
+                    start: 'top 95%',
                     end: 'bottom 60%',
                     scrub: true,
                 }

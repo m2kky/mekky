@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
+import BlogNewsletter from '@/components/blog/BlogNewsletter';
 import styles from './BlogPost.module.css';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
@@ -163,6 +164,7 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                     </section>
                 )}
 
+                <BlogNewsletter />
                 <FooterSection />
             </div>
         </>

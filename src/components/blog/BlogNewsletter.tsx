@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SITE } from '@/lib/constants';
+import { submitNewsletter } from '@/app/api/contact/actions';
 import styles from './BlogNewsletter.module.css';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
@@ -11,6 +11,7 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 export default function BlogNewsletter() {
     const sectionRef = useRef<HTMLElement>(null);
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -23,6 +24,17 @@ export default function BlogNewsletter() {
         }, sectionRef);
         return () => ctx.revert();
     }, []);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        const formData = new FormData(e.currentTarget);
+
+        await submitNewsletter(formData, 'blog');
+
+        setLoading(false);
+        setSent(true);
+    };
 
     return (
         <section ref={sectionRef} className={styles.section}>
@@ -37,9 +49,11 @@ export default function BlogNewsletter() {
                 {sent ? (
                     <div className={styles.success}>✦ Welcome to the circle.</div>
                 ) : (
-                    <form className={styles.form} onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
-                        <input type="email" placeholder="email@example.com" className={styles.input} required />
-                        <button type="submit" className={styles.btn}>Join Now →</button>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <input type="email" name="email" placeholder="email@example.com" className={styles.input} required />
+                        <button type="submit" className={styles.btn} disabled={loading}>
+                            {loading ? 'Joining...' : 'Join Now →'}
+                        </button>
                     </form>
                 )}
             </div>

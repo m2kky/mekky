@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/Radwa
+
+# Google OAuth credentials
+client_secret_*.json

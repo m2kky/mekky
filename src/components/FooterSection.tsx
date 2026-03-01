@@ -129,7 +129,7 @@ export default function FooterSection() {
                     <form
                         action={async (formData) => {
                             setNewsStatus("loading");
-                            const res = await submitNewsletter(formData);
+                            const res = await submitNewsletter(formData, 'footer');
                             if (res?.error) setNewsStatus("error");
                             else setNewsStatus("success");
                         }}

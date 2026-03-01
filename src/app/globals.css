@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@import "tailwindcss/preflight";
+@tailwind utilities;
 
 /* ═══════════════════════════════════════
    DESIGN TOKENS - LUXURY/EDITORIAL VIBE
@@ -13,14 +15,14 @@
   --accent: #EB5E28;
   --border: rgba(255, 252, 242, 0.08);
 
-  /* Massive Typography Scale */
-  --text-massive: clamp(2.5rem, 12vw, 18rem);
-  --text-huge: clamp(2rem, 8vw, 12rem); 
-  --text-display: clamp(2.5rem, 6vw, 7rem);
-  --text-heading: clamp(1.8rem, 3.5vw, 4rem);
-  --text-body: clamp(1rem, 1.2vw, 1.5rem);
-  --text-small: clamp(0.7rem, 0.8vw, 1rem);
-  --text-label: 0.65rem;
+  /* Typography Scale (Golden Ratio ~1.618 adjusted) */
+  --text-massive: clamp(2.5rem, 8vw, 8rem);
+  --text-huge: clamp(2.2rem, 6vw, 6rem); 
+  --text-display: clamp(1.8rem, 4vw, 4.5rem);
+  --text-heading: clamp(1.4rem, 2.5vw, 2.8rem);
+  --text-body: clamp(1rem, 1.2vw, 1.25rem);
+  --text-small: clamp(0.8rem, 0.9vw, 1rem);
+  --text-label: 0.75rem;
 
   /* Fonts */
   --font-heading: 'Syne', sans-serif;
@@ -107,10 +109,6 @@ html.lenis, html.lenis body { height: auto; }
   width: 100vw;
   padding: var(--space-2xl) 0;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Base layouts */
 .page-wrapper {

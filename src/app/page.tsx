@@ -8,6 +8,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import MotivationSection from '@/components/MotivationSection';
 import FooterSection from '@/components/FooterSection';
+import PortfolioStatement from '@/components/portfolio/PortfolioStatement';
 import PortfolioCaseStudies from '@/components/portfolio/PortfolioCaseStudies';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import { createClient } from '@/utils/supabase/server';
@@ -52,6 +53,7 @@ export default async function Home() {
           ]}
         />
 
+        <PortfolioStatement />
         <PortfolioCaseStudies items={caseStudies || []} />
 
         <TestimonialsSection />

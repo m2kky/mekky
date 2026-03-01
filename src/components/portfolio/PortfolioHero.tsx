@@ -19,8 +19,8 @@ export default function PortfolioHero() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: 'top top',
-                    toggleActions: 'play reverse play reverse',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse',
                 }
             });
 
@@ -54,8 +54,8 @@ export default function PortfolioHero() {
                     delay: 0.5,
                     scrollTrigger: {
                         trigger: containerRef.current,
-                        start: 'top top',
-                        toggleActions: 'play reverse play reverse',
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse',
                     }
                 });
             }

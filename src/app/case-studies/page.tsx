@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import CaseStudiesHero from '@/components/case-studies/CaseStudiesHero';
 import CaseStudiesList from '@/components/case-studies/CaseStudiesList';
+import CaseStudiesNewsletter from '@/components/case-studies/CaseStudiesNewsletter';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function CaseStudiesPage() {
@@ -18,6 +19,7 @@ export default async function CaseStudiesPage() {
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
                 <CaseStudiesHero />
                 <CaseStudiesList items={caseStudies || []} />
+                <CaseStudiesNewsletter />
                 <FooterSection />
             </div>
 

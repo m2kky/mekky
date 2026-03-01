@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE } from '@/lib/constants';
+import { submitTestimonialInquiry } from '@/app/api/contact/actions';
 import styles from './TestimonialsStatement.module.css';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +14,7 @@ export default function TestimonialsStatement() {
     const linesRef = useRef<(HTMLParagraphElement | null)[]>([]);
     const [email, setEmail] = useState('');
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!sectionRef.current) return;
@@ -39,9 +41,16 @@ export default function TestimonialsStatement() {
         return () => ctx.revert();
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email) return;
+        setLoading(true);
+
+        const formData = new FormData();
+        formData.append('email', email);
+        await submitTestimonialInquiry(formData);
+
+        setLoading(false);
         setSent(true);
     };
 
@@ -70,14 +79,15 @@ export default function TestimonialsStatement() {
                     <form className={styles.emailForm} onSubmit={handleSubmit}>
                         <input
                             type="email"
+                            name="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             placeholder="Your email address"
                             className={styles.emailInput}
                             required
                         />
-                        <button type="submit" className={styles.emailBtn}>
-                            Let&apos;s Talk →
+                        <button type="submit" className={styles.emailBtn} disabled={loading}>
+                            {loading ? 'Sending...' : "Let's Talk →"}
                         </button>
                     </form>
                 )}

@@ -64,7 +64,7 @@ export default function PortfolioCaseStudies({ items = [] }: { items?: CaseStudy
                 </div>
 
                 <div ref={listRef} className={styles.cardsContainer}>
-                    {items.map((cs, i) => (
+                    {items.slice(0, 3).map((cs, i) => (
                         <Reveal key={cs.slug} delay={i * 0.1}>
                             <a href={`/case-studies/${cs.slug}`} className={styles.card}>
                                 <span className={styles.cardNumber}>
@@ -83,6 +83,15 @@ export default function PortfolioCaseStudies({ items = [] }: { items?: CaseStudy
                             </a>
                         </Reveal>
                     ))}
+                </div>
+
+                <div className={styles.ctaContainer}>
+                    <Reveal delay={0.4}>
+                        <a href="/case-studies" className={styles.seeAllButton}>
+                            Explore All Case Studies
+                            <span className={styles.arrowIcon}>↗</span>
+                        </a>
+                    </Reveal>
                 </div>
             </div>
         </section>

@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
+import MockupSection from '@/components/portfolio/MockupSection';
 import styles from '@/app/DetailPage.module.css';
 
 if (typeof window !== 'undefined') {
@@ -22,6 +23,7 @@ interface ProjectData {
     color: string;
     tools: string[];
     results: string[];
+    live_url?: string;
 }
 
 export default function ProjectClient({ project }: { project: ProjectData }) {
@@ -65,8 +67,25 @@ export default function ProjectClient({ project }: { project: ProjectData }) {
                                 <span key={i} className={styles.metaItem}>{tool}</span>
                             ))}
                         </div>
+                        {project.live_url && (
+                            <a
+                                href={project.live_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.liveLink}
+                                data-reveal
+                            >
+                                Live Preview ↗
+                            </a>
+                        )}
                     </div>
                 </section>
+
+                <MockupSection
+                    desktopSrc={`/images/projects/${project.slug}-desktop.webp`}
+                    mobileSrc={`/images/projects/${project.slug}-mobile.webp`}
+                    liveUrl={project.live_url}
+                />
 
                 {/* Body */}
                 <div className={styles.body}>
