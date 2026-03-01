@@ -8,8 +8,8 @@ import ProjectsSection from '@/components/ProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import MotivationSection from '@/components/MotivationSection';
 import FooterSection from '@/components/FooterSection';
-import PortfolioStatement from '@/components/portfolio/PortfolioStatement';
-import PortfolioCaseStudies from '@/components/portfolio/PortfolioCaseStudies';
+import LecturesSection from '@/components/LecturesSection';
+import StickyCTA from '@/components/StickyCTA';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import { createClient } from '@/utils/supabase/server';
 
@@ -20,13 +20,15 @@ export default async function Home() {
     .from('projects')
     .select('*')
     .eq('published', true)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(3);
 
   const { data: caseStudies } = await supabase
     .from('case_studies')
     .select('*')
     .eq('published', true)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(1);
 
   return (
     <>
@@ -37,6 +39,7 @@ export default async function Home() {
         <AboutSection />
         <MotivationSection />
         <ServicesSection />
+        <StatsSection />
 
         <ProjectsSection items={projects || []} />
 
@@ -53,14 +56,11 @@ export default async function Home() {
           ]}
         />
 
-        <PortfolioStatement />
-        <PortfolioCaseStudies items={caseStudies || []} />
-
         <TestimonialsSection />
-        <StatsSection />
-
+        <LecturesSection />
         <FooterSection />
       </div>
+      <StickyCTA />
     </>
   );
 }
