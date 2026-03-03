@@ -117,10 +117,10 @@ export default function ImpactTransitionSection({
                 }
             });
 
-            // 1. STAGGERED BLUR (Balanced Ghost Effect - 4px)
+            // 1. STAGGERED BLUR
             blurLetterRefs.current.forEach((letter, i) => {
                 tl.to(letter, {
-                    filter: "blur(4px)",
+                    filter: "blur(12px)",
                     opacity: 0.8,
                     duration: 1,
                 }, i * 0.08);

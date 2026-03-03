@@ -4,9 +4,11 @@ import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import ServicesSection from '@/components/ServicesSection';
 import StatsSection from '@/components/StatsSection';
-import ProjectsSection from '@/components/ProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import MotivationSection from '@/components/MotivationSection';
+import BlueprintSection from '@/components/BlueprintSection';
+import TechStackSection from '@/components/TechStackSection';
+import CaseStudyTeaser from '@/components/CaseStudyTeaser';
 import FooterSection from '@/components/FooterSection';
 import StickyCTA from '@/components/StickyCTA';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
@@ -14,13 +16,6 @@ import { createClient } from '@/utils/supabase/server';
 
 export default async function Home() {
   const supabase = await createClient();
-
-  const { data: projects } = await supabase
-    .from('projects')
-    .select('*')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-    .limit(3);
 
   const { data: caseStudies } = await supabase
     .from('case_studies')
@@ -38,9 +33,10 @@ export default async function Home() {
         <AboutSection />
         <MotivationSection />
         <ServicesSection />
+        <BlueprintSection />
+        <TechStackSection />
         <StatsSection />
-
-        <ProjectsSection items={projects || []} />
+        <CaseStudyTeaser />
 
         <ImpactTransitionSection
           id="overwhelmed"

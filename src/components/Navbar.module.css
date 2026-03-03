@@ -261,7 +261,7 @@
 .hugeLink {
   position: relative; /* عشان نتحكم في مكان النقطة بالنسبة للكلمة */
   font-family: var(--font-syne), sans-serif;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -359,7 +359,7 @@
   }
 
   .hugeLink {
-    font-size: clamp(2.5rem, 10vw, 4rem);
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
     letter-spacing: -0.03em;
     font-weight: 500;
   }

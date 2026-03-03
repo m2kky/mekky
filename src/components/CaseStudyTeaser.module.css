@@ -1,0 +1,127 @@
+.section {
+  position: relative;
+  background-color: var(--bg-primary, #050505);
+  color: var(--text-primary, #fffcf2);
+  padding: 8rem 5%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vw;
+  max-width: 600px;
+  max-height: 600px;
+  background: radial-gradient(circle, rgba(235, 94, 40, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 5rem 4rem;
+  backdrop-filter: blur(10px);
+}
+
+.tagLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent, #EB5E28);
+  margin-bottom: 2rem;
+}
+
+.headline {
+  font-family: var(--font-syne), sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 3rem 0;
+  line-height: 1.1;
+}
+
+.storyWrapper {
+  text-align: left;
+  margin-bottom: 4rem;
+}
+
+.paragraph {
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 1.5rem 0;
+}
+
+.paragraph strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.ctaButton {
+  display: inline-block;
+  font-family: var(--font-syne), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #050505;
+  background-color: #ffffff;
+  padding: 1.2rem 3rem;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+}
+
+.ctaButton:hover {
+  background-color: var(--accent, #EB5E28);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(235, 94, 40, 0.3);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 5rem 5%;
+  }
+  
+  .container {
+    padding: 3rem 1.5rem;
+  }
+  
+  .storyWrapper {
+    text-align: center;
+  }
+  
+  .paragraph {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .ctaButton {
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+}
