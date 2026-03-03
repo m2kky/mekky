@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Reveal from '@/components/ui/Reveal';
@@ -68,7 +69,7 @@ export default function BlogGrid({ items = [] }: { items?: BlogData[] }) {
                         <Reveal delay={0.2}>
                             <a href={`/blog/${items[0].slug}`} className={styles.featuredCard}>
                                 <div className={styles.featuredImgWrapper}>
-                                    <img src={items[0].image} alt={items[0].title} />
+                                    <Image src={items[0].image} alt={items[0].title} fill sizes="(max-width: 768px) 100vw, 50vw" priority />
                                 </div>
                                 <div className={styles.featuredContent}>
                                     <span className={styles.fLabel}>⭐ Featured Post</span>
@@ -89,7 +90,7 @@ export default function BlogGrid({ items = [] }: { items?: BlogData[] }) {
                             <Reveal key={post.slug} delay={i * 0.1}>
                                 <a href={`/blog/${post.slug}`} className={styles.card}>
                                     <div className={styles.imageBox}>
-                                        <img src={post.image} alt={post.title} loading="lazy" />
+                                        <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" />
                                         <span className={styles.dateBadge}>{displayDate}</span>
                                     </div>
                                     <div className={styles.info}>

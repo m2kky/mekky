@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './PortfolioBentoGrid.module.css';
 
 if (typeof window !== 'undefined') {
@@ -87,11 +88,12 @@ export default function PortfolioBentoGrid({ items = [] }: { items?: ProjectData
 
                         {/* Image */}
                         <div className={styles.cardImageWrapper}>
-                            <img
+                            <Image
                                 src={project.image}
                                 alt={project.title}
                                 className={styles.cardImage}
-                                loading="lazy"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                             <div className={styles.cardOverlay} />
                         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './AboutHeroSection.module.css';
@@ -58,9 +59,12 @@ export default function AboutHeroSection() {
             </div>
 
             <div className={styles.imageWrapper} ref={imageRef}>
-                <img
+                <Image
                     src="/images/mekky.png"
                     alt="Muhammed Mekky Portrait"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className={styles.image}
                 />
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE } from '@/lib/constants';
@@ -55,7 +56,7 @@ export default function ProjectClient({ project }: { project: ProjectData }) {
                 {/* Hero */}
                 <section ref={heroRef} className={`${styles.hero} ${styles.heroDark}`}>
                     <div className={styles.heroImageWrapper}>
-                        <img src={project.image} alt={project.title} className={styles.heroImage} />
+                        <Image src={project.image} alt={project.title} fill sizes="100vw" className={styles.heroImage} priority />
                         <div className={styles.heroOverlay} />
                     </div>
                     <div className={styles.heroContent}>

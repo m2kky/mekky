@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import { LECTURES, SITE } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
@@ -185,7 +186,7 @@ export default function LectureDetailPage() {
                                 Watch Full Recording
                             </a>
                             <div className={styles.instructorCard}>
-                                <img src="/images/avatar.png" alt="Muhammed Mekky" className={styles.instructorAvatar} />
+                                <Image src="/images/avatar.png" alt="Muhammed Mekky" width={48} height={48} className={styles.instructorAvatar} />
                                 <div className={styles.instructorInfo}>
                                     <span className={styles.instructorName}>Muhammed Mekky</span>
                                     <span className={styles.instructorRole}>Automation Strategist & Trainer</span>
@@ -205,7 +206,7 @@ export default function LectureDetailPage() {
                                 {otherLectures.map((l) => (
                                     <a key={l.slug} href={`/lectures/${l.slug}`} className={styles.otherCard}>
                                         <div className={styles.otherCardImg}>
-                                            <img src={l.image} alt={l.title} loading="lazy" />
+                                            <Image src={l.image} alt={l.title} fill sizes="(max-width: 768px) 100vw, 33vw" />
                                         </div>
                                         <div className={styles.otherCardContent}>
                                             <span className={styles.otherDuration}>{l.duration}</span>

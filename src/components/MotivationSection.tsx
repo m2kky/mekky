@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './MotivationSection.module.css';
@@ -55,10 +56,12 @@ export default function MotivationSection() {
 
                 <div className={styles.imageWrapper}>
                     {/* Placeholder image, user needs to replace with actual portrait */}
-                    <img
+                    <Image
                         ref={imageRef}
                         src="/images/mekky_motevation.webp"
                         alt="Muhammed Mekky"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className={styles.image}
                     />
                 </div>

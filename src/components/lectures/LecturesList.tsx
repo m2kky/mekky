@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LECTURES } from '@/lib/constants';
@@ -58,11 +59,12 @@ export default function LecturesList() {
                         className={styles.row}
                     >
                         <div className={styles.imageWrapper}>
-                            <img
+                            <Image
                                 src={lecture.image}
                                 alt={lecture.title}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 33vw"
                                 className={styles.image}
-                                loading="lazy"
                             />
                         </div>
                         <div className={styles.content}>

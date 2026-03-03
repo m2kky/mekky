@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '@/components/Navbar';
@@ -91,7 +92,7 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                 {/* Hero */}
                 <section ref={heroRef} className={styles.hero}>
                     <div className={styles.heroImageWrapper}>
-                        <img src={post.image} alt={post.title} className={styles.heroImage} />
+                        <Image src={post.image} alt={post.title} fill sizes="100vw" className={styles.heroImage} priority />
                         <div className={styles.heroOverlay} />
                     </div>
                     <div className={styles.heroContent}>
@@ -149,7 +150,7 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                                 return (
                                     <a key={r.slug} href={`/blog/${r.slug}`} className={styles.relatedCard}>
                                         <div className={styles.relatedImg}>
-                                            <img src={r.image} alt={r.title} loading="lazy" />
+                                            <Image src={r.image} alt={r.title} fill sizes="(max-width: 768px) 100vw, 33vw" />
                                         </div>
                                         <div className={styles.relatedInfo}>
                                             <span className={styles.relatedDate}>{rDate}</span>

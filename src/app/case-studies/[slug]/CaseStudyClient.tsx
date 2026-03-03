@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import styles from '@/app/DetailPage.module.css';
-
-import MetricsCharts, { MetricDefinition } from '@/components/portfolio/MetricsChart';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +66,7 @@ export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
                 {/* Hero */}
                 <section ref={heroRef} className={`${styles.hero} ${styles.heroDark}`}>
                     <div className={styles.heroImageWrapper}>
-                        <img src={study.image} alt={study.title} className={styles.heroImage} />
+                        <Image src={study.image} alt={study.title} fill sizes="100vw" className={styles.heroImage} priority />
                         <div className={styles.heroOverlay} />
                     </div>
                     <div className={styles.heroContent}>

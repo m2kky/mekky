@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
@@ -65,7 +66,7 @@ export default function ProjectsSection({ items = [] }: { items?: ProjectData[] 
 
                             <div className={styles.imageWrapper}>
                                 <div className={styles.imageBlocker} style={{ backgroundColor: project.color }}></div>
-                                <img src={project.image} alt={project.title} className={styles.image} />
+                                <Image src={project.image} alt={project.title} fill sizes="(max-width: 768px) 100vw, 50vw" className={styles.image} />
                             </div>
                         </Link>
                     ))}

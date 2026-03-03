@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { getBookingProfile } from '../admin/booking-profile/actions';
+import Image from 'next/image';
 import Link from 'next/link';
 import s from './Booking.module.css';
 
@@ -17,7 +18,7 @@ export default async function BookPage() {
     return (
         <div className={s.pageWrap}>
             <div className={s.listingCard}>
-                <img src={profile.avatar_url} alt={profile.name} className={s.profilePhoto} />
+                <Image src={profile.avatar_url} alt={profile.name} width={80} height={80} className={s.profilePhoto} />
                 <div className={s.profileName}>{profile.name}</div>
                 <p className={s.profileBio}>{profile.welcome_message}</p>
                 <div className={s.divider} />

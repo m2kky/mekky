@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import styles from './MockupSection.module.css';
 
 if (typeof window !== 'undefined') {
@@ -70,7 +71,7 @@ export default function MockupSection({ desktopSrc, mobileSrc, liveUrl }: Mockup
                     <div className={styles.macbookScreen}>
                         <div className={styles.camera} />
                         <div className={styles.imageContainer}>
-                            <img src={desktopSrc} alt="Desktop Preview" className={styles.screenshot} loading="lazy" />
+                            <Image src={desktopSrc} alt="Desktop Preview" className={styles.screenshot} fill sizes="(max-width: 1024px) 100vw, 1024px" />
                         </div>
                     </div>
                     <div className={styles.macbookBase}>
@@ -82,7 +83,7 @@ export default function MockupSection({ desktopSrc, mobileSrc, liveUrl }: Mockup
                 <div className={styles.iphoneWrapper} ref={mobileRef}>
                     <div className={styles.notch} />
                     <div className={styles.imageContainerMobile}>
-                        <img src={mobileSrc} alt="Mobile Preview" className={styles.screenshotMobile} loading="lazy" />
+                        <Image src={mobileSrc} alt="Mobile Preview" className={styles.screenshotMobile} fill sizes="(max-width: 768px) 100vw, 300px" />
                     </div>
                 </div>
 

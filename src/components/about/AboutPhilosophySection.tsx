@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import { useSplitText } from '@/hooks/useSplitText';
 import styles from './AboutPhilosophySection.module.css';
 
@@ -105,13 +106,13 @@ export default function AboutPhilosophySection() {
                 <div className={styles.imagesRight} ref={imagesRef}>
                     <div className={styles.imageBox}>
                         <div className={styles.imageOverflow}>
-                            <img src="/images/mekky.png" alt="Mekky building" />
+                            <Image src="/images/mekky.png" alt="Mekky building" fill sizes="(max-width: 768px) 100vw, 50vw" />
                         </div>
                         <span className={styles.imageCaption}>"I build from the trenches"</span>
                     </div>
                     <div className={styles.imageBox}>
                         <div className={styles.imageOverflow}>
-                            <img src="/images/hero.png" alt="Mekky processing" />
+                            <Image src="/images/hero.png" alt="Mekky processing" fill sizes="(max-width: 768px) 100vw, 50vw" />
                         </div>
                         <span className={styles.imageCaption}>"And I come out with scalable clarity"</span>
                     </div>
