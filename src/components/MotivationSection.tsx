@@ -91,9 +91,9 @@ export default function MotivationSection() {
 
             <div className={styles.bottomDetails}>
                 <div className={styles.captionWrapper}>
-                    <span className={styles.captionTitle}>THIS STARTS WITH A REAL CONVERSATION</span>
+                    <span className={styles.captionTitle}>IT STARTS WITH A SINGLE CONVERSATION</span>
                     <span className={styles.captionText}>
-                        My consultations are deep, strategic conversations where you&apos;ll walk away with clarity, insight, and momentum, whether we work together or not.
+                        No fluff, just strategy. My consultations are deep, strategic conversations where you&apos;ll walk away with clarity, insight, and momentum, whether we work together or not.
                     </span>
                 </div>
             </div>

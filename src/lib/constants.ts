@@ -3,7 +3,7 @@ export const SITE = {
     title: 'Marketing Automation Strategist & Performance Trainer',
     tagline: 'CREATE. AUTOMATE. GROW.',
     subtitle: 'Build Smarter. Scale Faster.',
-    email: 'Cotact@muhammedmekky.com',
+    email: 'Contact@muhammedmekky.com',
     url: 'https://muhammedmekky.com',
 };
 
@@ -26,10 +26,10 @@ export const ABOUT = {
     quote:
         'I help businesses and individuals build smarter, scalable systems — bridging marketing, technology, and people.',
     paragraphs: [
-        'Muhammed Mekky is a marketing automation strategist and performance trainer who helps businesses and individuals build smarter, scalable systems.',
-        'With years of experience across marketing, automation, and AI-driven workflows, Mekky has empowered startups and teams to grow efficiently and work intelligently.',
-        'He brings a unique mix of creative strategy, technical precision, and human-centered training — bridging the gap between marketing, technology, and people.',
-        'Beyond building systems, Mekky teaches them. Through his workshops and lectures, he shares practical frameworks for automating marketing, scaling performance, and integrating AI into real-world workflows.',
+        'I am a marketing automation strategist and performance trainer who helps businesses and individuals build smarter, scalable systems.',
+        'With years of experience across marketing, automation, and AI-driven workflows, I have empowered startups and teams to grow efficiently and work intelligently.',
+        'I bring a unique mix of creative strategy, technical precision, and human-centered training — bridging the gap between marketing, technology, and people.',
+        'Beyond building systems, I teach them. Through my workshops and lectures, I share practical frameworks for automating marketing, scaling performance, and integrating AI into real-world workflows.',
     ],
 };
 
@@ -59,9 +59,9 @@ export const SERVICES = {
         },
         {
             icon: '👥',
-            title: 'Community Management',
+            title: 'Automated Community Growth',
             description:
-                'Build and nurture online communities that drive loyalty, word-of-mouth, and sustainable growth.',
+                'Build and nurture online communities using automated workflows that drive loyalty, word-of-mouth, and sustainable growth.',
         },
         {
             icon: '🔧',

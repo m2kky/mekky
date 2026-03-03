@@ -100,7 +100,7 @@ export default function AboutSection() {
 
                 <div className={styles.bioGrid}>
                     <p className={styles.paragraph}>
-                        Muhammed Mekky is a{' '}
+                        I am a{' '}
                         <Highlighter type="underline" show={showHighlight} color="#EB5E28">
                             marketing automation strategist
                         </Highlighter>{' '}
@@ -115,10 +115,10 @@ export default function AboutSection() {
                         <Highlighter type="highlight" show={showHighlight} color="rgba(235, 94, 40, 0.1)">
                             AI-driven workflows
                         </Highlighter>
-                        , Mekky has empowered startups and teams to grow efficiently and work intelligently.
+                        , I have empowered startups and teams to grow efficiently and work intelligently.
                     </p>
                     <p className={styles.paragraph}>
-                        He brings a unique mix of{' '}
+                        I bring a unique mix of{' '}
                         <Highlighter type="bracket" show={showHighlight} color="#EB5E28" padding={[2, 4]}>
                             creative strategy
                         </Highlighter>
@@ -133,7 +133,7 @@ export default function AboutSection() {
                         bridging the gap between marketing, technology, and people.
                     </p>
                     <p className={styles.paragraph}>
-                        Beyond building systems, Mekky teaches them. Through his workshops and lectures, he shares practical frameworks for automating marketing, scaling performance, and{' '}
+                        Beyond building systems, I teach them. Through my workshops and lectures, I share practical frameworks for automating marketing, scaling performance, and{' '}
                         <Highlighter type="highlight" show={showHighlight} color="rgba(235, 94, 40, 0.1)">
                             integrating AI
                         </Highlighter>{' '}
