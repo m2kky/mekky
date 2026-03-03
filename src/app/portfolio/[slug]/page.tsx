@@ -1,18 +1,34 @@
-import { createClient } from '@/utils/supabase/server';
 import ProjectClient from './ProjectClient';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
+import { PROJECTS } from '@/lib/constants';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const project = PROJECTS.items.find((p: any) => p.slug === resolvedParams.slug);
+
+    if (!project) {
+        return {
+            title: 'Project Not Found | Muhammed Mekky'
+        };
+    }
+
+    return {
+        title: `${project.title} | Portfolio Project`,
+        description: project.description || 'View this portfolio project by Muhammed Mekky.',
+    };
+}
+
+export async function generateStaticParams() {
+    return PROJECTS.items.map((project) => ({
+        slug: project.slug,
+    }));
+}
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
-    const supabase = await createClient();
-
-    const { data: project } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('slug', resolvedParams.slug)
-        .eq('published', true)
-        .single();
+    const project = PROJECTS.items.find((p: any) => p.slug === resolvedParams.slug);
 
     if (!project) {
         return (
@@ -28,5 +44,5 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         );
     }
 
-    return <ProjectClient project={project} />;
+    return <ProjectClient project={project as any} />;
 }

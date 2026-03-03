@@ -6,35 +6,23 @@ import PortfolioCaseStudies from '@/components/portfolio/PortfolioCaseStudies';
 import PortfolioStatement from '@/components/portfolio/PortfolioStatement';
 import PortfolioProcess from '@/components/portfolio/PortfolioProcess';
 import LecturesCTA from '@/components/lectures/LecturesCTA';
-import { createClient } from '@/utils/supabase/server';
+import { PROJECTS, CASE_STUDIES } from '@/lib/constants';
 
-export default async function PortfolioPage() {
-    const supabase = await createClient();
-    const { data: projects } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('published', true)
-        .order('created_at', { ascending: false });
+export const metadata = { title: "Portfolio | Muhammed Mekky", description: "Explore the marketing automation, web design, and AI-driven projects built by Muhammed Mekky." };
 
-    const { data: caseStudies } = await supabase
-        .from('case_studies')
-        .select('*')
-        .eq('published', true)
-        .order('created_at', { ascending: false });
-
+export default function PortfolioPage() {
     return (
         <>
             <Navbar />
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
                 <PortfolioHero />
-                <PortfolioBentoGrid items={projects || []} />
+                <PortfolioBentoGrid items={PROJECTS.items} />
                 <PortfolioStatement />
-                <PortfolioCaseStudies items={caseStudies || []} />
+                <PortfolioCaseStudies items={CASE_STUDIES.items} />
                 <PortfolioProcess />
                 <LecturesCTA />
                 <FooterSection />
             </div>
-
         </>
     );
 }

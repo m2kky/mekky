@@ -6,6 +6,9 @@ import TestimonialsStatement from '@/components/testimonials/TestimonialsStateme
 import TestimonialsStats from '@/components/testimonials/TestimonialsStats';
 import TestimonialsLogos from '@/components/testimonials/TestimonialsLogos';
 
+export const metadata = { title: "Testimonials | Muhammed Mekky", description: "See what clients and students say about Muhammed Mekky’s marketing automation, web development, and AI training." };
+
+
 export default function TestimonialsPage() {
     return (
         <>

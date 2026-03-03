@@ -10,6 +10,12 @@ import AboutOnePercentSection from '@/components/about/AboutOnePercentSection';
 import AboutContactSection from '@/components/about/AboutContactSection';
 import ImpactTransitionSection from '@/components/ui/ImpactTransitionSection';
 import FooterSection from '@/components/FooterSection';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'About Muhammed Mekky | Marketing Automation Strategist',
+    description: 'Learn about Muhammed Mekky\'s journey, philosophy, and the systems he builds to help businesses scale intelligently using AI and automation.',
+};
 
 export default function AboutPage() {
     return (

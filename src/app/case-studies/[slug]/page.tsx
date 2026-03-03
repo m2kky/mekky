@@ -1,18 +1,34 @@
-import { createClient } from '@/utils/supabase/server';
 import CaseStudyClient from './CaseStudyClient';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
-import { notFound } from 'next/navigation';
+import { CASE_STUDIES } from '@/lib/constants';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const study = CASE_STUDIES.items.find((s: any) => s.slug === resolvedParams.slug);
+
+    if (!study) {
+        return {
+            title: 'Case Study Not Found | Muhammed Mekky'
+        };
+    }
+
+    return {
+        title: `${study.title} | Case Study`,
+        description: study.description || 'View this case study by Muhammed Mekky.',
+    };
+}
+
+export async function generateStaticParams() {
+    return CASE_STUDIES.items.map((study) => ({
+        slug: study.slug,
+    }));
+}
 
 export default async function CaseStudyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
-    const supabase = await createClient();
-    const { data: study } = await supabase
-        .from('case_studies')
-        .select('*')
-        .eq('slug', resolvedParams.slug)
-        .eq('published', true)
-        .single();
+    const study = CASE_STUDIES.items.find((s: any) => s.slug === resolvedParams.slug);
 
     if (!study) {
         return (
@@ -28,5 +44,5 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
         );
     }
 
-    return <CaseStudyClient study={study} />;
+    return <CaseStudyClient study={study as any} />;
 }

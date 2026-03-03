@@ -329,15 +329,29 @@ export const SOCIAL_LINKS = [
 export const SEO = {
     title: 'Muhammed Mekky — Marketing Automation Strategist & Performance Trainer',
     description:
-        'Build smarter, scale faster. Marketing automation, AI workflows, web design, and performance training for businesses and teams worldwide.',
+        'Build smarter, scale faster. Expert in Marketing Automation, AI Workflows, Web Design, and Shopify. Helping businesses leverage ChatGPT, n8n, and automation tools to scale without manual effort.',
     keywords: [
-        'Muhammed Mekky',
-        'Marketing Automation',
-        'AI Workflows',
-        'Performance Trainer',
-        'Web Design',
-        'Digital Marketing',
-        'Automation Strategist',
+        // English - Core
+        'Muhammed Mekky', 'Marketing Automation Strategist', 'AI Workflows', 'Performance Trainer',
+        'Web Design', 'Digital Marketing', 'Automation Expert', 'AI for Business',
+
+        // English - AI & Tools
+        'AI Tools', 'AI Tutorials', 'ChatGPT prompting', 'Midjourney prompts',
+        'n8n workflows', 'Zapier automations', 'Notion templates', 'AI agents',
+
+        // English - Dev & E-commerce
+        'Web Development with AI', 'Shopify Expert', 'Shopify SEO', 'Automated Community Growth', 'SEO Optimization',
+
+        // Arabic - Core
+        'محمد مكي', 'أتمتة التسويق', 'تسويق إلكتروني', 'تحسين محركات البحث SEO', 'تصميم مواقع',
+
+        // Arabic - AI & Tools
+        'ذكاء اصطناعي', 'أدوات الذكاء الاصطناعي', 'شروحات AI', 'كورسات ذكاء اصطناعي',
+        'شات جي بي تي', 'ميدجورني', 'ادوات AI مجانية', 'تسويق بالذكاء الاصطناعي',
+        'n8n عربي', 'Notion بالعربي', 'Zapier شروحات',
+
+        // Arabic - Business & E-commerce
+        'أتمتة العمليات', 'انشاء متجر شوبيفاي', 'تطوير ويب بالذكاء الاصطناعي', 'تطوير متاجر شوبيفاي'
     ],
     image: '/images/og-preview.png',
 };
