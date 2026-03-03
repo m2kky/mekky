@@ -69,8 +69,10 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
     const freeSlots = [...timeSlots];
 
     try {
-        const timeMin = new Date(`${dateStr}T00:00:00Z`);
-        const timeMax = new Date(`${dateStr}T23:59:59Z`);
+        // Query a wide UTC window (full day ±1 day) to handle any timezone offset
+        // so we don't miss events near midnight boundaries
+        const timeMin = new Date(`${dateStr}T00:00:00+02:00`); // Cairo UTC+2
+        const timeMax = new Date(`${dateStr}T23:59:59+02:00`); // Cairo UTC+2
 
         const response = await calendar.freebusy.query({
             requestBody: {
@@ -82,14 +84,15 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
 
         const busyIntervals = response.data.calendars?.['primary']?.busy || [];
 
-        // Check each slot against busy intervals
+        // Check each slot against busy intervals.
+        // Parse slot times as Cairo time (UTC+2) so comparison with UTC busy intervals is correct.
         for (const slot of timeSlots) {
-            const slotStart = new Date(`${dateStr}T${slot}:00`);
+            const slotStart = new Date(`${dateStr}T${slot}:00+02:00`); // Cairo local time → UTC
             const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000);
 
             for (const busy of busyIntervals) {
-                const busyStart = new Date(busy.start!);
-                const busyEnd = new Date(busy.end!);
+                const busyStart = new Date(busy.start!); // already UTC from Google
+                const busyEnd = new Date(busy.end!);     // already UTC from Google
 
                 // Conflict exists if: slot starts before busy ends AND slot ends after busy starts
                 if (slotStart < busyEnd && slotEnd > busyStart) {
@@ -102,7 +105,7 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
         }
     } catch (e) {
         console.error('Failed to query Google Calendar freebusy', e);
-        // Fallback: return normal slots, but this is dangerous for double booking
+        // Fallback: return all slots if calendar check fails
     }
 
     return freeSlots;

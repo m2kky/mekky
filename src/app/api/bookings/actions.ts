@@ -54,14 +54,10 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
         const endTime = new Date(`${dateStr}T${seg.end_time}`);
 
         while (currentTime.getTime() + durationMinutes * 60000 <= endTime.getTime()) {
-            // Account for buffers: actual blocked time = bufferBefore + meeting + bufferAfter
             const timeString = currentTime.toTimeString().substring(0, 5);
-
-            // Check minimum notice
-            if (currentTime > minNoticeTime) {
-                if (!slots.includes(timeString)) {
-                    slots.push(timeString);
-                }
+            const passesNotice = currentTime > minNoticeTime;
+            if (passesNotice && !slots.includes(timeString)) {
+                slots.push(timeString);
             }
             currentTime = new Date(currentTime.getTime() + increment * 60000);
         }
@@ -70,11 +66,11 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
     slots.sort();
 
     // 2.5 Filter Google Calendar conflicts
+    // Using a separate variable instead of mutating slots (mutation via length=0/push is broken in server action)
+    let filteredSlots: string[] = [...slots];
     try {
         const { checkCalendarConflicts } = await import('@/utils/google');
-        const freeSlots = await checkCalendarConflicts(dateStr, slots, durationMinutes);
-        slots.length = 0;
-        slots.push(...freeSlots);
+        filteredSlots = await checkCalendarConflicts(dateStr, slots, durationMinutes);
     } catch (e) {
         console.error("Google Calendar conflict check failed, continuing without it.", e);
     }
@@ -83,10 +79,11 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
     const { data: bookings } = await supabase.from('bookings').select('start_time, end_time').eq('booking_date', dateStr);
 
     if (!bookings || bookings.length === 0) {
-        // Check max per day
         if (maxPerDay !== null && maxPerDay <= 0) return [];
-        return slots;
+        return filteredSlots;
     }
+
+
 
     // Check max_per_day
     if (maxPerDay !== null) {
