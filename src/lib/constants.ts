@@ -331,8 +331,14 @@ export const SEO = {
     description:
         'Build smarter, scale faster. Expert in Marketing Automation, AI Workflows, Web Design, and Shopify. Helping businesses leverage ChatGPT, n8n, and automation tools to scale without manual effort.',
     keywords: [
+        // Personal Name & Brand (English)
+        'Muhammed Mekky', 'Mohamed Mekky', 'Muhammed Eissa Mekky', 'Mohamed Eissa', 'Muhammed Hassan Mekky', 'Mohamed Eissa Hassan', 'Mekky',
+
+        // Personal Name & Brand (Arabic)
+        'محمد مكي', 'محمد عيسي مكي', 'محمد عيسي', 'محمد حسن مكي', 'محمد عيسي حسن', 'محمد عيسي حسن مكي', 'مكي',
+
         // English - Core
-        'Muhammed Mekky', 'Marketing Automation Strategist', 'AI Workflows', 'Performance Trainer',
+        'Marketing Automation Strategist', 'AI Workflows', 'Performance Trainer',
         'Web Design', 'Digital Marketing', 'Automation Expert', 'AI for Business',
 
         // English - AI & Tools
@@ -343,7 +349,7 @@ export const SEO = {
         'Web Development with AI', 'Shopify Expert', 'Shopify SEO', 'Automated Community Growth', 'SEO Optimization',
 
         // Arabic - Core
-        'محمد مكي', 'أتمتة التسويق', 'تسويق إلكتروني', 'تحسين محركات البحث SEO', 'تصميم مواقع',
+        'أتمتة التسويق', 'تسويق إلكتروني', 'تحسين محركات البحث SEO', 'تصميم مواقع',
 
         // Arabic - AI & Tools
         'ذكاء اصطناعي', 'أدوات الذكاء الاصطناعي', 'شروحات AI', 'كورسات ذكاء اصطناعي',
