@@ -7,7 +7,6 @@ import StatsSection from '@/components/StatsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import MotivationSection from '@/components/MotivationSection';
 import BlueprintSection from '@/components/BlueprintSection';
-import TechStackSection from '@/components/TechStackSection';
 import CaseStudyTeaser from '@/components/CaseStudyTeaser';
 import FooterSection from '@/components/FooterSection';
 import StickyCTA from '@/components/StickyCTA';
@@ -34,7 +33,6 @@ export default async function Home() {
         <MotivationSection />
         <ServicesSection />
         <BlueprintSection />
-        <TechStackSection />
         <StatsSection />
         <CaseStudyTeaser />
 

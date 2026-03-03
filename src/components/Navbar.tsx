@@ -136,7 +136,7 @@ export default function Navbar() {
                 </div>
 
                 <div className={styles.center}>
-                    <span className={styles.logo}>MUHAMMED MEKKY</span>
+                    <Link href="/" className={styles.logo}>MUHAMMED MEKKY</Link>
                 </div>
 
                 <div className={styles.right}>

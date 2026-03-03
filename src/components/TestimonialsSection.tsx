@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
-import { TESTIMONIALS } from '@/lib/constants';
+import { TESTIMONIALS } from '@/lib/constants'; // اتأكد من المسار ده
 import styles from './TestimonialsSection.module.css';
 
 if (typeof window !== 'undefined') {
@@ -14,51 +14,81 @@ if (typeof window !== 'undefined') {
 export default function TestimonialsSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const quoteRef = useRef<HTMLParagraphElement>(null);
+    const authorRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!sectionRef.current) return;
+        if (!sectionRef.current || !quoteRef.current) return;
 
-        // Just doing the first testimonial massively
+        let split: SplitType;
+
         const ctx = gsap.context(() => {
-            if (quoteRef.current) {
-                const split = new SplitType(quoteRef.current, { types: 'words' });
+            // 1. تكسير النص لكلمات
+            split = new SplitType(quoteRef.current!, { types: 'words' });
 
-                gsap.fromTo(
-                    split.words,
-                    { color: 'rgba(255, 252, 242, 0.05)', y: 20 },
+            // 2. أنيميشن القراءة (Scrubbing) للكلمات
+            gsap.fromTo(
+                split.words,
+                { 
+                    color: 'rgba(0, 0, 0, 0.15)', // الكلمات في البداية رمادي فاتح
+                }, 
+                {
+                    color: '#111111', // تتحول لأسود صريح
+                    stagger: 0.1,
+                    ease: 'none', // none أفضل في الـ Scrub
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top 60%', // الأنيميشن يبدأ لما السيكشن يوصل لـ 60% من الشاشة
+                        end: 'center center', // يخلص لما السيكشن يوصل للنص
+                        scrub: 1, // رقم 1 بيدي نعومة (Smoothness) وتأخير خفيف للسكرول
+                    },
+                }
+            );
+
+            // 3. أنيميشن لاسم العميل عشان ميبقاش ثابت
+            if (authorRef.current) {
+                gsap.fromTo(authorRef.current,
+                    { opacity: 0, x: -20 },
                     {
-                        color: 'rgba(255, 252, 242, 1)',
-                        y: 0,
-                        stagger: 0.05,
-                        ease: 'power1.out',
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        ease: 'power3.out',
                         scrollTrigger: {
-                            trigger: sectionRef.current,
-                            start: 'top 50%',
-                            end: 'bottom 50%',
-                            scrub: 1,
-                        },
+                            trigger: authorRef.current,
+                            start: 'top 85%',
+                        }
                     }
                 );
             }
+
         }, sectionRef);
 
-        return () => ctx.revert();
+        return () => {
+            // أهم خطوة: لازم نرجع الـ DOM لأصله عشان React ميزعلش
+            if (split) split.revert();
+            ctx.revert();
+        };
     }, []);
 
+    // لو الـ Array فاضية عشان ميعملش إيرور
+    if (!TESTIMONIALS || TESTIMONIALS.length === 0) return null;
+    
     const featuredTestimonial = TESTIMONIALS[0];
 
     return (
         <section ref={sectionRef} className={styles.testimonials}>
             <div className={styles.container}>
                 <div className={styles.topMeta}>
-                    <span className={styles.sectionLabel}>● Client Proof</span>
+                    <span className={styles.sectionLabel}>Client Proof</span>
                 </div>
 
-                <p ref={quoteRef} className={`${styles.quote} text-serif`}>
-                    "{featuredTestimonial.quote}"
-                </p>
+                <div className={styles.quoteWrapper}>
+                    <p ref={quoteRef} className={styles.quote}>
+                        {featuredTestimonial.quote}
+                    </p>
+                </div>
 
-                <div className={styles.author}>
+                <div ref={authorRef} className={styles.author}>
                     <p className={styles.name}>{featuredTestimonial.author}</p>
                     <p className={styles.role}>{featuredTestimonial.role}</p>
                 </div>

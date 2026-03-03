@@ -36,7 +36,7 @@ export default function BlueprintSection() {
         if (!sectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            // Animate the connecting line drawing down
+            // 1. Animate the connecting line drawing down
             if (lineRef.current) {
                 gsap.fromTo(lineRef.current,
                     { scaleY: 0 },
@@ -46,30 +46,42 @@ export default function BlueprintSection() {
                         scrollTrigger: {
                             trigger: sectionRef.current,
                             start: 'top center',
-                            end: 'bottom center',
+                            end: 'bottom 20%',
                             scrub: true,
                         }
                     }
                 );
             }
 
-            // Animate each step fading in/sliding up
-            stepsRef.current.forEach((step, idx) => {
+            // 2. Animate each step with a Staggered reveal
+            stepsRef.current.forEach((step) => {
                 if (!step) return;
-                gsap.fromTo(step,
+                
+                // Select elements inside the step to stagger them
+                const elementsToAnimate = step.querySelectorAll(`.${styles.numberWrapper}, .${styles.stepTitle}, .${styles.stepDesc}`);
+
+                gsap.fromTo(elementsToAnimate,
                     {
                         opacity: 0,
-                        y: 50,
+                        x: -20, // Slide in from the left slightly
                     },
                     {
                         opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: 'power3.out',
+                        x: 0,
+                        duration: 0.6,
+                        stagger: 0.15, // Elements appear one after another
+                        ease: 'power2.out',
                         scrollTrigger: {
                             trigger: step,
-                            start: 'top 80%',
+                            start: 'top 75%',
                             toggleActions: 'play none none reverse',
+                            onEnter: () => {
+                                // Add class to trigger CSS glows and hollow number fills
+                                step.classList.add(styles.active);
+                            },
+                            onLeaveBack: () => {
+                                step.classList.remove(styles.active);
+                            }
                         }
                     }
                 );
@@ -78,6 +90,9 @@ export default function BlueprintSection() {
 
         return () => ctx.revert();
     }, []);
+
+    // Reset array to prevent memory leaks in dev mode
+    stepsRef.current = [];
 
     return (
         <section ref={sectionRef} className={styles.section} id="blueprint">

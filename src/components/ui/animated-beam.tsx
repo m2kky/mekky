@@ -3,7 +3,7 @@
 import { RefObject, useEffect, useId, useState } from "react"
 import { motion } from "motion/react"
 
-import { cn } from "@/lib/utils"
+const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
 
 export interface AnimatedBeamProps {
   className?: string
