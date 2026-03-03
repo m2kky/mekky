@@ -15,8 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     return {
-        title: `${project.title} | Portfolio Project`,
-        description: project.description || 'View this portfolio project by Muhammed Mekky.',
+        title: `${project.title} | Portfolio Project by Muhammed Mekky (محمد مكي)`,
+        description: `${project.description} — A professional portfolio project designed and developed by Muhammed Mekky | محمد مكي`,
+        keywords: [project.title, project.category, 'Muhammed Mekky', 'محمد مكي', 'Portfolio', 'Case Study'],
+        openGraph: {
+            title: `${project.title} | Muhammed Mekky`,
+            description: project.description,
+            images: [{ url: project.image || '/images/og-preview.png', width: 1200, height: 630 }],
+        }
     };
 }
 

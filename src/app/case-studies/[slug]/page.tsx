@@ -15,8 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     return {
-        title: `${study.title} | Case Study`,
-        description: study.description || 'View this case study by Muhammed Mekky.',
+        title: `${study.title} | Case Study by Muhammed Mekky (محمد مكي)`,
+        description: `${study.description} — An in-depth case study by Marketing Automation Strategist Muhammed Mekky | محمد مكي`,
+        keywords: [study.title, study.category, 'Muhammed Mekky', 'محمد مكي', 'Case Study', 'Marketing Automation', 'Growth'],
+        openGraph: {
+            title: `${study.title} | Muhammed Mekky`,
+            description: study.description,
+            images: [{ url: study.image || '/images/og-preview.png', width: 1200, height: 630 }],
+        }
     };
 }
 
