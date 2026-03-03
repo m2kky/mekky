@@ -170,7 +170,7 @@ export async function submitBooking(formData: FormData) {
         });
         if (googleEvent?.hangoutLink) meeting_link = googleEvent.hangoutLink;
         else if (googleEvent?.htmlLink) meeting_link = googleEvent.htmlLink;
-    } catch (e) {
+    } catch (e: any) {
         console.error("Failed to create Google Calendar event", e);
     }
 
@@ -194,17 +194,21 @@ export async function submitBooking(formData: FormData) {
 
     // Send confirmation email
     try {
+        const { render } = await import('@react-email/render');
+        const emailHtml = await render(BookingConfirmation({
+            name: client_name,
+            date: booking_date,
+            time: start_time,
+            meetLink: meeting_link
+        }));
+
         await resend.emails.send({
             from: 'Muhammed Mekky <contact@muhammedmekky.com>',
             to: client_email,
             subject: `Booking Confirmed — ${eventType?.title || 'Meeting'}`,
-            react: BookingConfirmation({
-                name: client_name,
-                date: booking_date,
-                time: start_time
-            })
+            html: emailHtml
         });
-    } catch (emailError) {
+    } catch (emailError: any) {
         console.error('Failed to send booking confirmation email:', emailError);
     }
 

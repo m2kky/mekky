@@ -119,7 +119,9 @@ export async function createGoogleCalendarEvent(eventDetails: {
     clientEmail: string;
 }) {
     const calendar = await getAuthenticatedCalendar();
-    if (!calendar) return null;
+    if (!calendar) {
+        return null;
+    }
 
     try {
         const event = await calendar.events.insert({
@@ -149,7 +151,7 @@ export async function createGoogleCalendarEvent(eventDetails: {
         });
 
         return event.data;
-    } catch (e) {
+    } catch (e: any) {
         console.error('Failed to create Google Calendar event', e);
         throw e;
     }
