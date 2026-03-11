@@ -6,7 +6,7 @@ import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import FloatingCTA from '@/components/FloatingCTA';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
