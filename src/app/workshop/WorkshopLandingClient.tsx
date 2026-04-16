@@ -775,44 +775,13 @@ export default function WorkshopLandingClient() {
                 </form>
             </section>
 
-            <section className={styles.insightsSection}>
-                <h2 className={styles.sectionTitle}>Over 4 Hours of Practical Implementation</h2>
-                <div className={styles.agendaGrid}>
-                    {FOCUS_TOPICS.map((topic) => (
-                        <article key={topic.title} className={styles.agendaCard}>
-                            <div className={styles.agendaTop}>
-                                <span className={styles.agendaEmoji}>{topic.emoji}</span>
-                                <h3 className={styles.agendaTitle}>{topic.title}</h3>
-                            </div>
-                            <p className={styles.agendaLine}><strong>Pain:</strong> {topic.pain}</p>
-                            <p className={styles.agendaLine}><strong>What you learn:</strong> {topic.takeaway}</p>
-                            <p className={styles.agendaLine}><strong>Automation play:</strong> {topic.automation}</p>
-                        </article>
-                    ))}
-                </div>
-
-                <div className={styles.splitInfo}>
-                    <article className={styles.infoCard}>
-                        <h3 className={styles.infoTitle}>Who should attend</h3>
-                        <ul className={styles.infoList}>
-                            {WHO_SHOULD_ATTEND.map((item) => (
-                                <li key={item}>{item}</li>
-                            ))}
-                        </ul>
-                    </article>
-
-                    <article className={styles.infoCard}>
-                        <h3 className={styles.infoTitle}>What you leave with</h3>
-                        <ul className={styles.infoList}>
-                            {WORKSHOP_OUTCOMES.map((item) => (
-                                <li key={item}>{item}</li>
-                            ))}
-                        </ul>
-                    </article>
-                </div>
-            </section>
-
-            {/* Success panel redirect handled in submit */}
+            {/* Sticky Header Mobile CTA */}
+            <div className={styles.stickyCtaWrap}>
+                <a href="#registration" className={styles.stickyCta}>
+                    Secure Your Spot (100% Free)
+                </a>
+            </div>
         </main>
     );
 }
+
