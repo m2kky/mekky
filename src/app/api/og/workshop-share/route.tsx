@@ -22,9 +22,10 @@ export async function GET(request: Request) {
         const company = cleanText(searchParams.get('company'), '', 42);
         const photoUrl = searchParams.get('photo')?.trim() || '';
 
-        // Read background image buffer using native Next.js server resolution for Edge
-        // This avoids "Image size cannot be determined" and self-fetch timeouts
-        const posterUrl = new URL('../../../../public/poster.png', import.meta.url);
+        // Fetch background image over HTTP (using the request origin)
+        // This avoids Edge runtime "Fetch API cannot load file:///" errors
+        const origin = new URL(request.url).origin;
+        const posterUrl = `${origin}/poster.png`;
         const posterRes = await fetch(posterUrl);
         const posterBuffer = await posterRes.arrayBuffer();
         
