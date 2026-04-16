@@ -23,42 +23,16 @@ function formatPhoneNumber(phone: string): string {
 
 async function fetchImageAsBase64(url: string): Promise<string | null> {
     try {
-        console.log('Fetching image:', url.slice(0, 120));
-        const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
-        if (!res.ok) {
-            console.error('Image fetch failed:', res.status, res.statusText);
-            return null;
-        }
+        const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        if (!res.ok) return null;
         const buf = await res.arrayBuffer();
-        if (buf.byteLength < 100) {
-            console.error('Image too small, likely invalid:', buf.byteLength);
-            return null;
-        }
         const b64 = Buffer.from(buf).toString('base64');
         const ct = res.headers.get('content-type') || 'image/png';
-        console.log('Image fetched OK:', buf.byteLength, 'bytes, type:', ct);
         return `data:${ct};base64,${b64}`;
     } catch (err) {
-        console.error('fetchImageAsBase64 error:', err);
+        console.error('fetchImageAsBase64 failed:', err);
         return null;
     }
-}
-
-// One combined message: confirmation + sharing CTA + registration link
-function buildCaption(name: string): string {
-    return `Hello ${name} 👋
-
-🎉 You're officially registered for *${WORKSHOP_TITLE}*!
-
-📅 ${WORKSHOP_DATE}
-🕖 ${WORKSHOP_TIME}
-💻 ${WORKSHOP_MODE}
-
-Share this poster on your social media and let everyone know you're attending! 🚀
-
-I am attending ${WORKSHOP_TITLE} (100% FREE) on 21 April 2026 at 09:00 PM. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: https://muhammedmekky.com/workshop
-
-#Shopify #Ecommerce #WebDesign`;
 }
 
 export async function GET(request: Request) {
@@ -81,7 +55,6 @@ export async function GET(request: Request) {
         }
 
         const formattedPhone = formatPhoneNumber(phone);
-        const caption = buildCaption(name);
 
         const headers = {
             'Content-Type': 'application/json',
@@ -90,22 +63,31 @@ export async function GET(request: Request) {
         const evoUrl = EVOLUTION_API_URL;
         const evoInstance = EVOLUTION_INSTANCE_NAME;
 
-        // Try to get an image to send with the message
+        const imageCaption = `Hello ${name} 👋
+
+🎉 You're officially registered for *${WORKSHOP_TITLE}*!
+
+📅 ${WORKSHOP_DATE}
+🕖 ${WORKSHOP_TIME}
+💻 ${WORKSHOP_MODE}
+
+Share this poster on your social media and let everyone know you're attending! 🚀
+
+Register here: https://muhammedmekky.com/workshop
+
+#Shopify #Ecommerce #WebDesign`;
+
+        // Get the generated poster image as base64
         let base64Media: string | null = null;
+        let imageSource = '';
 
-        // 1. Try OG poster (the personalized poster with photo + template)
-        if (!base64Media && posterUrl && posterUrl.startsWith('http')) {
+        if (posterUrl && posterUrl.startsWith('http')) {
+            console.log('Fetching generated OG poster URL:', posterUrl);
             base64Media = await fetchImageAsBase64(posterUrl);
-            if (base64Media) console.log('Using OG poster image');
+            if (base64Media) imageSource = 'og_poster';
         }
 
-        // 2. Fallback: try direct photo from Supabase storage
-        if (!base64Media && photoUrl && photoUrl.startsWith('http')) {
-            base64Media = await fetchImageAsBase64(photoUrl);
-            if (base64Media) console.log('Using direct photo from storage');
-        }
-
-        // Send ONE message: image with caption (or text-only fallback)
+        // 3. Send image if we have it
         if (base64Media) {
             const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
             const mediaPayload = {
@@ -113,7 +95,7 @@ export async function GET(request: Request) {
                 mediaMessage: {
                     mediatype: 'image',
                     fileName: 'workshop_ticket.png',
-                    caption: caption,
+                    caption: imageCaption,
                     media: base64Media,
                 },
             };
@@ -125,38 +107,41 @@ export async function GET(request: Request) {
             });
 
             const mediaResult = await mediaRes.json();
-            console.log('Evolution Media result:', JSON.stringify(mediaResult).slice(0, 400));
+            console.log(`Evolution Media delivery (${imageSource}):`, JSON.stringify(mediaResult).slice(0, 300));
 
-            return NextResponse.json({
-                success: mediaRes.ok,
-                method: 'image_with_caption',
-                data: mediaResult,
-            });
+            if (mediaRes.ok) {
+                return NextResponse.json({
+                    success: true,
+                    method: `image_${imageSource}`,
+                });
+            }
+            console.error('Media send failed, falling back to text');
         }
 
-        // Text-only fallback (no image available)
-        console.log('No image available, sending text-only');
+        // 4. Text-only fallback if all image attempts fail
+        console.log('All image attempts failed, sending text-only fallback');
         const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
+
         const textRes = await fetch(textEndpoint, {
             method: 'POST',
             headers,
             body: JSON.stringify({
                 number: formattedPhone,
-                text: caption,
+                text: imageCaption,
             }),
         });
 
         const textResult = await textRes.json();
-        console.log('Evolution Text result:', JSON.stringify(textResult).slice(0, 400));
+        console.log('Evolution Text delivery result:', JSON.stringify(textResult).slice(0, 300));
 
         return NextResponse.json({
             success: textRes.ok,
-            method: 'text_only',
+            method: 'text_fallback',
             data: textResult,
         });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        console.error('WhatsApp send failed:', message);
+        console.error('WhatsApp poster send failed:', message);
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
