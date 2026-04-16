@@ -567,6 +567,7 @@ export default function WorkshopLandingClient() {
     return (
         <main className={styles.page}>
             <section className={styles.hero}>
+                <div className={styles.heroBg} />
                 <div className={styles.heroInner}>
                     <div className={styles.heroContent}>
                         <Link href="/" className={styles.backLink}>
@@ -580,7 +581,9 @@ export default function WorkshopLandingClient() {
 
                         <span className={styles.freeBadge}>{WORKSHOP_PRICE}</span>
                         <p className={styles.heroKicker}>Live Online Workshop</p>
-                        <h1 className={styles.heroTitle}>{WORKSHOP_TITLE}</h1>
+                        <h1 className={styles.heroTitle}>
+                            Shopify Kick start: <em>How to Build</em> Shopify Stores
+                        </h1>
                         <p className={styles.heroLead}>
                             Join this intense +4 hours workshop and learn everything from searching for references to building landing pages, components, setting up pixel/CAPI/GA4, and advanced reporting.
                         </p>
@@ -613,7 +616,7 @@ export default function WorkshopLandingClient() {
 
                         <p className={styles.heroNote}>No payment. No upsell. Just a focused technical session.</p>
                         <a href="#registration" className={styles.heroCta}>
-                            Reserve my free seat
+                            Reserve my free seat →
                         </a>
                     </div>
                 </div>
@@ -634,6 +637,8 @@ export default function WorkshopLandingClient() {
                         <li className={styles.bulletItem}>6. Landing pages</li>
                         <li className={styles.bulletItem}>7. Reporting & auditing</li>
                     </ul>
+
+                    <hr className={styles.sectionDivider} />
 
                     {/* Instructor Section */}
                     <div className={styles.instructorPanel}>
