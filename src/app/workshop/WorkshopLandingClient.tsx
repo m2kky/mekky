@@ -84,6 +84,8 @@ const initialFormState: WorkshopFormState = {
     company: '',
 };
 
+const WORKSHOP_DATE_OBJ = new Date('2026-04-21T21:00:00+02:00');
+
 function normalizeSpaces(value: string) {
     return value.replace(/\s+/g, ' ').trim();
 }
@@ -311,15 +313,41 @@ function openDeepLink(primaryUrl: string, fallbackUrl: string) {
 
 export default function WorkshopLandingClient() {
     const [pageUrl, setPageUrl] = useState('https://muhammedmekky.com/workshop');
-    const [form, setForm] = useState<WorkshopFormState>(initialFormState);
-    const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
-    const [photoPreviewUrl, setPhotoPreviewUrl] = useState('');
-    const [posterDataUrl, setPosterDataUrl] = useState('');
+    const [formState, setFormState] = useState<WorkshopFormState>(initialFormState);
+    const [photo, setPhoto] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [canvasUrl, setCanvasUrl] = useState<string | null>(null);
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [isRenderingPoster, setIsRenderingPoster] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isBooked, setIsBooked] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const [copied, setCopied] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [canvasGeneratedOnce, setCanvasGeneratedOnce] = useState(false);
+    const supabase = createSupabaseClient();
+
+    // Marketing additions states
+    const [mounted, setMounted] = useState(false);
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    useEffect(() => {
+        setMounted(true);
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = WORKSHOP_DATE_OBJ.getTime() - now;
+            
+            if (distance < 0) {
+                clearInterval(interval);
+                return;
+            }
+            
+            setTimeLeft({
+                days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((distance % (1000 * 60)) / 1000)
+            });
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -329,68 +357,68 @@ export default function WorkshopLandingClient() {
 
     useEffect(() => {
         return () => {
-            if (photoPreviewUrl) {
-                URL.revokeObjectURL(photoPreviewUrl);
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
             }
         };
-    }, [photoPreviewUrl]);
+    }, [previewUrl]);
 
     const hasRequiredValues = useMemo(
         () =>
             Boolean(
-                normalizeSpaces(form.fullName) &&
-                normalizeSpaces(form.email) &&
-                normalizeSpaces(form.phone) &&
-                normalizeSpaces(form.jobTitle) &&
-                normalizeSpaces(form.company) &&
-                selectedPhoto
+                normalizeSpaces(formState.fullName) &&
+                normalizeSpaces(formState.email) &&
+                normalizeSpaces(formState.phone) &&
+                normalizeSpaces(formState.jobTitle) &&
+                normalizeSpaces(formState.company) &&
+                photo
             ),
-        [form, selectedPhoto]
+        [formState, photo]
     );
 
     const handleInputChange =
         (field: keyof WorkshopFormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setForm((previous) => ({ ...previous, [field]: event.target.value }));
+            setFormState((previous) => ({ ...previous, [field]: event.target.value }));
         };
 
     const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
         setError('');
 
-        if (photoPreviewUrl) {
-            URL.revokeObjectURL(photoPreviewUrl);
-            setPhotoPreviewUrl('');
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            setPreviewUrl('');
         }
 
         if (!file) {
-            setSelectedPhoto(null);
+            setPhoto(null);
             return;
         }
 
         if (file.size > 8 * 1024 * 1024) {
             setError('Please upload an image smaller than 8 MB.');
-            setSelectedPhoto(null);
+            setPhoto(null);
             return;
         }
 
         if (!file.type.startsWith('image/')) {
             setError('Only image files are supported.');
-            setSelectedPhoto(null);
+            setPhoto(null);
             return;
         }
 
-        setSelectedPhoto(file);
-        setPhotoPreviewUrl(URL.createObjectURL(file));
+        setPhoto(file);
+        setPreviewUrl(URL.createObjectURL(file));
     };
 
     const getPosterPublicUrl = () => {
-        if (!posterDataUrl) return '';
-        if (posterDataUrl.startsWith('http')) return posterDataUrl;
-        if (posterDataUrl.startsWith('/')) {
+        if (!canvasUrl) return '';
+        if (canvasUrl.startsWith('http')) return canvasUrl;
+        if (canvasUrl.startsWith('/')) {
             try {
-                return `${new URL(pageUrl).origin}${posterDataUrl}`;
+                return `${new URL(pageUrl).origin}${canvasUrl}`;
             } catch {
-                return posterDataUrl;
+                return canvasUrl;
             }
         }
         return '';
@@ -398,25 +426,24 @@ export default function WorkshopLandingClient() {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!selectedPhoto) {
+        if (!photo) {
             setError('Please upload your photo before registering.');
             return;
         }
 
-        const fullName = normalizeSpaces(form.fullName);
-        const email = normalizeSpaces(form.email);
-        const phone = normalizeSpaces(form.phone);
-        const jobTitle = normalizeSpaces(form.jobTitle);
-        const company = normalizeSpaces(form.company);
+        const fullName = normalizeSpaces(formState.fullName);
+        const email = normalizeSpaces(formState.email);
+        const phone = normalizeSpaces(formState.phone);
+        const jobTitle = normalizeSpaces(formState.jobTitle);
+        const company = normalizeSpaces(formState.company);
 
         setIsSubmitting(true);
         setError('');
-        setSuccess('');
 
         try {
             let uploadedPhotoUrl = '';
             try {
-                uploadedPhotoUrl = await uploadPhotoToSupabase(selectedPhoto);
+                uploadedPhotoUrl = await uploadPhotoToSupabase(photo);
             } catch (uploadError) {
                 console.warn('Photo upload failed. Fallback to local poster rendering.', uploadError);
             }
@@ -460,28 +487,26 @@ export default function WorkshopLandingClient() {
     const handleCopyFixedCaption = async () => {
         const caption = buildFixedCaption(pageUrl);
         await navigator.clipboard.writeText(caption);
-        setCopied(true);
-        window.setTimeout(() => setCopied(false), 1800);
     };
 
     const handleDownloadPoster = () => {
-        if (!posterDataUrl) return;
+        if (!canvasUrl) return;
         const anchor = document.createElement('a');
-        anchor.href = posterDataUrl;
-        anchor.download = `workshop-${toSafeFileName(form.fullName)}.png`;
+        anchor.href = canvasUrl;
+        anchor.download = `workshop-${toSafeFileName(formState.fullName)}.png`;
         document.body.appendChild(anchor);
         anchor.click();
         anchor.remove();
     };
 
     const shareWithNative = async () => {
-        if (!posterDataUrl) return;
+        if (!canvasUrl) return;
 
         const caption = buildFixedCaption(pageUrl);
         try {
-            const response = await fetch(posterDataUrl);
+            const response = await fetch(canvasUrl);
             const blob = await response.blob();
-            const file = new File([blob], `workshop-${toSafeFileName(form.fullName)}.png`, { type: 'image/png' });
+            const file = new File([blob], `workshop-${toSafeFileName(formState.fullName)}.png`, { type: 'image/png' });
 
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
@@ -547,6 +572,12 @@ export default function WorkshopLandingClient() {
                         <Link href="/" className={styles.backLink}>
                             Back to main site
                         </Link>
+                        
+                        <div className={styles.socialProofBadge}>
+                            <span>⭐️⭐️⭐️⭐️⭐️</span>
+                            <span>Trusted by <strong>2,000+</strong> ambitious builders</span>
+                        </div>
+
                         <span className={styles.freeBadge}>{WORKSHOP_PRICE}</span>
                         <p className={styles.heroKicker}>Live Online Workshop</p>
                         <h1 className={styles.heroTitle}>{WORKSHOP_TITLE}</h1>
@@ -558,6 +589,28 @@ export default function WorkshopLandingClient() {
                             <span className={styles.heroMetaItem}>{WORKSHOP_TIME}</span>
                             <span className={styles.heroMetaItem}>{WORKSHOP_MODE}</span>
                         </div>
+                        
+                        {mounted && (
+                            <div className={styles.countdownContainer}>
+                                <div className={styles.countdownBox}>
+                                    <span className={styles.countdownNum}>{timeLeft.days}</span>
+                                    <span className={styles.countdownLabel}>Days</span>
+                                </div>
+                                <div className={styles.countdownBox}>
+                                    <span className={styles.countdownNum}>{timeLeft.hours}</span>
+                                    <span className={styles.countdownLabel}>Hours</span>
+                                </div>
+                                <div className={styles.countdownBox}>
+                                    <span className={styles.countdownNum}>{timeLeft.minutes}</span>
+                                    <span className={styles.countdownLabel}>Mins</span>
+                                </div>
+                                <div className={styles.countdownBox}>
+                                    <span className={styles.countdownNum}>{timeLeft.seconds}</span>
+                                    <span className={styles.countdownLabel}>Secs</span>
+                                </div>
+                            </div>
+                        )}
+
                         <p className={styles.heroNote}>No payment. No upsell. Just a focused technical session.</p>
                         <a href="#registration" className={styles.heroCta}>
                             Reserve my free seat
@@ -591,6 +644,17 @@ export default function WorkshopLandingClient() {
                             <p>
                                 I'm dedicated to empowering ambitious builders to craft world-class e-commerce experiences.
                                 In this workshop, I'll share practical, battle-tested strategies from over a decade of hands-on experience in web design and technical development.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Bonus Section */}
+                    <div className={styles.bonusSection}>
+                        <div className={styles.bonusIcon}>🎁</div>
+                        <div className={styles.bonusContent}>
+                            <h3 className={styles.bonusTitle}>Exclusive Bonus Included</h3>
+                            <p className={styles.bonusDescription}>
+                                Every attendee who registers and shows up to the live workshop will be eligible to claim a <strong>Free 1:1 Consultation Session (1 Hour)</strong> with me to solve their specific e-commerce & technical challenges.
                             </p>
                         </div>
                     </div>
@@ -630,7 +694,7 @@ export default function WorkshopLandingClient() {
                         <label className={styles.field}>
                             <span className={styles.label}>Full name</span>
                             <input
-                                value={form.fullName}
+                                value={formState.fullName}
                                 onChange={handleInputChange('fullName')}
                                 className={styles.input}
                                 placeholder="John Doe"
@@ -642,7 +706,7 @@ export default function WorkshopLandingClient() {
                             <span className={styles.label}>Email</span>
                             <input
                                 type="email"
-                                value={form.email}
+                                value={formState.email}
                                 onChange={handleInputChange('email')}
                                 className={styles.input}
                                 placeholder="john@company.com"
@@ -653,7 +717,7 @@ export default function WorkshopLandingClient() {
                         <label className={styles.field}>
                             <span className={styles.label}>Phone</span>
                             <input
-                                value={form.phone}
+                                value={formState.phone}
                                 onChange={handleInputChange('phone')}
                                 className={styles.input}
                                 placeholder="+20 10 0000 0000"
@@ -664,7 +728,7 @@ export default function WorkshopLandingClient() {
                         <label className={styles.field}>
                             <span className={styles.label}>Job title</span>
                             <input
-                                value={form.jobTitle}
+                                value={formState.jobTitle}
                                 onChange={handleInputChange('jobTitle')}
                                 className={styles.input}
                                 placeholder="Media Buyer / Performance Marketer"
@@ -675,7 +739,7 @@ export default function WorkshopLandingClient() {
                         <label className={`${styles.field} ${styles.fieldWide}`}>
                             <span className={styles.label}>Company</span>
                             <input
-                                value={form.company}
+                                value={formState.company}
                                 onChange={handleInputChange('company')}
                                 className={styles.input}
                                 placeholder="Company name"
@@ -696,15 +760,14 @@ export default function WorkshopLandingClient() {
                         </label>
                     </div>
 
-                    {selectedPhoto && photoPreviewUrl && (
+                    {photo && previewUrl && (
                         <div className={styles.previewChip}>
-                            <img src={photoPreviewUrl} alt="Selected preview" className={styles.previewThumb} />
-                            <span>{selectedPhoto.name}</span>
+                            <img src={previewUrl} alt="Selected preview" className={styles.previewThumb} />
+                            <span>{photo.name}</span>
                         </div>
                     )}
 
                     {error && <p className={styles.statusError}>{error}</p>}
-                    {success && <p className={styles.statusSuccess}>{success}</p>}
 
                     <button type="submit" className={styles.submitButton} disabled={isSubmitting || !hasRequiredValues}>
                         {isSubmitting ? 'Confirming your free seat...' : 'Reserve my free seat'}
