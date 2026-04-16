@@ -32,24 +32,14 @@ export async function GET(request: Request) {
         const phone = searchParams.get('phone')?.trim();
         const posterUrl = searchParams.get('posterUrl')?.trim();
 
-        if (!name || !phone || !posterUrl) {
+        if (!name || !phone) {
             return NextResponse.json(
-                { error: 'Missing required parameters: name, phone, posterUrl' },
+                { error: 'Missing required parameters: name, phone' },
                 { status: 400 }
             );
         }
 
         const formattedPhone = formatPhoneNumber(phone);
-
-        const caption = `Hello ${name} 👋
-
-🎉 You're officially registered for *${WORKSHOP_TITLE}*!
-
-📅 ${WORKSHOP_DATE}
-🕖 ${WORKSHOP_TIME}
-💻 ${WORKSHOP_MODE}
-
-Share this poster on your social media and let everyone know you're attending! 🚀`;
 
         const headers = {
             'Content-Type': 'application/json',
@@ -58,64 +48,102 @@ Share this poster on your social media and let everyone know you're attending! �
         const evoUrl = EVOLUTION_API_URL;
         const evoInstance = EVOLUTION_INSTANCE_NAME;
 
-        // 1. Send the image/poster as a base64 string to avoid localhost resolution issues by external Evolution API
-        let base64Media = posterUrl;
-        if (posterUrl.startsWith('http')) {
+        // 1. Try to send the poster image with caption
+        let imageSent = false;
+
+        if (posterUrl && posterUrl.startsWith('http')) {
             try {
-                // Fetch the image from our internal route (or production URL) and convert to base64
-                const imgRes = await fetch(posterUrl);
+                console.log('Fetching poster image from:', posterUrl);
+                const imgRes = await fetch(posterUrl, {
+                    signal: AbortSignal.timeout(8000),
+                });
+
                 if (imgRes.ok) {
                     const imgBuffer = await imgRes.arrayBuffer();
                     const b64 = Buffer.from(imgBuffer).toString('base64');
-                    // Evolution accepts base64 format for the media field natively
-                    base64Media = `data:${imgRes.headers.get('content-type') || 'image/png'};base64,${b64}`;
+                    const contentType = imgRes.headers.get('content-type') || 'image/png';
+                    const base64Media = `data:${contentType};base64,${b64}`;
+
+                    const imageCaption = `Hello ${name} 👋
+
+🎉 You're officially registered for *${WORKSHOP_TITLE}*!
+
+📅 ${WORKSHOP_DATE}
+🕖 ${WORKSHOP_TIME}
+💻 ${WORKSHOP_MODE}
+
+Share this poster on your social media and let everyone know you're attending! 🚀
+
+Register here: https://muhammedmekky.com/workshop
+
+#Shopify #Ecommerce #WebDesign`;
+
+                    const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
+                    const mediaPayload = {
+                        number: formattedPhone,
+                        mediaMessage: {
+                            mediatype: 'image',
+                            fileName: 'workshop_ticket.png',
+                            caption: imageCaption,
+                            media: base64Media,
+                        },
+                    };
+
+                    const mediaRes = await fetch(mediaEndpoint, {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify(mediaPayload),
+                    });
+
+                    const mediaResult = await mediaRes.json();
+                    console.log('Evolution Media delivery result:', JSON.stringify(mediaResult).slice(0, 300));
+                    imageSent = mediaRes.ok;
                 }
             } catch (fetchErr) {
-                console.error('Failed to pre-fetch poster image, sending raw URL fallback', fetchErr);
+                console.error('Failed to fetch/send poster image:', fetchErr);
             }
         }
 
-        const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
-        const mediaPayload = {
-            number: formattedPhone,
-            mediaMessage: {
-                mediatype: 'image',
-                fileName: 'workshop_ticket.png',
-                media: base64Media,
-            }
-        };
+        // 2. If image failed, send text-only fallback
+        if (!imageSent) {
+            console.log('Image send failed or skipped, sending text-only fallback');
+            const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
+            const fallbackText = `Hello ${name} 👋
 
-        const mediaRes = await fetch(mediaEndpoint, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(mediaPayload)
-        });
+🎉 You're officially registered for *${WORKSHOP_TITLE}*!
 
-        const mediaResult = await mediaRes.json();
-        console.log('Evolution Media delivery result:', mediaResult);
+📅 ${WORKSHOP_DATE}
+🕖 ${WORKSHOP_TIME}
+💻 ${WORKSHOP_MODE}
 
-        // 2. We wait 1 second to ensure image is delivered first
-        await new Promise(resolve => setTimeout(resolve, 1000));
+Share this with your friends and let everyone know you're attending! 🚀
 
-        // 3. Send Text Message (Caption)
-        const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
-        const finalUrl = 'https://muhammedmekky.com/workshop';
-        const fallbackCaption = `I am attending Shopify kick start  on 21 april 2026 at 09:00 pm. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: ${finalUrl} #Shopify #Ecommerce #WebDesign`;
+Register here: https://muhammedmekky.com/workshop
 
-        const payloadText = {
-            number: formattedPhone,
-            text: fallbackCaption,
-        };
+#Shopify #Ecommerce #WebDesign`;
 
-        const textRes = await fetch(textEndpoint, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(payloadText)
-        });
+            const textRes = await fetch(textEndpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    number: formattedPhone,
+                    text: fallbackText,
+                }),
+            });
+
+            const textResult = await textRes.json();
+            console.log('Evolution Text delivery result:', JSON.stringify(textResult).slice(0, 300));
+
+            return NextResponse.json({
+                success: textRes.ok,
+                method: 'text_fallback',
+                data: textResult,
+            });
+        }
 
         return NextResponse.json({
-            success: mediaRes.ok && textRes.ok,
-            data: await textRes.json(),
+            success: true,
+            method: 'image_with_caption',
         });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
