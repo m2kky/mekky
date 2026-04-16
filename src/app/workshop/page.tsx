@@ -3,22 +3,22 @@ import WorkshopLandingClient from './WorkshopLandingClient';
 import { SITE } from '@/lib/constants';
 
 export const metadata: Metadata = {
-    title: 'Beyond The Click: Mastering Shopify Analytics & Clarity | Free Workshop',
+    title: 'Shopify Kick Start | Free 4-Hour Live Workshop',
     description:
-        'Reserve your free seat in Beyond The Click, a live online workshop for media buyers on Shopify Analytics, Clarity, attribution, CRO, and automation alerts.',
+        'Reserve your free seat in Shopify Kick Start, a live 4-hour online workshop. Learn step-by-step how to build high-converting Shopify stores.',
     openGraph: {
-        title: 'Beyond The Click: Mastering Shopify Analytics & Clarity | Free Workshop',
+        title: 'Shopify Kick Start | Free 4-Hour Live Workshop',
         description:
-            'Reserve your free seat in Beyond The Click, a live online workshop for media buyers on Shopify Analytics, Clarity, attribution, CRO, and automation alerts.',
+            'Reserve your free seat in Shopify Kick Start, a live 4-hour online workshop. Learn step-by-step how to build high-converting Shopify stores.',
         url: `${SITE.url}/workshop`,
-        images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Beyond The Click Workshop' }],
+        images: [{ url: '/hero_poster.png', width: 1200, height: 630, alt: 'Shopify Kick Start Workshop' }],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Beyond The Click: Mastering Shopify Analytics & Clarity | Free Workshop',
+        title: 'Shopify Kick Start | Free 4-Hour Live Workshop',
         description:
-            'Reserve your free seat in Beyond The Click, a live online workshop for media buyers on Shopify Analytics, Clarity, attribution, CRO, and automation alerts.',
-        images: ['/og-image.png'],
+            'Reserve your free seat in Shopify Kick Start, a live 4-hour online workshop. Learn step-by-step how to build high-converting Shopify stores.',
+        images: ['/hero_poster.png'],
     },
 };
 
