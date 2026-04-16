@@ -49,7 +49,7 @@ export async function GET(request: Request) {
 🕖 ${WORKSHOP_TIME}
 💻 ${WORKSHOP_MODE}
 
-Share this poster on your social media and let everyone know you're attending! 🚀\`;
+Share this poster on your social media and let everyone know you're attending! 🚀`;
 
         const headers = {
             'Content-Type': 'application/json',
