@@ -20,7 +20,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-.featuredImageWrapper {
+.featuredImgWrapper {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
@@ -112,7 +112,7 @@
   border-color: rgba(235, 94, 40, 0.3);
 }
 
-.cardImageWrapper {
+.imageBox {
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 9;
