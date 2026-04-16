@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { Resend } from 'resend';
 import WorkshopConfirmation from '@/emails/WorkshopConfirmation';
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Please enter a valid phone number.' }, { status: 400 });
         }
 
-        const supabase = await createClient();
+        const supabase = createAdminClient();
 
         // 1. Build Poster URL
         const origin = new URL(request.url).origin;
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
 
         const finalPosterUrl = posterUrl.toString();
 
-        // 2. Insert into DB
+        // 2. Insert into DB (admin client bypasses RLS)
         const { data: insertedData, error: insertError } = await supabase.from('workshop_registrations').insert([
             {
                 full_name: name,

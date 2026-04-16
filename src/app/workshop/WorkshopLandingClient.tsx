@@ -3,7 +3,6 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { createClient as createSupabaseClient } from '@/utils/supabase/client';
 import styles from './WorkshopLanding.module.css';
 
 const WORKSHOP_TITLE = 'Shopify kick start: How to build Shopify stores';
@@ -257,31 +256,22 @@ function buildFixedCaption(pageUrl: string) {
     return `I am attending ${WORKSHOP_TITLE} (${WORKSHOP_PRICE}) on ${WORKSHOP_DATE} at ${WORKSHOP_TIME}. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: https://muhammedmekky.com/workshop #Shopify #Ecommerce #WebDesign`;
 }
 
-async function uploadPhotoToSupabase(file: File) {
-    const supabase = createSupabaseClient();
-    const fileExt = getFileExtension(file);
-    let lastError = 'Unable to upload image.';
+async function uploadPhotoViaServer(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
 
-    for (const bucket of PHOTO_BUCKET_CANDIDATES) {
-        const filePath = `workshop/profile-${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-        const upload = await supabase.storage.from(bucket).upload(filePath, file, {
-            upsert: false,
-            cacheControl: '3600',
-            contentType: file.type,
-        });
+    const res = await fetch('/api/workshop/upload-photo', {
+        method: 'POST',
+        body: formData,
+    });
 
-        if (upload.error) {
-            lastError = upload.error.message || lastError;
-            continue;
-        }
-
-        const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
-        if (data?.publicUrl) {
-            return data.publicUrl;
-        }
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Upload failed' }));
+        throw new Error(err.error || 'Upload failed');
     }
 
-    throw new Error(lastError);
+    const data = await res.json() as { publicUrl: string };
+    return data.publicUrl;
 }
 
 function buildServerPosterUrl(payload: PosterPayload, photoUrl: string) {
@@ -443,7 +433,7 @@ export default function WorkshopLandingClient() {
         try {
             let uploadedPhotoUrl = '';
             try {
-                uploadedPhotoUrl = await uploadPhotoToSupabase(photo);
+                uploadedPhotoUrl = await uploadPhotoViaServer(photo);
             } catch (uploadError) {
                 console.warn('Photo upload failed. Fallback to local poster rendering.', uploadError);
             }

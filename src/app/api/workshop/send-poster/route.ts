@@ -100,8 +100,8 @@ Share this poster on your social media and let everyone know you're attending! ð
         // 3. Send Text Message (Caption)
         const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
         const finalUrl = 'https://muhammedmekky.com/workshop';
-        const fallbackCaption = `I am attending Shopify kick start ($10) on 21 april 2026 at 09:00 pm. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: ${finalUrl} #Shopify #Ecommerce #WebDesign`;
-        
+        const fallbackCaption = `I am attending Shopify kick start  on 21 april 2026 at 09:00 pm. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: ${finalUrl} #Shopify #Ecommerce #WebDesign`;
+
         const payloadText = {
             number: formattedPhone,
             text: fallbackCaption,
