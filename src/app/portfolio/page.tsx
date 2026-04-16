@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import PortfolioHero from '@/components/portfolio/PortfolioHero';
-import PortfolioBentoGrid from '@/components/portfolio/PortfolioBentoGrid';
+import ProjectsShowcase from '@/components/portfolio/ProjectsShowcase';
 import PortfolioCaseStudies from '@/components/portfolio/PortfolioCaseStudies';
 import PortfolioStatement from '@/components/portfolio/PortfolioStatement';
 import PortfolioProcess from '@/components/portfolio/PortfolioProcess';
@@ -16,7 +16,7 @@ export default function PortfolioPage() {
             <Navbar />
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
                 <PortfolioHero />
-                <PortfolioBentoGrid items={PROJECTS.items} />
+                <ProjectsShowcase items={PROJECTS.items} bentoSize={5} scrollSize={4} />
                 <PortfolioStatement />
                 <PortfolioCaseStudies items={CASE_STUDIES.items} />
                 <PortfolioProcess />
