@@ -653,6 +653,18 @@
   margin-top: 0.2rem;
 }
 
+.requiredStar {
+  color: #EB5E28;
+  font-weight: 700;
+}
+
+.fieldHint {
+  color: rgba(148, 163, 184, 0.5);
+  font-size: 0.7rem;
+  margin-top: 0.15rem;
+  font-style: italic;
+}
+
 /* ── Photo preview chip ─────────────────────────────── */
 .previewChip {
   margin-top: 1rem;

@@ -85,6 +85,10 @@ const initialFormState: WorkshopFormState = {
 
 const WORKSHOP_DATE_OBJ = new Date('2026-04-21T21:00:00+02:00');
 
+// Arabic/RTL character ranges
+const ARABIC_REGEX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const DIGITS_ONLY_REGEX = /[^0-9]/g;
+
 function normalizeSpaces(value: string) {
     return value.replace(/\s+/g, ' ').trim();
 }
@@ -368,7 +372,17 @@ export default function WorkshopLandingClient() {
 
     const handleInputChange =
         (field: keyof WorkshopFormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setFormState((previous) => ({ ...previous, [field]: event.target.value }));
+            let value = event.target.value;
+            // Strip Arabic characters from all fields
+            if (ARABIC_REGEX.test(value)) {
+                value = value.replace(ARABIC_REGEX, '');
+                setError('Please type in English only.');
+            }
+            // Phone: digits only, max 11
+            if (field === 'phone') {
+                value = value.replace(DIGITS_ONLY_REGEX, '').slice(0, 11);
+            }
+            setFormState((previous) => ({ ...previous, [field]: value }));
         };
 
     const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -687,18 +701,20 @@ export default function WorkshopLandingClient() {
 
                     <div className={styles.formGrid}>
                         <label className={styles.field}>
-                            <span className={styles.label}>Full name</span>
+                            <span className={styles.label}>Full name <span className={styles.requiredStar}>*</span></span>
                             <input
                                 value={formState.fullName}
                                 onChange={handleInputChange('fullName')}
                                 className={styles.input}
                                 placeholder="John Doe"
                                 required
+                                dir="ltr"
                             />
+                            <span className={styles.fieldHint}>English only</span>
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Email</span>
+                            <span className={styles.label}>Email <span className={styles.requiredStar}>*</span></span>
                             <input
                                 type="email"
                                 value={formState.email}
@@ -706,40 +722,49 @@ export default function WorkshopLandingClient() {
                                 className={styles.input}
                                 placeholder="john@company.com"
                                 required
+                                dir="ltr"
                             />
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Phone</span>
+                            <span className={styles.label}>Phone <span className={styles.requiredStar}>*</span></span>
                             <input
+                                type="tel"
                                 value={formState.phone}
                                 onChange={handleInputChange('phone')}
                                 className={styles.input}
-                                placeholder="+20 10 0000 0000"
+                                placeholder="01012345678"
+                                maxLength={11}
                                 required
+                                dir="ltr"
                             />
+                            <span className={styles.fieldHint}>11 digits (e.g. 01012345678)</span>
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Job title</span>
+                            <span className={styles.label}>Job title <span className={styles.requiredStar}>*</span></span>
                             <input
                                 value={formState.jobTitle}
                                 onChange={handleInputChange('jobTitle')}
                                 className={styles.input}
                                 placeholder="Media Buyer / Performance Marketer"
                                 required
+                                dir="ltr"
                             />
+                            <span className={styles.fieldHint}>English only</span>
                         </label>
 
                         <label className={`${styles.field} ${styles.fieldWide}`}>
-                            <span className={styles.label}>Company</span>
+                            <span className={styles.label}>Company <span className={styles.requiredStar}>*</span></span>
                             <input
                                 value={formState.company}
                                 onChange={handleInputChange('company')}
                                 className={styles.input}
                                 placeholder="Company name"
                                 required
+                                dir="ltr"
                             />
+                            <span className={styles.fieldHint}>English only</span>
                         </label>
 
                         <label className={`${styles.field} ${styles.fieldWide}`}>

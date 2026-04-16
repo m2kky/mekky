@@ -16,7 +16,7 @@ type RegistrationPayload = {
 };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_REGEX = /^[+\d()\-\s]{7,20}$/;
+const PHONE_REGEX = /^\d{11}$/;
 
 function cleanValue(input: unknown) {
     return typeof input === 'string' ? input.trim() : '';
@@ -123,6 +123,9 @@ export async function POST(request: Request) {
             whatsappUrl.searchParams.set('name', name);
             whatsappUrl.searchParams.set('phone', phone);
             whatsappUrl.searchParams.set('posterUrl', finalPosterUrl);
+            if (photoUrl) {
+                whatsappUrl.searchParams.set('photoUrl', photoUrl);
+            }
 
             // Await the fetch so it finishes before request context dies
             const waRes = await fetch(whatsappUrl.toString(), { method: 'GET' });
