@@ -27,12 +27,11 @@ export async function GET(request: Request) {
         const backgroundUrl = `${origin}/poster.png`;
 
         // Circle positioning — matches the poster template design
-        // Circle center is approximately at x=780, y=440 with radius ~226px (453px diameter)
         const circleX = 780;
         const circleY = 440;
         const circleSize = 453;
 
-        const nameY = circleY + circleSize / 2 + 30; // ~696
+        const nameY = circleY + circleSize / 2 + 30;
         const titleY = nameY + 50;
         const companyY = titleY + 40;
 
@@ -52,6 +51,8 @@ export async function GET(request: Request) {
                     <img
                         src={backgroundUrl}
                         alt="Background"
+                        width={1080}
+                        height={1080}
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -62,7 +63,7 @@ export async function GET(request: Request) {
                         }}
                     />
 
-                    {/* User photo — clipped to circle, overlaying the dark navy circle */}
+                    {/* User photo — clipped to circle */}
                     <div
                         style={{
                             position: 'absolute',
@@ -82,9 +83,11 @@ export async function GET(request: Request) {
                             <img
                                 src={photoUrl}
                                 alt="Attendee"
+                                width={circleSize}
+                                height={circleSize}
                                 style={{
-                                    width: '100%',
-                                    height: '100%',
+                                    width: `${circleSize}px`,
+                                    height: `${circleSize}px`,
                                     objectFit: 'cover',
                                 }}
                             />
