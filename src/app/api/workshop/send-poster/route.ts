@@ -77,9 +77,19 @@ Register here: https://muhammedmekky.com/workshop
 
 #Shopify #Ecommerce #WebDesign`;
 
-        // 1. If we have a posterUrl, tell Evolution API to fetch and send it as media
+        // 1. Fetch the generated OG poster image as base64 first
+        let base64Media: string | null = null;
+        let imageSource = '';
+
         if (posterUrl && posterUrl.startsWith('http')) {
-            console.log('Telling Evolution API to send media from URL:', posterUrl);
+            console.log('Fetching generated OG poster URL to base64:', posterUrl);
+            base64Media = await fetchImageAsBase64(posterUrl);
+            if (base64Media) imageSource = 'og_poster';
+        }
+
+        // 2. If we have the base64, tell Evolution API to send it as media
+        if (base64Media) {
+            console.log('Telling Evolution API to send media as base64.');
             const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
             const mediaPayload = {
                 number: formattedPhone,
@@ -87,8 +97,8 @@ Register here: https://muhammedmekky.com/workshop
                     mediatype: 'image',
                     fileName: 'workshop_ticket.png',
                     caption: imageCaption,
-                    // Evolution API can take a direct HTTP URL for media
-                    media: posterUrl,
+                    // Pass the base64 string
+                    media: base64Media,
                 },
             };
 
@@ -104,15 +114,15 @@ Register here: https://muhammedmekky.com/workshop
             if (mediaRes.ok) {
                 return NextResponse.json({
                     success: true,
-                    method: 'image_url',
+                    method: `image_${imageSource}`,
                     data: mediaResult
                 });
             }
-            console.error('Media send via URL failed, falling back to text');
+            console.error('Media send via base64 failed, falling back to text...');
         }
 
-        // 2. Text-only fallback if posterUrl didn't exist or media API call failed
-        console.log('Sending text-only fallback message');
+        // 3. Text-only fallback if posterUrl didn't exist, we couldn't fetch base64, or media API call failed
+        console.log('All image attempts failed. Sending text-only fallback message');
         const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
 
         const textRes = await fetch(textEndpoint, {
