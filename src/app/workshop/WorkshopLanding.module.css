@@ -767,6 +767,14 @@
 }
 
 @media (max-width: 740px) {
+  .heroBg {
+    background-image:
+      linear-gradient(to bottom, rgba(5, 5, 5, 0.3) 0%, rgba(5, 5, 5, 0.9) 35vh, rgba(5, 5, 5, 1) 50vh),
+      url('/hero_poster.webp');
+    background-size: 180% auto;
+    background-position: top right 20%;
+  }
+
   .heroTitle {
     font-size: clamp(2rem, 9vw, 3.4rem);
   }
