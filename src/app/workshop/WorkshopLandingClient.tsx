@@ -15,7 +15,7 @@ const WORKSHOP_TIME = '09:00 PM Cairo Time';
 const WORKSHOP_MODE = 'Live Online on Google Meet';
 const WORKSHOP_PRICE = '100% FREE';
 const POSTER_TEMPLATE_ID = 'workshop-square-v1';
-const PHOTO_BUCKET_CANDIDATES = ['event-uploads', 'workshop-uploads', 'uploads'];
+const PHOTO_BUCKET_CANDIDATES = ['event-uploads'];
 
 type WorkshopFormState = {
     fullName: string;
