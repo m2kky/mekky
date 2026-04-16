@@ -312,7 +312,7 @@ export default function WorkshopLandingClient() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [canvasGeneratedOnce, setCanvasGeneratedOnce] = useState(false);
-    const supabase = createSupabaseClient();
+
 
     // Marketing additions states
     const [mounted, setMounted] = useState(false);
