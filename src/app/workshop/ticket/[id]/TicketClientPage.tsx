@@ -20,6 +20,7 @@ interface TicketClientPageProps {
 export default function TicketClientPage({ data, pageUrl }: TicketClientPageProps) {
     const [copied, setCopied] = useState(false);
     const [imageLoading, setImageLoading] = useState(true);
+    const [imageError, setImageError] = useState(false);
     const [downloading, setDownloading] = useState(false);
 
     const posterUrl = data.poster_url;
@@ -60,6 +61,7 @@ export default function TicketClientPage({ data, pageUrl }: TicketClientPageProp
         setDownloading(true);
         try {
             const response = await fetch(posterUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -72,6 +74,7 @@ export default function TicketClientPage({ data, pageUrl }: TicketClientPageProp
             document.body.removeChild(a);
         } catch (err) {
             console.error('Download failed:', err);
+            alert('Could not download the poster. Please click the image to open it directly and save it.');
         } finally {
             setDownloading(false);
         }
@@ -108,14 +111,27 @@ export default function TicketClientPage({ data, pageUrl }: TicketClientPageProp
                                 <p style={{ color: '#94a3b8' }}>Generating your personalized poster...</p>
                             </div>
                         )}
+                        {imageError && (
+                            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', color: '#ef4444', background: '#0f172a', zIndex: 10 }}>
+                                <span>⚠️ Could not load poster</span>
+                                <a href={posterUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#fb923c', fontSize: '0.875rem' }}>
+                                    Try opening directly
+                                </a>
+                            </div>
+                        )}
                         {posterUrl ? (
-                            <img
-                                src={posterUrl}
-                                alt="Share Poster"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: imageLoading ? 0 : 1, transition: 'opacity 0.5s ease' }}
-                                onLoad={() => setImageLoading(false)}
-                                onError={() => setImageLoading(false)}
-                            />
+                            <a href={posterUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', height: '100%' }}>
+                                <img
+                                    src={posterUrl}
+                                    alt="Share Poster"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: (imageLoading || imageError) ? 0 : 1, transition: 'opacity 0.5s ease' }}
+                                    onLoad={() => setImageLoading(false)}
+                                    onError={() => {
+                                        setImageLoading(false);
+                                        setImageError(true);
+                                    }}
+                                />
+                            </a>
                         ) : null}
                     </div>
 
