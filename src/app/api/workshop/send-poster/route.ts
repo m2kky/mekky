@@ -65,11 +65,11 @@ export async function GET(request: Request) {
 
         const imageCaption = `Hello ${name} 👋
 
-🎉 You're officially registered for *${WORKSHOP_TITLE}*!
+🎉 You're officially registered for Shopify kick start: How to build Shopify stores!
 
-📅 ${WORKSHOP_DATE}
-🕖 ${WORKSHOP_TIME}
-💻 ${WORKSHOP_MODE}
+📅 Tuesday, April 21, 2026
+🕖 09:00 PM Cairo Time
+💻 Live Online on Google Meet
 
 Share  poster on your social media and let everyone know you're attending! 🚀
 

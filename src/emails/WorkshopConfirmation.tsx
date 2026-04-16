@@ -66,6 +66,24 @@ export const WorkshopConfirmation = ({
                         </Text>
 
                         {posterUrl && (
+                            <Container className="bg-[#f8fafc] border border-solid border-[#e2e8f0] rounded p-[16px] my-[16px]">
+                                <Text className="text-[#334155] text-[14px] font-semibold m-0 mb-[8px]">
+                                    Copy and paste this caption:
+                                </Text>
+                                <Text className="text-[#0f172a] text-[13px] leading-[20px] m-0 whitespace-pre-wrap">
+                                    Hello {name} 👋{'\n\n'}
+                                    🎉 You're officially registered for Shopify kick start: How to build Shopify stores!{'\n\n'}
+                                    📅 Tuesday, April 21, 2026{'\n'}
+                                    🕖 09:00 PM Cairo Time{'\n'}
+                                    💻 Live Online on Google Meet{'\n\n'}
+                                    Share  poster on your social media and let everyone know you're attending! 🚀{'\n\n'}
+                                    Register here: https://muhammedmekky.com/workshop{'\n\n'}
+                                    #Shopify #Ecommerce #WebDesign
+                                </Text>
+                            </Container>
+                        )}
+
+                        {posterUrl && (
                             <>
                                 <Container className="text-center my-[24px]">
                                     <Img
