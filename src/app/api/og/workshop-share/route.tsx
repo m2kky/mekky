@@ -22,9 +22,29 @@ export async function GET(request: Request) {
         const company = cleanText(searchParams.get('company'), '', 42);
         const photoUrl = searchParams.get('photo')?.trim() || '';
 
-        // Poster background — must be absolute URL for Edge runtime
-        const origin = new URL(request.url).origin;
-        const backgroundUrl = `${origin}/poster.png`;
+        // Read background image buffer using native Next.js server resolution for Edge
+        // This avoids "Image size cannot be determined" and self-fetch timeouts
+        const posterUrl = new URL('../../../../public/poster.png', import.meta.url);
+        const posterRes = await fetch(posterUrl);
+        const posterBuffer = await posterRes.arrayBuffer();
+        
+        // Convert to base64 data URI so standard img src accepts it natively
+        const base64Poster = Buffer.from(posterBuffer).toString('base64');
+        const backgroundSrc = `data:image/png;base64,${base64Poster}`;
+
+        // Fetch user photo and convert to base64 to avoid @vercel/og remote fetching issues
+        let photoSrc = '';
+        if (photoUrl && photoUrl.startsWith('http')) {
+            try {
+                const pRes = await fetch(photoUrl);
+                const pBuf = await pRes.arrayBuffer();
+                const b64Photo = Buffer.from(pBuf).toString('base64');
+                const contentType = pRes.headers.get('content-type') || 'image/png';
+                photoSrc = `data:${contentType};base64,${b64Photo}`;
+            } catch (err) {
+                console.error('Failed to fetch user photo for OG', err);
+            }
+        }
 
         // Circle positioning — matches the poster template design
         // Circle center is approximately at x=780, y=440 with radius ~226px (453px diameter)
@@ -50,7 +70,7 @@ export async function GET(request: Request) {
                 >
                     {/* Background poster template */}
                     <img
-                        src={backgroundUrl}
+                        src={backgroundSrc}
                         alt="Background"
                         width={1080}
                         height={1080}
@@ -80,9 +100,9 @@ export async function GET(request: Request) {
                             background: '#1e3a5f',
                         }}
                     >
-                        {photoUrl ? (
+                        {photoSrc ? (
                             <img
-                                src={photoUrl}
+                                src={photoSrc}
                                 alt="Attendee"
                                 width={453}
                                 height={453}

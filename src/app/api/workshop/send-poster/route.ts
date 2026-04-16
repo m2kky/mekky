@@ -77,18 +77,9 @@ Register here: https://muhammedmekky.com/workshop
 
 #Shopify #Ecommerce #WebDesign`;
 
-        // Get the generated poster image as base64
-        let base64Media: string | null = null;
-        let imageSource = '';
-
+        // 1. If we have a posterUrl, tell Evolution API to fetch and send it as media
         if (posterUrl && posterUrl.startsWith('http')) {
-            console.log('Fetching generated OG poster URL:', posterUrl);
-            base64Media = await fetchImageAsBase64(posterUrl);
-            if (base64Media) imageSource = 'og_poster';
-        }
-
-        // 3. Send image if we have it
-        if (base64Media) {
+            console.log('Telling Evolution API to send media from URL:', posterUrl);
             const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
             const mediaPayload = {
                 number: formattedPhone,
@@ -96,7 +87,8 @@ Register here: https://muhammedmekky.com/workshop
                     mediatype: 'image',
                     fileName: 'workshop_ticket.png',
                     caption: imageCaption,
-                    media: base64Media,
+                    // Evolution API can take a direct HTTP URL for media
+                    media: posterUrl,
                 },
             };
 
@@ -107,19 +99,20 @@ Register here: https://muhammedmekky.com/workshop
             });
 
             const mediaResult = await mediaRes.json();
-            console.log(`Evolution Media delivery (${imageSource}):`, JSON.stringify(mediaResult).slice(0, 300));
+            console.log(`Evolution Media delivery result:`, JSON.stringify(mediaResult).slice(0, 300));
 
             if (mediaRes.ok) {
                 return NextResponse.json({
                     success: true,
-                    method: `image_${imageSource}`,
+                    method: 'image_url',
+                    data: mediaResult
                 });
             }
-            console.error('Media send failed, falling back to text');
+            console.error('Media send via URL failed, falling back to text');
         }
 
-        // 4. Text-only fallback if all image attempts fail
-        console.log('All image attempts failed, sending text-only fallback');
+        // 2. Text-only fallback if posterUrl didn't exist or media API call failed
+        console.log('Sending text-only fallback message');
         const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
 
         const textRes = await fetch(textEndpoint, {
