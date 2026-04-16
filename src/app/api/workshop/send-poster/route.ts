@@ -71,7 +71,7 @@ export async function GET(request: Request) {
 🕖 ${WORKSHOP_TIME}
 💻 ${WORKSHOP_MODE}
 
-Share this poster on your social media and let everyone know you're attending! 🚀
+Share  poster on your social media and let everyone know you're attending! 🚀
 
 Register here: https://muhammedmekky.com/workshop
 

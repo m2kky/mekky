@@ -257,7 +257,7 @@ function toSafeFileName(name: string) {
 }
 
 function buildFixedCaption(pageUrl: string) {
-    return `I am attending ${WORKSHOP_TITLE} (${WORKSHOP_PRICE}) on ${WORKSHOP_DATE} at ${WORKSHOP_TIME}. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: https://muhammedmekky.com/workshop #Shopify #Ecommerce #WebDesign`;
+    return `I am attending ${WORKSHOP_TITLE} (${WORKSHOP_PRICE}) on ${WORKSHOP_DATE} at ${WORKSHOP_TIME}. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: https://muhammedmekky.com/workshop #Shopify #Ecommerce #WebDesign     @muhammedmekky`;
 }
 
 async function uploadPhotoViaServer(file: File): Promise<string> {
@@ -327,12 +327,12 @@ export default function WorkshopLandingClient() {
         const interval = setInterval(() => {
             const now = new Date().getTime();
             const distance = WORKSHOP_DATE_OBJ.getTime() - now;
-            
+
             if (distance < 0) {
                 clearInterval(interval);
                 return;
             }
-            
+
             setTimeLeft({
                 days: Math.floor(distance / (1000 * 60 * 60 * 24)),
                 hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
@@ -577,7 +577,7 @@ export default function WorkshopLandingClient() {
                         <Link href="/" className={styles.backLink}>
                             Back to main site
                         </Link>
-                        
+
                         <div className={styles.socialProofBadge}>
                             <span>⭐️⭐️⭐️⭐️⭐️</span>
                             <span>Trusted by <strong>2,000+</strong> ambitious builders</span>
@@ -596,7 +596,7 @@ export default function WorkshopLandingClient() {
                             <span className={styles.heroMetaItem}>{WORKSHOP_TIME}</span>
                             <span className={styles.heroMetaItem}>{WORKSHOP_MODE}</span>
                         </div>
-                        
+
                         {mounted && (
                             <div className={styles.countdownContainer}>
                                 <div className={styles.countdownBox}>
