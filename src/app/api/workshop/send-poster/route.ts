@@ -21,14 +21,17 @@ function formatPhoneNumber(phone: string): string {
     return cleaned;
 }
 
-async function fetchImageAsBase64(url: string): Promise<string | null> {
+async function fetchImageAsBase64(url: string, includePrefix = false): Promise<string | null> {
     try {
         const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
         if (!res.ok) return null;
         const buf = await res.arrayBuffer();
         const b64 = Buffer.from(buf).toString('base64');
-        const ct = res.headers.get('content-type') || 'image/png';
-        return `data:${ct};base64,${b64}`;
+        if (includePrefix) {
+            const ct = res.headers.get('content-type') || 'image/png';
+            return `data:${ct};base64,${b64}`;
+        }
+        return b64;
     } catch (err) {
         console.error('fetchImageAsBase64 failed:', err);
         return null;
@@ -93,13 +96,11 @@ Register here: https://muhammedmekky.com/workshop
             const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
             const mediaPayload = {
                 number: formattedPhone,
-                mediaMessage: {
-                    mediatype: 'image',
-                    fileName: 'workshop_ticket.png',
-                    caption: imageCaption,
-                    // Pass the base64 string
-                    media: base64Media,
-                },
+                mediatype: 'image',
+                mimetype: 'image/png',
+                fileName: 'workshop_ticket.png',
+                caption: imageCaption,
+                media: base64Media,
             };
 
             const mediaRes = await fetch(mediaEndpoint, {
@@ -108,7 +109,9 @@ Register here: https://muhammedmekky.com/workshop
                 body: JSON.stringify(mediaPayload),
             });
 
-            const mediaResult = await mediaRes.json();
+            const mediaResultText = await mediaRes.text();
+            let mediaResult;
+            try { mediaResult = JSON.parse(mediaResultText); } catch { mediaResult = mediaResultText; }
             console.log(`Evolution Media delivery result:`, JSON.stringify(mediaResult).slice(0, 300));
 
             if (mediaRes.ok) {
