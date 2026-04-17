@@ -15,6 +15,7 @@ export const NAV_LINKS = [
     { label: 'Lectures', href: '/lectures' },
     { label: 'Workshop', href: '/workshop' },
     { label: 'Blog', href: '/blog' },
+    { label: 'Career', href: '/career' },
     { label: 'Contact', href: '/contact' },
     { label: 'Consultation', href: '/book' },
     { label: 'Email Me', href: 'mailto:contact@muhammedmekky.com' },
