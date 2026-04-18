@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { Resend } from 'resend'
 import { CareerApplicationReply } from '@/emails/CareerApplicationReply'
 
@@ -27,7 +27,7 @@ export async function submitCareerApplication(formData: FormData) {
         return { error: 'All required fields must be filled.' }
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { error } = await supabase
         .from('career_applications')
