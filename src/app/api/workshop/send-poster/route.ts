@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const EVOLUTION_API_URL =
     process.env.EVOLUTION_API_URL || 'http://evo-sgwcco4kw80sckwg4c08sgk4.72.62.50.238.sslip.io';
 const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || '';
-const EVOLUTION_INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME || 'mekky';
+const EVOLUTION_INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME || 'mekky2';
 
 const WORKSHOP_TITLE = 'Shopify kick start: How to build Shopify stores';
 const WORKSHOP_DATE = 'Tuesday, April 21, 2026';
@@ -86,7 +86,7 @@ Register here: https://muhammedmekky.com/workshop
 
         if (posterUrl && posterUrl.startsWith('http')) {
             console.log('Fetching generated OG poster URL to base64:', posterUrl);
-            base64Media = await fetchImageAsBase64(posterUrl);
+            base64Media = await fetchImageAsBase64(posterUrl, true);
             if (base64Media) imageSource = 'og_poster';
         }
 
