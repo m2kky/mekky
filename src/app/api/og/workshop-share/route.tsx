@@ -23,25 +23,36 @@ export async function GET(request: Request) {
         const photoUrl = searchParams.get('photo')?.trim() || '';
 
         // Fetch background image over HTTP (using the request origin)
-        // This avoids Edge runtime "Fetch API cannot load file:///" errors
         const origin = new URL(request.url).origin;
         const posterUrl = `${origin}/poster.png`;
         const posterRes = await fetch(posterUrl);
-        const posterBuffer = await posterRes.arrayBuffer();
+        const posterContentType = posterRes.headers.get('content-type') || '';
         
-        // Convert to base64 data URI so standard img src accepts it natively
+        if (!posterRes.ok || !posterContentType.includes('image/')) {
+            throw new Error(`Failed to load valid poster image from ${posterUrl}, got content-type: ${posterContentType}`);
+        }
+        
+        const posterBuffer = await posterRes.arrayBuffer();
         const base64Poster = Buffer.from(posterBuffer).toString('base64');
-        const backgroundSrc = `data:image/png;base64,${base64Poster}`;
+        const backgroundSrc = `data:${posterContentType || 'image/png'};base64,${base64Poster}`;
 
         // Fetch user photo and convert to base64 to avoid @vercel/og remote fetching issues
         let photoSrc = '';
         if (photoUrl && photoUrl.startsWith('http')) {
             try {
                 const pRes = await fetch(photoUrl);
-                const pBuf = await pRes.arrayBuffer();
-                const b64Photo = Buffer.from(pBuf).toString('base64');
-                const contentType = pRes.headers.get('content-type') || 'image/png';
-                photoSrc = `data:${contentType};base64,${b64Photo}`;
+                if (pRes.ok) {
+                    const contentType = pRes.headers.get('content-type') || '';
+                    // Satori (used by next/og) only supports PNG/JPEG/SVG. WEBP/AVIF will crash it with "Offset is outside the bounds of the DataView".
+                    if (contentType.includes('webp') || contentType.includes('avif')) {
+                        console.warn('Unsupported image format for OG (Satori):', contentType);
+                        photoSrc = ''; // Fallback to placeholder
+                    } else {
+                        const pBuf = await pRes.arrayBuffer();
+                        const b64Photo = Buffer.from(pBuf).toString('base64');
+                        photoSrc = `data:${contentType || 'image/png'};base64,${b64Photo}`;
+                    }
+                }
             } catch (err) {
                 console.error('Failed to fetch user photo for OG', err);
             }
@@ -114,15 +125,20 @@ export async function GET(request: Request) {
                                 }}
                             />
                         ) : (
-                            <div
-                                style={{
-                                    color: '#94a3b8',
-                                    fontSize: '80px',
-                                    display: 'flex',
-                                }}
+                            <svg 
+                                width="180" 
+                                height="180" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="#94a3b8" 
+                                strokeWidth="1.5" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                style={{ display: 'flex' }}
                             >
-                                👤
-                            </div>
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
                         )}
                     </div>
 
