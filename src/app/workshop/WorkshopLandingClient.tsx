@@ -317,6 +317,15 @@ export default function WorkshopLandingClient() {
     const [error, setError] = useState<string | null>(null);
     const [canvasGeneratedOnce, setCanvasGeneratedOnce] = useState(false);
 
+    const [showHowItWorks, setShowHowItWorks] = useState(false);
+    const [hasSeenHowItWorks, setHasSeenHowItWorks] = useState(false);
+
+    const handleFieldFocus = () => {
+        if (!hasSeenHowItWorks) {
+            setShowHowItWorks(true);
+            setHasSeenHowItWorks(true);
+        }
+    };
 
     // Marketing additions states
     const [mounted, setMounted] = useState(false);
@@ -692,7 +701,7 @@ export default function WorkshopLandingClient() {
                     </div>
                 </aside>
 
-                <form id="registration" className={styles.formPanel} onSubmit={handleSubmit}>
+                <form id="registration" className={styles.formPanel} onSubmit={handleSubmit} onFocus={handleFieldFocus}>
                     <div className={styles.formHeader}>
                         <h2 className={styles.formTitle}>Free workshop registration</h2>
                         <p className={styles.formSub}>Fill your details and upload your photo to generate your share poster instantly.</p>
@@ -795,12 +804,38 @@ export default function WorkshopLandingClient() {
                 </form>
             </section>
 
-            {/* Sticky Header Mobile CTA */}
             <div className={styles.stickyCtaWrap}>
                 <a href="#registration" className={styles.stickyCta}>
                     Secure Your Spot (100% Free)
                 </a>
             </div>
+
+            {showHowItWorks && (
+                <div className={styles.popupOverlay} onClick={() => setShowHowItWorks(false)}>
+                    <div className={styles.popupContent} onClick={e => e.stopPropagation()}>
+                        <button className={styles.popupClose} onClick={() => setShowHowItWorks(false)} aria-label="Close">×</button>
+                        <div className={styles.popupIcon}>💡</div>
+                        <h3 className={styles.popupTitle}>كيف يعمل التسجيل؟</h3>
+                        <ul className={styles.popupSteps}>
+                            <li>
+                                <span className={styles.stepNum}>1</span>
+                                <p>أدخل بياناتك كاملة باللغة الإنجليزية في الفورم.</p>
+                            </li>
+                            <li>
+                                <span className={styles.stepNum}>2</span>
+                                <p>ارفع صورتك الشخصية (مهمة جداً عشان البوستر الخاص بك).</p>
+                            </li>
+                            <li>
+                                <span className={styles.stepNum}>3</span>
+                                <p>اضغط تسجيل وانتظر استخراج تصميم مميز باسمك وصورتك لعمل شير على السوشيال ميديا 🚀</p>
+                            </li>
+                        </ul>
+                        <button className={styles.popupBtn} onClick={() => setShowHowItWorks(false)}>
+                            فهمت، يلا نبدأ التسجيل
+                        </button>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }
