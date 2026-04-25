@@ -1,0 +1,221 @@
+/* ═══════════════════════════════════════
+   POPUP LIST — ADMIN TABLE STYLES
+   ═══════════════════════════════════════ */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+}
+
+.description {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.headerActions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.submissionsBtn {
+    padding: 0.65rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.submissionsBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.newButton {
+    padding: 0.65rem 1.25rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.newButton:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* ─── Table ───────────────────────── */
+
+.tableWrapper {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+}
+
+.table th {
+    text-align: left;
+    padding: 1rem 1.25rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-weight: 600;
+}
+
+.table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.primaryCell {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.headingPreview {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.countCell {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.empty {
+    text-align: center;
+    padding: 3rem 1rem !important;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* ─── Badges ──────────────────────── */
+
+.styleBadge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    letter-spacing: 0.02em;
+}
+
+.statusToggle {
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+.statusActive {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.statusActive:hover {
+    background: rgba(34, 197, 94, 0.25);
+}
+
+.statusInactive {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+.statusInactive:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Actions ─────────────────────── */
+
+.actionsCell {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.editBtn {
+    padding: 0.35rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.editBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.deleteBtn {
+    padding: 0.35rem 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    color: #ef4444;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+}

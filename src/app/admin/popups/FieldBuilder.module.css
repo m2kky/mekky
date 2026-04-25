@@ -1,0 +1,361 @@
+/* ═══════════════════════════════════════
+   FIELD BUILDER COMPONENT STYLES
+   ═══════════════════════════════════════ */
+
+.builder {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sectionTitle {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.fieldCount {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+}
+
+/* ─── Quick Presets ───────────────── */
+
+.presetsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.presetsLabel {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin: 0;
+    font-weight: 500;
+}
+
+.presetsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+}
+
+.presetBtn {
+    padding: 0.55rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.presetBtn:hover {
+    background: rgba(235, 94, 40, 0.08);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+/* ─── More Types Toggle ──────────── */
+
+.moreTypes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toggleMoreBtn {
+    padding: 0.4rem 0;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    text-align: left;
+    transition: color 0.2s ease;
+}
+
+.toggleMoreBtn:hover {
+    color: var(--accent);
+}
+
+/* ─── Add Field Grid ──────────────── */
+
+.addFieldGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 0.5rem;
+}
+
+.addFieldBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.75rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: var(--font-body);
+}
+
+.addFieldBtn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.addFieldIcon {
+    font-size: 1.25rem;
+}
+
+.addFieldLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ─── Field List ──────────────────── */
+
+.fieldList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+/* ─── Field Card ──────────────────── */
+
+.fieldCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.fieldCardExpanded {
+    border-color: rgba(235, 94, 40, 0.3);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.fieldHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.fieldHeader:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.fieldIcon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.fieldInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.fieldLabel {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fieldType {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.requiredBadge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.fieldActions {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.moveBtn,
+.duplicateBtn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
+}
+
+.moveBtn:hover:not(:disabled),
+.duplicateBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.moveBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.duplicateBtn {
+    font-size: 0.9rem;
+}
+
+.removeBtn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    border-radius: 4px;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.15s ease;
+}
+
+.removeBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.expandIcon {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* ─── Field Editor ────────────────── */
+
+.fieldEditor {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.editorRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.editorLabel {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.editorInput {
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.editorInput:focus {
+    border-color: var(--accent);
+}
+
+.editorTextarea {
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s ease;
+}
+
+.editorTextarea:focus {
+    border-color: var(--accent);
+}
+
+.editorCheckboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.editorCheckbox {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}

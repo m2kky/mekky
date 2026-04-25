@@ -3,840 +3,465 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import styles from './WorkshopLanding.module.css';
 
-const WORKSHOP_TITLE = 'Shopify kick start: How to build Shopify stores';
-const WORKSHOP_SHORT_TITLE = 'Shopify kick start';
-const WORKSHOP_SUBTITLE = 'How to build Shopify stores';
-const DEFAULT_POSTER_HEADLINE = 'I am attending';
-const WORKSHOP_DATE = 'Tuesday, April 21, 2026';
-const WORKSHOP_TIME = '09:00 PM Cairo Time';
-const WORKSHOP_MODE = 'Live Online on Google Meet';
-const WORKSHOP_PRICE = '100% FREE';
-const POSTER_TEMPLATE_ID = 'workshop-square-v1';
-const PHOTO_BUCKET_CANDIDATES = ['event-uploads'];
+const COURSE_TITLE = 'The Shopify Architect';
+const HERO_HEADLINE = 'Build a high-end Shopify ecosystem that scales on data, not guesswork.';
+const HERO_SUBHEAD =
+    'This program takes you from store architecture and conversion systems to analytics clarity, AI strategy, and full automation.';
+const PRIMARY_CTA = 'Enroll Now';
 
-type WorkshopFormState = {
+const VALUE_POINTS = [
+    {
+        title: 'Profit Clarity',
+        description: 'Connect Shopify and ad data to measure real margin and make scaling decisions with confidence.',
+    },
+    {
+        title: 'Conversion Systems',
+        description: 'Design landing and funnel layers that improve conversion quality, not only traffic volume.',
+    },
+    {
+        title: 'AI Strategic Layer',
+        description: 'Use AI as an operator that analyzes data patterns and recommends practical growth actions.',
+    },
+    {
+        title: 'Execution Speed',
+        description: 'Automate operations with n8n so campaigns, fulfillment, and customer journeys move faster.',
+    },
+];
+
+const PROGRAM_MODULES = [
+    {
+        number: 1,
+        title: 'Elite Branding & Store Architecture',
+        description:
+            'Beyond templates: craft custom, high-converting store experiences that reflect your brand identity.',
+    },
+    {
+        number: 2,
+        title: 'High-Conversion Landing Pages',
+        description: 'Build specialized landing pages designed specifically for performance and maximum conversion.',
+    },
+    {
+        number: 3,
+        title: 'Vibe Coding & AI Integration',
+        description: 'Leverage AI to build custom apps and features for your store without manual coding.',
+    },
+    {
+        number: 4,
+        title: "The Architect's Dashboard (Data & Analytics)",
+        description: 'Use Python and SQL to visualize true profit metrics and scale based on data.',
+    },
+    {
+        number: 5,
+        title: 'Meta App Development & Data Integration',
+        description:
+            'Build custom Meta apps that sync cleanly with Shopify to remove tracking noise and improve ad decisions.',
+    },
+    {
+        number: 6,
+        title: 'AI-Driven Strategic Layer',
+        description: 'Integrate an AI layer that analyzes Meta and Shopify data in real time and guides growth.',
+    },
+    {
+        number: 7,
+        title: 'The Automation Engine',
+        description: 'Use n8n to automate marketing, order fulfillment, and customer journeys end to end.',
+    },
+    {
+        number: 8,
+        title: 'Advanced Growth Hacks',
+        description: 'Apply advanced ad scaling, precision tracking, and proprietary market-dominance strategies.',
+    },
+];
+
+const TESTIMONIALS = [
+    {
+        quote:
+            'The biggest shift for me was attribution clarity. I finally understood what was profitable and what to kill fast.',
+        name: 'Ahmed N.',
+        role: 'Performance Marketer',
+    },
+    {
+        quote: 'The automation module saved us hours weekly. Team execution became cleaner and much faster.',
+        name: 'Mariam S.',
+        role: 'Ecommerce Manager',
+    },
+    {
+        quote: 'After applying the architecture model, conversion quality improved and our scaling became safer.',
+        name: 'Youssef K.',
+        role: 'Media Buyer',
+    },
+];
+
+const TRUST_BADGES = ['Trusted by 500+ Students', 'Used by DTC Teams', 'Data-First Framework', 'Live Practical Delivery'];
+
+type EnrollmentForm = {
     fullName: string;
     email: string;
     phone: string;
     jobTitle: string;
     company: string;
-};
-
-type PosterPayload = {
-    fullName: string;
-    jobTitle: string;
-    company: string;
     headline: string;
 };
 
-type FocusTopic = {
-    emoji: string;
-    title: string;
-    pain: string;
-    takeaway: string;
-    automation: string;
-};
-
-const FOCUS_TOPICS: FocusTopic[] = [
-    {
-        emoji: '🔍',
-        title: 'Core Fundamentals',
-        pain: 'Not knowing where to start with your first online store.',
-        takeaway: 'How to search for profitable references and build a solid foundation.',
-        automation: 'Extracting winning patterns from competitor stores.',
-    },
-    {
-        emoji: '🎨',
-        title: 'Store Building',
-        pain: 'Wasting hours on theme tweaks without making sales.',
-        takeaway: 'Make the theme and components, setup collections, pages, products & variants.',
-        automation: 'Design high-converting landing pages effortlessly.',
-    },
-    {
-        emoji: '📊',
-        title: 'Data & Optimization',
-        pain: 'Flying blind without knowing who is visiting or why they leave.',
-        takeaway: 'Setup pixel, CAPI, GA4, along with advanced reporting & auditing.',
-        automation: 'Automate tracking setup to capture every single event from day one.',
-    },
-];
-
-const WHO_SHOULD_ATTEND = [
-    'Entrepreneurs launching their first e-commerce brand.',
-    'Media buyers wanting to build and optimize their own high-converting funnels.',
-    'Dropshippers seeking a reliable, professional store setup method.',
-];
-
-const WORKSHOP_OUTCOMES = [
-    'A fully structured Shopify store blueprint ready for launch.',
-    'Properly integrated tracking (Pixel, CAPI, GA4) to guarantee zero data loss.',
-    'Over 4 hours of intensive, step-by-step practical implementation.',
-];
-
-const initialFormState: WorkshopFormState = {
+const initialForm: EnrollmentForm = {
     fullName: '',
     email: '',
     phone: '',
     jobTitle: '',
     company: '',
+    headline: 'I am joining',
 };
 
-const WORKSHOP_DATE_OBJ = new Date('2026-04-21T21:00:00+02:00');
-
-// Arabic/RTL character ranges
-const ARABIC_REGEX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
-const DIGITS_ONLY_REGEX = /[^0-9]/g;
-
-function normalizeSpaces(value: string) {
+function normalize(value: string) {
     return value.replace(/\s+/g, ' ').trim();
 }
 
-function drawWrappedText(
-    context: CanvasRenderingContext2D,
-    text: string,
-    x: number,
-    y: number,
-    maxWidth: number,
-    lineHeight: number,
-    maxLines: number
-) {
-    const words = text.split(' ').filter(Boolean);
-    if (!words.length) return y;
-
-    const lines: string[] = [];
-    let line = words[0];
-
-    for (let i = 1; i < words.length; i += 1) {
-        const candidate = `${line} ${words[i]}`;
-        if (context.measureText(candidate).width <= maxWidth) {
-            line = candidate;
-        } else {
-            lines.push(line);
-            line = words[i];
-        }
-    }
-    lines.push(line);
-
-    const limitedLines = lines.slice(0, maxLines);
-    if (lines.length > maxLines) {
-        limitedLines[maxLines - 1] = `${limitedLines[maxLines - 1].replace(/\.*$/, '')}...`;
-    }
-
-    limitedLines.forEach((currentLine, index) => {
-        context.fillText(currentLine, x, y + index * lineHeight);
-    });
-
-    return y + (limitedLines.length - 1) * lineHeight;
+function normalizePhone(value: string) {
+    return value.replace(/\D/g, '');
 }
 
-function readFileAsDataUrl(file: File) {
-    return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (typeof reader.result === 'string') {
-                resolve(reader.result);
-                return;
-            }
-            reject(new Error('Unable to read image file.'));
-        };
-        reader.onerror = () => reject(new Error('Unable to read image file.'));
-        reader.readAsDataURL(file);
-    });
-}
-
-function loadImage(src: string) {
-    return new Promise<HTMLImageElement>((resolve, reject) => {
-        const image = new window.Image();
-        image.onload = () => resolve(image);
-        image.onerror = () => reject(new Error('Unable to load image.'));
-        image.src = src;
-    });
-}
-
-async function createPosterFallback(payload: PosterPayload, photoFile: File) {
-    const canvasSize = 1080;
-    const imageSource = await readFileAsDataUrl(photoFile);
-    const profileImage = await loadImage(imageSource);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = canvasSize;
-    canvas.height = canvasSize;
-    const context = canvas.getContext('2d');
-
-    if (!context) {
-        throw new Error('Canvas is not available in this browser.');
-    }
-
-    const gradient = context.createLinearGradient(0, 0, canvasSize, canvasSize);
-    gradient.addColorStop(0, '#05070f');
-    gradient.addColorStop(0.45, '#111827');
-    gradient.addColorStop(1, '#1f2937');
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvasSize, canvasSize);
-
-    context.fillStyle = 'rgba(249,115,22,0.16)';
-    context.fillRect(70, 54, 192, 56);
-    context.fillStyle = '#f97316';
-    context.font = '700 28px Inter, sans-serif';
-    context.fillText(WORKSHOP_PRICE, 84, 92);
-
-    context.fillStyle = '#e5e7eb';
-    context.font = '600 26px Inter, sans-serif';
-    context.fillText('LIVE ONLINE WORKSHOP', 70, 145);
-
-    context.fillStyle = '#ffffff';
-    context.font = '800 76px Syne, Inter, sans-serif';
-    drawWrappedText(context, WORKSHOP_SHORT_TITLE, 70, 228, 610, 82, 2);
-
-    context.fillStyle = '#fb923c';
-    context.font = '700 38px Inter, sans-serif';
-    drawWrappedText(context, WORKSHOP_SUBTITLE, 70, 390, 610, 46, 2);
-
-    const photoX = 84;
-    const photoY = 460;
-    const photoSize = 380;
-    const photoCenter = photoX + photoSize / 2;
-
-    context.save();
-    context.beginPath();
-    context.arc(photoCenter, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
-    context.closePath();
-    context.clip();
-    context.drawImage(profileImage, photoX, photoY, photoSize, photoSize);
-    context.restore();
-
-    context.lineWidth = 8;
-    context.strokeStyle = 'rgba(249,115,22,0.95)';
-    context.beginPath();
-    context.arc(photoCenter, photoY + photoSize / 2, photoSize / 2 + 6, 0, Math.PI * 2);
-    context.stroke();
-
-    context.fillStyle = '#f97316';
-    context.font = '700 42px Syne, Inter, sans-serif';
-    drawWrappedText(context, payload.headline.toUpperCase(), 520, 500, 486, 54, 3);
-
-    context.fillStyle = '#d1d5db';
-    context.font = '600 28px Inter, sans-serif';
-    drawWrappedText(context, WORKSHOP_DATE, 520, 650, 486, 42, 2);
-    drawWrappedText(context, WORKSHOP_TIME, 520, 702, 486, 42, 2);
-    drawWrappedText(context, WORKSHOP_MODE, 520, 754, 486, 42, 2);
-
-    context.textAlign = 'center';
-    context.fillStyle = '#ffffff';
-    context.font = '800 52px Syne, Inter, sans-serif';
-    drawWrappedText(context, payload.fullName, photoCenter, 920, 700, 60, 2);
-
-    context.fillStyle = '#f97316';
-    context.font = '700 30px Inter, sans-serif';
-    drawWrappedText(context, payload.jobTitle, photoCenter, 1002, 700, 40, 2);
-
-    context.fillStyle = '#d1d5db';
-    context.font = '600 24px Inter, sans-serif';
-    drawWrappedText(context, payload.company, photoCenter, 1055, 700, 36, 1);
-    context.textAlign = 'start';
-
-    context.fillStyle = '#9ca3af';
-    context.font = '600 21px Inter, sans-serif';
-    context.fillText('muhammedmekky.com/workshop', 70, 1048);
-
-    return canvas.toDataURL('image/png');
-}
-
-function getFileExtension(file: File) {
-    const inferredFromName = file.name.split('.').pop()?.toLowerCase();
-    if (inferredFromName) return inferredFromName;
-    const inferredFromType = file.type.split('/').pop()?.toLowerCase();
-    return inferredFromType || 'jpg';
-}
-
-function toSafeFileName(name: string) {
-    const cleaned = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-    return cleaned || 'attendee';
-}
-
-function buildFixedCaption(pageUrl: string) {
-    return `I am attending ${WORKSHOP_TITLE} (${WORKSHOP_PRICE}) on ${WORKSHOP_DATE} at ${WORKSHOP_TIME}. If you want to learn how to build high converting Shopify stores step by step over 4 hours, join us: https://muhammedmekky.com/workshop #Shopify #Ecommerce #WebDesign     @muhammedmekky`;
-}
-
-async function uploadPhotoViaServer(file: File): Promise<string> {
+async function uploadPhoto(file: File) {
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await fetch('/api/workshop/upload-photo', {
+    const response = await fetch('/api/workshop/upload-photo', {
         method: 'POST',
         body: formData,
     });
 
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Upload failed' }));
-        throw new Error(err.error || 'Upload failed');
+    const result = (await response.json()) as { publicUrl?: string; error?: string };
+
+    if (!response.ok || !result.publicUrl) {
+        throw new Error(result.error || 'Photo upload failed.');
     }
 
-    const data = await res.json() as { publicUrl: string };
-    return data.publicUrl;
-}
-
-function buildServerPosterUrl(payload: PosterPayload, photoUrl: string) {
-    const params = new URLSearchParams();
-    params.set('template', POSTER_TEMPLATE_ID);
-    params.set('name', payload.fullName);
-    params.set('title', payload.jobTitle);
-    params.set('company', payload.company);
-    params.set('headline', payload.headline);
-    params.set('date', WORKSHOP_DATE);
-    params.set('time', WORKSHOP_TIME);
-    params.set('mode', WORKSHOP_MODE);
-    params.set('workshop', WORKSHOP_SHORT_TITLE);
-    params.set('subtitle', WORKSHOP_SUBTITLE);
-    params.set('price', WORKSHOP_PRICE);
-    params.set('photo', photoUrl);
-    return `/api/og/workshop-share?${params.toString()}`;
-}
-
-function openDeepLink(primaryUrl: string, fallbackUrl: string) {
-    const now = Date.now();
-    window.location.href = primaryUrl;
-    window.setTimeout(() => {
-        if (Date.now() - now < 1400) {
-            window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
-        }
-    }, 700);
+    return result.publicUrl;
 }
 
 export default function WorkshopLandingClient() {
-    const [pageUrl, setPageUrl] = useState('https://muhammedmekky.com/workshop');
-    const [formState, setFormState] = useState<WorkshopFormState>(initialFormState);
-    const [photo, setPhoto] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [canvasUrl, setCanvasUrl] = useState<string | null>(null);
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [isRenderingPoster, setIsRenderingPoster] = useState(false);
+    const searchParams = useSearchParams();
+
+    const [form, setForm] = useState<EnrollmentForm>(initialForm);
+    const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
+    const [photoPreviewUrl, setPhotoPreviewUrl] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [canvasGeneratedOnce, setCanvasGeneratedOnce] = useState(false);
-
-    const [showHowItWorks, setShowHowItWorks] = useState(false);
-    const [hasSeenHowItWorks, setHasSeenHowItWorks] = useState(false);
-
-    const handleFieldFocus = () => {
-        if (!hasSeenHowItWorks) {
-            setShowHowItWorks(true);
-            setHasSeenHowItWorks(true);
-        }
-    };
-
-    // Marketing additions states
-    const [mounted, setMounted] = useState(false);
-    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        setMounted(true);
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = WORKSHOP_DATE_OBJ.getTime() - now;
-
-            if (distance < 0) {
-                clearInterval(interval);
-                return;
-            }
-
-            setTimeLeft({
-                days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-                seconds: Math.floor((distance % (1000 * 60)) / 1000)
-            });
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setPageUrl(window.location.href);
+        const paymentStatus = searchParams.get('payment');
+        if (paymentStatus === 'failed') {
+            setError('Payment was not completed. Please try again.');
         }
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
         return () => {
-            if (previewUrl) {
-                URL.revokeObjectURL(previewUrl);
+            if (photoPreviewUrl) {
+                URL.revokeObjectURL(photoPreviewUrl);
             }
         };
-    }, [previewUrl]);
+    }, [photoPreviewUrl]);
 
-    const hasRequiredValues = useMemo(
-        () =>
-            Boolean(
-                normalizeSpaces(formState.fullName) &&
-                normalizeSpaces(formState.email) &&
-                normalizeSpaces(formState.phone) &&
-                normalizeSpaces(formState.jobTitle) &&
-                normalizeSpaces(formState.company) &&
-                photo
-            ),
-        [formState, photo]
-    );
+    const canSubmit = useMemo(() => {
+        const fullName = normalize(form.fullName);
+        const email = normalize(form.email);
+        const phone = normalizePhone(form.phone);
+        const jobTitle = normalize(form.jobTitle);
+        const company = normalize(form.company);
 
-    const handleInputChange =
-        (field: keyof WorkshopFormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            let value = event.target.value;
-            // Strip Arabic characters from all fields
-            if (ARABIC_REGEX.test(value)) {
-                value = value.replace(ARABIC_REGEX, '');
-                setError('Please type in English only.');
-            }
-            // Phone: digits only, max 11
-            if (field === 'phone') {
-                value = value.replace(DIGITS_ONLY_REGEX, '').slice(0, 11);
-            }
-            setFormState((previous) => ({ ...previous, [field]: value }));
-        };
+        return Boolean(fullName && email && phone && jobTitle && company && selectedPhoto);
+    }, [form, selectedPhoto]);
+
+    const handleChange = (field: keyof EnrollmentForm) => (event: ChangeEvent<HTMLInputElement>) => {
+        setForm((prev) => ({ ...prev, [field]: event.target.value }));
+        setError('');
+    };
 
     const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
-        setError('');
 
-        if (previewUrl) {
-            URL.revokeObjectURL(previewUrl);
-            setPreviewUrl('');
+        if (photoPreviewUrl) {
+            URL.revokeObjectURL(photoPreviewUrl);
+            setPhotoPreviewUrl('');
         }
 
         if (!file) {
-            setPhoto(null);
+            setSelectedPhoto(null);
             return;
         }
 
         if (file.size > 8 * 1024 * 1024) {
             setError('Please upload an image smaller than 8 MB.');
-            setPhoto(null);
+            setSelectedPhoto(null);
             return;
         }
 
         if (!file.type.startsWith('image/')) {
             setError('Only image files are supported.');
-            setPhoto(null);
+            setSelectedPhoto(null);
             return;
         }
 
-        setPhoto(file);
-        setPreviewUrl(URL.createObjectURL(file));
-    };
-
-    const getPosterPublicUrl = () => {
-        if (!canvasUrl) return '';
-        if (canvasUrl.startsWith('http')) return canvasUrl;
-        if (canvasUrl.startsWith('/')) {
-            try {
-                return `${new URL(pageUrl).origin}${canvasUrl}`;
-            } catch {
-                return canvasUrl;
-            }
-        }
-        return '';
+        setSelectedPhoto(file);
+        setPhotoPreviewUrl(URL.createObjectURL(file));
+        setError('');
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!photo) {
-            setError('Please upload your photo before registering.');
+
+        if (!selectedPhoto) {
+            setError('Please upload your photo.');
             return;
         }
 
-        const fullName = normalizeSpaces(formState.fullName);
-        const email = normalizeSpaces(formState.email);
-        const phone = normalizeSpaces(formState.phone);
-        const jobTitle = normalizeSpaces(formState.jobTitle);
-        const company = normalizeSpaces(formState.company);
+        const fullName = normalize(form.fullName);
+        const email = normalize(form.email);
+        const phone = normalizePhone(form.phone);
+        const jobTitle = normalize(form.jobTitle);
+        const company = normalize(form.company);
+        const headline = normalize(form.headline) || 'I am joining';
+
+        if (!fullName || !email || !phone || !jobTitle || !company) {
+            setError('Please complete all required fields.');
+            return;
+        }
 
         setIsSubmitting(true);
         setError('');
 
         try {
-            let uploadedPhotoUrl = '';
-            try {
-                uploadedPhotoUrl = await uploadPhotoViaServer(photo);
-            } catch (uploadError) {
-                console.warn('Photo upload failed. Fallback to local poster rendering.', uploadError);
-            }
+            const photoUrl = await uploadPhoto(selectedPhoto);
 
-            const response = await fetch('/api/workshop/register', {
+            const response = await fetch('/api/workshop/paymob/initialize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name: fullName,
+                    fullName,
                     email,
                     phone,
                     jobTitle,
                     company,
-                    headline: DEFAULT_POSTER_HEADLINE,
-                    photoUrl: uploadedPhotoUrl || undefined,
+                    headline,
+                    photoUrl,
+                    painPoint: 'Enrollment from Shopify Architect landing page',
                 }),
             });
 
-            const data = (await response.json()) as { error?: string; id?: string };
-            if (!response.ok) {
-                throw new Error(data.error || 'Registration failed. Please try again.');
+            const result = (await response.json()) as {
+                success?: boolean;
+                paymentUrl?: string;
+                error?: string;
+            };
+
+            if (!response.ok || !result.paymentUrl) {
+                throw new Error(result.error || 'Unable to initialize payment.');
             }
 
-            localStorage.setItem('workshop_name', fullName);
-            localStorage.setItem('workshop_title', jobTitle);
-            localStorage.setItem('workshop_company', company);
-            localStorage.setItem('workshop_photo', uploadedPhotoUrl || '');
-
-            if (data.id) {
-                window.location.href = `/workshop/ticket/${data.id}`;
-            } else {
-                window.location.href = '/workshop/success';
-            }
+            window.location.href = result.paymentUrl;
         } catch (submitError) {
-            const errorMessage = submitError instanceof Error ? submitError.message : 'Something went wrong. Please try again.';
-            setError(errorMessage);
+            const message = submitError instanceof Error ? submitError.message : 'Unable to continue to payment.';
+            setError(message);
             setIsSubmitting(false);
         }
     };
 
-    const handleCopyFixedCaption = async () => {
-        const caption = buildFixedCaption(pageUrl);
-        await navigator.clipboard.writeText(caption);
-    };
-
-    const handleDownloadPoster = () => {
-        if (!canvasUrl) return;
-        const anchor = document.createElement('a');
-        anchor.href = canvasUrl;
-        anchor.download = `workshop-${toSafeFileName(formState.fullName)}.png`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-    };
-
-    const shareWithNative = async () => {
-        if (!canvasUrl) return;
-
-        const caption = buildFixedCaption(pageUrl);
-        try {
-            const response = await fetch(canvasUrl);
-            const blob = await response.blob();
-            const file = new File([blob], `workshop-${toSafeFileName(formState.fullName)}.png`, { type: 'image/png' });
-
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    title: WORKSHOP_TITLE,
-                    text: caption,
-                    files: [file],
-                });
-                return;
-            }
-
-            if (navigator.share) {
-                await navigator.share({
-                    title: WORKSHOP_TITLE,
-                    text: caption,
-                    url: getPosterPublicUrl() || pageUrl,
-                });
-            }
-        } catch (shareError) {
-            console.error('Native share failed:', shareError);
-        }
-    };
-
-    const handleSharePlatform = (platform: 'whatsapp' | 'facebook' | 'linkedin' | 'twitter') => {
-        const caption = buildFixedCaption(pageUrl);
-        const posterUrl = getPosterPublicUrl() || pageUrl;
-        const textPlusUrl = `${caption}\n${posterUrl}`;
-
-        if (platform === 'whatsapp') {
-            openDeepLink(
-                `whatsapp://send?text=${encodeURIComponent(textPlusUrl)}`,
-                `https://wa.me/?text=${encodeURIComponent(textPlusUrl)}`
-            );
-            return;
-        }
-
-        if (platform === 'facebook') {
-            openDeepLink(
-                `fb://facewebmodal/f?href=${encodeURIComponent(posterUrl)}`,
-                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(posterUrl)}&quote=${encodeURIComponent(caption)}`
-            );
-            return;
-        }
-
-        if (platform === 'linkedin') {
-            openDeepLink(
-                `linkedin://shareArticle?mini=true&url=${encodeURIComponent(posterUrl)}&title=${encodeURIComponent(WORKSHOP_TITLE)}&summary=${encodeURIComponent(caption)}`,
-                `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(posterUrl)}`
-            );
-            return;
-        }
-
-        openDeepLink(
-            `twitter://post?message=${encodeURIComponent(textPlusUrl)}`,
-            `https://x.com/intent/tweet?text=${encodeURIComponent(caption)}&url=${encodeURIComponent(posterUrl)}`
-        );
-    };
-
     return (
         <main className={styles.page}>
-            <section className={styles.hero}>
-                <div className={styles.heroBg} />
-                <div className={styles.heroInner}>
-                    <div className={styles.heroContent}>
-                        <Link href="/" className={styles.backLink}>
-                            Back to main site
-                        </Link>
+            <header className={styles.header}>
+                <div className={styles.logoWrap}>
+                    <span className={styles.logoMark}>MM</span>
+                    <span className={styles.logoText}>{COURSE_TITLE}</span>
+                </div>
+            </header>
 
-                        <div className={styles.socialProofBadge}>
-                            <span>⭐️⭐️⭐️⭐️⭐️</span>
-                            <span>Trusted by <strong>2,000+</strong> ambitious builders</span>
+            <section className={styles.heroSection}>
+                <div className={styles.heroContent}>
+                    <p className={styles.heroKicker}>Flagship Program</p>
+                    <h1 className={styles.heroHeadline}>{HERO_HEADLINE}</h1>
+                    <h2 className={styles.heroSubhead}>{HERO_SUBHEAD}</h2>
+                    <a href="#enroll" className={styles.primaryCta}>
+                        {PRIMARY_CTA}
+                    </a>
+                </div>
+
+                <div className={styles.heroMedia}>
+                    <div className={styles.videoFrame}>
+                        <div className={styles.videoLabel}>Course Intro Video</div>
+                        <div className={styles.videoOverlay}>
+                            <button type="button" className={styles.playButton}>
+                                Play Preview
+                            </button>
                         </div>
-
-                        <span className={styles.freeBadge}>{WORKSHOP_PRICE}</span>
-                        <p className={styles.heroKicker}>Live Online Workshop</p>
-                        <h1 className={styles.heroTitle}>
-                            Shopify Kick start: <em>How to Build</em> Shopify Stores
-                        </h1>
-                        <p className={styles.heroLead}>
-                            Join this intense +4 hours workshop and learn everything from searching for references to building landing pages, components, setting up pixel/CAPI/GA4, and advanced reporting.
-                        </p>
-                        <div className={styles.heroMeta}>
-                            <span className={styles.heroMetaItem}>{WORKSHOP_DATE}</span>
-                            <span className={styles.heroMetaItem}>{WORKSHOP_TIME}</span>
-                            <span className={styles.heroMetaItem}>{WORKSHOP_MODE}</span>
-                        </div>
-
-                        {mounted && (
-                            <div className={styles.countdownContainer}>
-                                <div className={styles.countdownBox}>
-                                    <span className={styles.countdownNum}>{timeLeft.days}</span>
-                                    <span className={styles.countdownLabel}>Days</span>
-                                </div>
-                                <div className={styles.countdownBox}>
-                                    <span className={styles.countdownNum}>{timeLeft.hours}</span>
-                                    <span className={styles.countdownLabel}>Hours</span>
-                                </div>
-                                <div className={styles.countdownBox}>
-                                    <span className={styles.countdownNum}>{timeLeft.minutes}</span>
-                                    <span className={styles.countdownLabel}>Mins</span>
-                                </div>
-                                <div className={styles.countdownBox}>
-                                    <span className={styles.countdownNum}>{timeLeft.seconds}</span>
-                                    <span className={styles.countdownLabel}>Secs</span>
-                                </div>
-                            </div>
-                        )}
-
-                        <p className={styles.heroNote}>No payment. No upsell. Just a focused technical session.</p>
-                        <a href="#registration" className={styles.heroCta}>
-                            Reserve my free seat →
-                        </a>
                     </div>
+                    <p className={styles.videoHint}>Replace this block with your Vimeo or YouTube embed.</p>
                 </div>
             </section>
 
-            <section className={styles.layout}>
-                <aside className={styles.storyPanel}>
-                    <h2 className={styles.panelTitle}>What we will cover</h2>
-                    <p className={styles.storyLead}>
-                        A complete A-Z guide over 4 hours on building professional Shopify stores.
-                    </p>
-                    <ul className={styles.bulletList}>
-                        <li className={styles.bulletItem}>1. How to search for references</li>
-                        <li className={styles.bulletItem}>2. Make the theme and components</li>
-                        <li className={styles.bulletItem}>3. Setup pixel, capi, ga4</li>
-                        <li className={styles.bulletItem}>4. Collections and pages</li>
-                        <li className={styles.bulletItem}>5. Products & variants</li>
-                        <li className={styles.bulletItem}>6. Landing pages</li>
-                        <li className={styles.bulletItem}>7. Reporting & auditing</li>
-                    </ul>
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>What You Get</h2>
+                <p className={styles.sectionIntro}>Immediate outcomes focused on growth, margin, and execution speed.</p>
+                <div className={styles.valueGrid}>
+                    {VALUE_POINTS.map((point) => (
+                        <article key={point.title} className={styles.valueItem}>
+                            <h3>{point.title}</h3>
+                            <p>{point.description}</p>
+                        </article>
+                    ))}
+                </div>
+            </section>
 
-                    <hr className={styles.sectionDivider} />
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Program Modules</h2>
+                <p className={styles.sectionIntro}>The full 8-module roadmap inside The Shopify Architect.</p>
+                <div className={styles.modulesGrid}>
+                    {PROGRAM_MODULES.map((module) => (
+                        <article key={module.number} className={styles.moduleCard}>
+                            <span className={styles.moduleNumber}>{module.number}</span>
+                            <h3 className={styles.moduleTitle}>{module.title}</h3>
+                            <p className={styles.moduleDesc}>{module.description}</p>
+                        </article>
+                    ))}
+                </div>
+            </section>
 
-                    {/* Instructor Section */}
-                    <div className={styles.instructorPanel}>
-                        <img src="/images/hero.png" alt="Muhammed Mekky" className={styles.instructorImage} />
-                        <div className={styles.instructorInfo}>
-                            <h3>Muhammed Mekky</h3>
-                            <span className={styles.instructorTitle}>Instructor & Founder</span>
-                            <p>
-                                I'm dedicated to empowering ambitious builders to craft world-class e-commerce experiences.
-                                In this workshop, I'll share practical, battle-tested strategies from over a decade of hands-on experience in web design and technical development.
-                            </p>
-                        </div>
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Social Proof</h2>
+                <div className={styles.proofGrid}>
+                    {TESTIMONIALS.map((item) => (
+                        <article key={item.name} className={styles.testimonialCard}>
+                            <p className={styles.quote}>&ldquo;{item.quote}&rdquo;</p>
+                            <div className={styles.author}>
+                                <strong>{item.name}</strong>
+                                <span>{item.role}</span>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+                <div className={styles.logosRow}>
+                    {TRUST_BADGES.map((badge) => (
+                        <span key={badge} className={styles.logoChip}>
+                            {badge}
+                        </span>
+                    ))}
+                </div>
+            </section>
+
+            <section className={styles.enrollSection} id="enroll">
+                <div className={styles.enrollPanel}>
+                    <div className={styles.enrollTop}>
+                        <h2 className={styles.enrollTitle}>Enroll in {COURSE_TITLE}</h2>
+                        <p className={styles.enrollSub}>Fill your basic info first, then continue to secure Paymob checkout.</p>
                     </div>
 
-                    {/* Bonus Section */}
-                    <div className={styles.bonusSection}>
-                        <div className={styles.bonusIcon}>🎁</div>
-                        <div className={styles.bonusContent}>
-                            <h3 className={styles.bonusTitle}>Exclusive Bonus Included</h3>
-                            <p className={styles.bonusDescription}>
-                                Every attendee who registers and shows up to the live workshop will be eligible to claim a <strong>Free 1:1 Consultation Session (1 Hour)</strong> with me to solve their specific e-commerce & technical challenges.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* FAQ Section */}
-                    <div className={styles.faqSection}>
-                        <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-                        <div className={styles.faqList}>
-                            <div className={styles.faqItem}>
-                                <h4 className={styles.faqQuestion}>Is this workshop really free?</h4>
-                                <p className={styles.faqAnswer}>Yes, absolutely. There are no hidden costs, upsells, or premium tiers. Just 4 hours of pure technical deep-dives.</p>
-                            </div>
-                            <div className={styles.faqItem}>
-                                <h4 className={styles.faqQuestion}>Do I need previous experience with Shopify?</h4>
-                                <p className={styles.faqAnswer}>Having a basic understanding of e-commerce concepts helps, but we will walk you through the A-Z steps of building a high-converting store.</p>
-                            </div>
-                            <div className={styles.faqItem}>
-                                <h4 className={styles.faqQuestion}>Will a recording be available?</h4>
-                                <p className={styles.faqAnswer}>We highly recommend attending live so you can ask questions directly. A recording may be provided later for registered attendees only.</p>
-                            </div>
-                            <div className={styles.faqItem}>
-                                <h4 className={styles.faqQuestion}>How long is the workshop?</h4>
-                                <p className={styles.faqAnswer}>It is an intensive session that will run for over 4 hours. Make sure to bring your coffee!</p>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-
-                <form id="registration" className={styles.formPanel} onSubmit={handleSubmit} onFocus={handleFieldFocus}>
-                    <div className={styles.formHeader}>
-                        <h2 className={styles.formTitle}>Free workshop registration</h2>
-                        <p className={styles.formSub}>Fill your details and upload your photo to generate your share poster instantly.</p>
-                        <span className={styles.formFreeTag}>{WORKSHOP_PRICE}</span>
-                    </div>
-
-                    <div className={styles.formGrid}>
+                    <form className={styles.enrollForm} onSubmit={handleSubmit}>
                         <label className={styles.field}>
-                            <span className={styles.label}>Full name <span className={styles.requiredStar}>*</span></span>
+                            <span className={styles.fieldLabel}>Name</span>
                             <input
-                                value={formState.fullName}
-                                onChange={handleInputChange('fullName')}
                                 className={styles.input}
-                                placeholder="John Doe"
+                                value={form.fullName}
+                                onChange={handleChange('fullName')}
+                                placeholder="Your full name"
                                 required
-                                dir="ltr"
                             />
-                            <span className={styles.fieldHint}>English only</span>
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Email <span className={styles.requiredStar}>*</span></span>
+                            <span className={styles.fieldLabel}>Email</span>
                             <input
+                                className={styles.input}
                                 type="email"
-                                value={formState.email}
-                                onChange={handleInputChange('email')}
-                                className={styles.input}
-                                placeholder="john@company.com"
+                                value={form.email}
+                                onChange={handleChange('email')}
+                                placeholder="you@company.com"
                                 required
-                                dir="ltr"
                             />
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Phone <span className={styles.requiredStar}>*</span></span>
+                            <span className={styles.fieldLabel}>Phone</span>
                             <input
-                                type="tel"
-                                value={formState.phone}
-                                onChange={handleInputChange('phone')}
                                 className={styles.input}
-                                placeholder="01012345678"
-                                maxLength={11}
+                                value={form.phone}
+                                onChange={handleChange('phone')}
+                                placeholder="+20 10 0000 0000"
                                 required
-                                dir="ltr"
                             />
-                            <span className={styles.fieldHint}>11 digits (e.g. 01012345678)</span>
                         </label>
 
                         <label className={styles.field}>
-                            <span className={styles.label}>Job title <span className={styles.requiredStar}>*</span></span>
+                            <span className={styles.fieldLabel}>Job Title</span>
                             <input
-                                value={formState.jobTitle}
-                                onChange={handleInputChange('jobTitle')}
                                 className={styles.input}
-                                placeholder="Media Buyer / Performance Marketer"
+                                value={form.jobTitle}
+                                onChange={handleChange('jobTitle')}
+                                placeholder="Media Buyer"
                                 required
-                                dir="ltr"
                             />
-                            <span className={styles.fieldHint}>English only</span>
                         </label>
 
-                        <label className={`${styles.field} ${styles.fieldWide}`}>
-                            <span className={styles.label}>Company <span className={styles.requiredStar}>*</span></span>
+                        <label className={styles.field}>
+                            <span className={styles.fieldLabel}>Company</span>
                             <input
-                                value={formState.company}
-                                onChange={handleInputChange('company')}
                                 className={styles.input}
+                                value={form.company}
+                                onChange={handleChange('company')}
                                 placeholder="Company name"
                                 required
-                                dir="ltr"
                             />
-                            <span className={styles.fieldHint}>English only</span>
+                        </label>
+
+                        <label className={styles.field}>
+                            <span className={styles.fieldLabel}>Poster Headline</span>
+                            <input
+                                className={styles.input}
+                                value={form.headline}
+                                onChange={handleChange('headline')}
+                                placeholder="I am joining"
+                            />
                         </label>
 
                         <label className={`${styles.field} ${styles.fieldWide}`}>
-                            <span className={styles.label}>Photo</span>
+                            <span className={styles.fieldLabel}>Your Photo</span>
                             <input
                                 type="file"
                                 accept="image/png,image/jpeg,image/webp"
-                                onChange={handlePhotoChange}
                                 className={styles.fileInput}
+                                onChange={handlePhotoChange}
                                 required
                             />
-                            <span className={styles.fileHint}>PNG, JPG, or WEBP. Maximum size 8 MB.</span>
                         </label>
-                    </div>
 
-                    {photo && previewUrl && (
-                        <div className={styles.previewChip}>
-                            <img src={previewUrl} alt="Selected preview" className={styles.previewThumb} />
-                            <span>{photo.name}</span>
-                        </div>
-                    )}
+                        {selectedPhoto && photoPreviewUrl ? (
+                            <div className={styles.previewChip}>
+                                <img src={photoPreviewUrl} alt="Selected" className={styles.previewThumb} />
+                                <span>{selectedPhoto.name}</span>
+                            </div>
+                        ) : null}
 
-                    {error && <p className={styles.statusError}>{error}</p>}
+                        <p className={styles.secureNote}>
+                            After payment confirmation, your personalized design will be generated automatically.
+                        </p>
 
-                    <button type="submit" className={styles.submitButton} disabled={isSubmitting || !hasRequiredValues}>
-                        {isSubmitting ? 'Confirming your free seat...' : 'Reserve my free seat'}
-                    </button>
-                </form>
+                        {error ? <p className={styles.errorText}>{error}</p> : null}
+
+                        <button className={styles.secondaryCta} type="submit" disabled={isSubmitting || !canSubmit}>
+                            {isSubmitting ? 'Redirecting to payment...' : 'Continue to secure payment'}
+                        </button>
+                    </form>
+                </div>
             </section>
 
-            <div className={styles.stickyCtaWrap}>
-                <a href="#registration" className={styles.stickyCta}>
-                    Secure Your Spot (100% Free)
-                </a>
-            </div>
-
-            {showHowItWorks && (
-                <div className={styles.popupOverlay} onClick={() => setShowHowItWorks(false)}>
-                    <div className={styles.popupContent} onClick={e => e.stopPropagation()}>
-                        <button className={styles.popupClose} onClick={() => setShowHowItWorks(false)} aria-label="Close">×</button>
-                        <div className={styles.popupIcon}>💡</div>
-                        <h3 className={styles.popupTitle}>كيف يعمل التسجيل؟</h3>
-                        <ul className={styles.popupSteps}>
-                            <li>
-                                <span className={styles.stepNum}>1</span>
-                                <p>أدخل بياناتك كاملة باللغة الإنجليزية في الفورم.</p>
-                            </li>
-                            <li>
-                                <span className={styles.stepNum}>2</span>
-                                <p>ارفع صورتك الشخصية (مهمة جداً عشان البوستر الخاص بك).</p>
-                            </li>
-                            <li>
-                                <span className={styles.stepNum}>3</span>
-                                <p>اضغط تسجيل وانتظر استخراج تصميم مميز باسمك وصورتك لعمل شير على السوشيال ميديا 🚀</p>
-                            </li>
-                        </ul>
-                        <button className={styles.popupBtn} onClick={() => setShowHowItWorks(false)}>
-                            فهمت، يلا نبدأ التسجيل
-                        </button>
-                    </div>
+            <footer className={styles.footer}>
+                <div className={styles.guaranteeBadge}>30-Day Money-Back Guarantee</div>
+                <div className={styles.legalLinks}>
+                    <Link href="/privacy-policy">Privacy Policy</Link>
+                    <Link href="/terms-of-service">Terms of Service</Link>
                 </div>
-            )}
+            </footer>
         </main>
     );
 }
-

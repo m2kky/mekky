@@ -27,6 +27,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         Blogs
                     </Link>
 
+                    <p className={styles.navGroupTitle}>Marketing</p>
+                    <Link href="/admin/popups" className={styles.navLink}>
+                        Popups
+                    </Link>
+                    <Link href="/admin/popups/submissions" className={styles.navLink}>
+                        Popup Submissions
+                    </Link>
+
                     <p className={styles.navGroupTitle}>Scheduling</p>
                     <Link href="/admin/bookings" className={styles.navLink}>
                         Scheduled Events

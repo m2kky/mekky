@@ -5,18 +5,19 @@ const EVOLUTION_API_URL =
 const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || '';
 const EVOLUTION_INSTANCE_NAME = process.env.EVOLUTION_INSTANCE_NAME || 'mekky2';
 
-const WORKSHOP_TITLE = 'Shopify kick start: How to build Shopify stores';
-const WORKSHOP_DATE = 'Tuesday, April 21, 2026';
-const WORKSHOP_TIME = '09:00 PM Cairo Time';
-const WORKSHOP_MODE = 'Live Online on Google Meet';
+const COURSE_TITLE = 'The Shopify Architect';
+const COURSE_SUBTITLE = 'Data-Driven Ecommerce Ecosystem';
+const COURSE_DATE = 'Limited seats available now';
+const COURSE_TIME = 'Live online sessions + practical implementation';
+const COURSE_MODE = '100% Free Enrollment';
 
 function formatPhoneNumber(phone: string): string {
     let cleaned = phone.replace(/\D/g, '');
     if (cleaned.startsWith('0')) {
-        cleaned = '20' + cleaned.substring(1);
+        cleaned = `20${cleaned.substring(1)}`;
     }
     if (!cleaned.startsWith('20') && cleaned.length === 10) {
-        cleaned = '20' + cleaned;
+        cleaned = `20${cleaned}`;
     }
     return cleaned;
 }
@@ -48,13 +49,9 @@ export async function GET(request: Request) {
         const name = searchParams.get('name')?.trim();
         const phone = searchParams.get('phone')?.trim();
         const posterUrl = searchParams.get('posterUrl')?.trim();
-        const photoUrl = searchParams.get('photoUrl')?.trim();
 
         if (!name || !phone) {
-            return NextResponse.json(
-                { error: 'Missing required parameters: name, phone' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Missing required parameters: name, phone' }, { status: 400 });
         }
 
         const formattedPhone = formatPhoneNumber(phone);
@@ -63,43 +60,25 @@ export async function GET(request: Request) {
             'Content-Type': 'application/json',
             apikey: EVOLUTION_API_KEY,
         };
-        const evoUrl = EVOLUTION_API_URL;
-        const evoInstance = EVOLUTION_INSTANCE_NAME;
 
-        const imageCaption = `Hello ${name} 👋
+        const caption = `Hello ${name} 👋\n\nYou are successfully registered for ${COURSE_TITLE}.\n\nProgram: ${COURSE_SUBTITLE}\nStatus: ${COURSE_MODE}\nStart: ${COURSE_DATE}\nFormat: ${COURSE_TIME}\n\nShare your personalized poster and announce your enrollment.\n\nApply link: https://muhammedmekky.com/workshop\n\n#Shopify #Ecommerce #Analytics #AI #Automation`;
 
-🎉 You're officially registered for Shopify kick start: How to build Shopify stores!
-
-📅 Tuesday, April 21, 2026
-🕖 09:00 PM Cairo Time
-💻 Live Online on Google Meet
-
-Share  poster on your social media and let everyone know you're attending! 🚀
-
-Register here: https://muhammedmekky.com/workshop
-
-#Shopify #Ecommerce #WebDesign`;
-
-        // 1. Fetch the generated OG poster image as base64 first
         let base64Media: string | null = null;
         let imageSource = '';
 
         if (posterUrl && posterUrl.startsWith('http')) {
-            console.log('Fetching generated OG poster URL to base64:', posterUrl);
             base64Media = await fetchImageAsBase64(posterUrl, true);
             if (base64Media) imageSource = 'og_poster';
         }
 
-        // 2. If we have the base64, tell Evolution API to send it as media
         if (base64Media) {
-            console.log('Telling Evolution API to send media as base64.');
-            const mediaEndpoint = `${evoUrl}/message/sendMedia/${evoInstance}`;
+            const mediaEndpoint = `${EVOLUTION_API_URL}/message/sendMedia/${EVOLUTION_INSTANCE_NAME}`;
             const mediaPayload = {
                 number: formattedPhone,
                 mediatype: 'image',
                 mimetype: 'image/png',
-                fileName: 'workshop_ticket.png',
-                caption: imageCaption,
+                fileName: 'shopify-architect-ticket.png',
+                caption,
                 media: base64Media,
             };
 
@@ -111,34 +90,32 @@ Register here: https://muhammedmekky.com/workshop
 
             const mediaResultText = await mediaRes.text();
             let mediaResult;
-            try { mediaResult = JSON.parse(mediaResultText); } catch { mediaResult = mediaResultText; }
-            console.log(`Evolution Media delivery result:`, JSON.stringify(mediaResult).slice(0, 300));
+            try {
+                mediaResult = JSON.parse(mediaResultText);
+            } catch {
+                mediaResult = mediaResultText;
+            }
 
             if (mediaRes.ok) {
                 return NextResponse.json({
                     success: true,
                     method: `image_${imageSource}`,
-                    data: mediaResult
+                    data: mediaResult,
                 });
             }
-            console.error('Media send via base64 failed, falling back to text...');
         }
 
-        // 3. Text-only fallback if posterUrl didn't exist, we couldn't fetch base64, or media API call failed
-        console.log('All image attempts failed. Sending text-only fallback message');
-        const textEndpoint = `${evoUrl}/message/sendText/${evoInstance}`;
-
+        const textEndpoint = `${EVOLUTION_API_URL}/message/sendText/${EVOLUTION_INSTANCE_NAME}`;
         const textRes = await fetch(textEndpoint, {
             method: 'POST',
             headers,
             body: JSON.stringify({
                 number: formattedPhone,
-                text: imageCaption,
+                text: caption,
             }),
         });
 
         const textResult = await textRes.json();
-        console.log('Evolution Text delivery result:', JSON.stringify(textResult).slice(0, 300));
 
         return NextResponse.json({
             success: textRes.ok,

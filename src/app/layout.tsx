@@ -6,6 +6,7 @@ import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import FloatingCTA from '@/components/FloatingCTA';
+import PopupRenderer from '@/components/PopupRenderer';
 import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({
@@ -92,6 +93,7 @@ export default function RootLayout({
         <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
         <FloatingCTA />
+        <PopupRenderer />
         <Analytics />
       </body>
     </html>

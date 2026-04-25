@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import TicketClientPage from './TicketClientPage';
@@ -8,10 +8,10 @@ type Props = {
     params: { id: string };
 };
 
-export async function generateMetadata(
-    props: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
+const COURSE_TITLE = 'The Shopify Architect';
+const COURSE_DESC = 'Data-Driven Ecommerce Ecosystem';
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
     const params = await props.params;
     const supabase = await createClient();
     const { data } = await supabase
@@ -22,9 +22,9 @@ export async function generateMetadata(
 
     if (!data) return {};
 
-    const title = `${data.full_name}'s VIP Ticket - Shopify kick start`;
-    const description = `Join me at the Shopify kick start workshop to master Shopify building.`;
-    
+    const title = `${data.full_name}'s Enrollment Card | ${COURSE_TITLE}`;
+    const description = `Join me in ${COURSE_TITLE} - ${COURSE_DESC}.`;
+
     return {
         title,
         description,
@@ -57,14 +57,9 @@ export default async function TicketPage(props: Props) {
     }
 
     const headersList = await headers();
-    let host = headersList.get('host') || 'muhammedmekky.com';
-    // Remove port for dev environment if needed, but keeping it is fine for absolute URL
-    let protocol = 'https://';
-    if (host.includes('localhost')) {
-        protocol = 'http://';
-    }
-    
-    // The specific page URL that will be shared (e.g. muhammedmekky.com/workshop/ticket/XYZ)
+    const host = headersList.get('host') || 'muhammedmekky.com';
+    const protocol = host.includes('localhost') ? 'http://' : 'https://';
+
     const pageUrl = `${protocol}${host}/workshop/ticket/${params.id}`;
 
     return <TicketClientPage data={data} pageUrl={pageUrl} />;
