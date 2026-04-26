@@ -355,6 +355,14 @@ textarea.fieldInput {
     .heading {
         font-size: 1.4rem;
     }
+
+    .closeBtn {
+        width: 48px;
+        height: 48px;
+        top: 0.75rem;
+        right: 0.75rem;
+        opacity: 0.8;
+    }
 }
 
 /* ─── Animations ──────────────────── */

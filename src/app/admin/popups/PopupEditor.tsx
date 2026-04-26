@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useTransition, useRef } from 'react';
+import { useState, useTransition, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import FieldBuilder, { type FieldItem } from './FieldBuilder';
-import { savePopup, type PopupData } from './actions';
+import { savePopup, getPopupOptions, type PopupData } from './actions';
 import styles from './PopupEditor.module.css';
 
 // ─── Style Options ──────────────────────────────
@@ -57,6 +57,11 @@ interface PopupEditorProps {
         show_on_pages: string[];
         is_active: boolean;
         show_once: boolean;
+        priority?: number;
+        delay_after_close?: number | null;
+        delay_after_submit?: number | null;
+        next_popup_on_close?: string | null;
+        next_popup_on_submit?: string | null;
         button_action_type: string;
         button_action_url: string;
         popup_fields?: FieldItem[];
@@ -96,6 +101,19 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
     const [showOnPages, setShowOnPages] = useState(initialData?.show_on_pages?.join(', ') || '*');
     const [isActive, setIsActive] = useState(initialData?.is_active || false);
     const [showOnce, setShowOnce] = useState(initialData?.show_once ?? true);
+    
+    // Sequencing State
+    const [priority, setPriority] = useState(initialData?.priority || 0);
+    const [delayAfterClose, setDelayAfterClose] = useState<number | ''>(initialData?.delay_after_close ?? '');
+    const [delayAfterSubmit, setDelayAfterSubmit] = useState<number | ''>(initialData?.delay_after_submit ?? '');
+    const [nextPopupOnClose, setNextPopupOnClose] = useState(initialData?.next_popup_on_close || '');
+    const [nextPopupOnSubmit, setNextPopupOnSubmit] = useState(initialData?.next_popup_on_submit || '');
+    const [popupOptions, setPopupOptions] = useState<{id: string, title: string}[]>([]);
+
+    useEffect(() => {
+        getPopupOptions().then(setPopupOptions);
+    }, []);
+
     const [fields, setFields] = useState<FieldItem[]>(
         initialData?.popup_fields?.map((f, i) => ({
             ...f,
@@ -176,6 +194,11 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
             show_on_pages: showOnPages.split(',').map(s => s.trim()).filter(Boolean),
             is_active: isActive,
             show_once: showOnce,
+            priority,
+            delay_after_close: delayAfterClose === '' ? null : Number(delayAfterClose),
+            delay_after_submit: delayAfterSubmit === '' ? null : Number(delayAfterSubmit),
+            next_popup_on_close: nextPopupOnClose || null,
+            next_popup_on_submit: nextPopupOnSubmit || null,
             fields: fields.map(f => ({
                 field_type: f.field_type,
                 label: f.label,
@@ -560,6 +583,70 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
                                 />
                             </div>
                         )}
+                    </section>
+
+                    {/* ── Automation & Sequencing ── */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>Automation & Sequencing</h2>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Priority (Higher number = shows first if multiple match)</label>
+                            <input
+                                className={styles.input}
+                                type="number"
+                                value={priority}
+                                onChange={e => setPriority(parseInt(e.target.value) || 0)}
+                            />
+                        </div>
+                        <div className={styles.row} style={{ marginTop: '0.75rem' }}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Delay after close (minutes)</label>
+                                <input
+                                    className={styles.input}
+                                    type="number"
+                                    placeholder="Never show again"
+                                    value={delayAfterClose}
+                                    onChange={e => setDelayAfterClose(e.target.value === '' ? '' : parseInt(e.target.value))}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Delay after submit (minutes)</label>
+                                <input
+                                    className={styles.input}
+                                    type="number"
+                                    placeholder="Never show again"
+                                    value={delayAfterSubmit}
+                                    onChange={e => setDelayAfterSubmit(e.target.value === '' ? '' : parseInt(e.target.value))}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.row} style={{ marginTop: '0.75rem' }}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Next popup on close</label>
+                                <select
+                                    className={styles.input}
+                                    value={nextPopupOnClose}
+                                    onChange={e => setNextPopupOnClose(e.target.value)}
+                                >
+                                    <option value="">None</option>
+                                    {popupOptions.filter(p => p.id !== initialData?.id).map(p => (
+                                        <option key={p.id} value={p.id}>{p.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Next popup on submit</label>
+                                <select
+                                    className={styles.input}
+                                    value={nextPopupOnSubmit}
+                                    onChange={e => setNextPopupOnSubmit(e.target.value)}
+                                >
+                                    <option value="">None</option>
+                                    {popupOptions.filter(p => p.id !== initialData?.id).map(p => (
+                                        <option key={p.id} value={p.id}>{p.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </section>
 
                     {/* ── Targeting & Options ── */}

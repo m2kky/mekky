@@ -24,16 +24,39 @@
   background-color: #ffffff;
   color: #1a1a1a;
   padding: 1rem 2rem;
-  border-radius: 2px; /* حافة شبه حادة تليق مع ستايلك */
+  border-radius: 50px; /* modified to a pill shape */
   border: none;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .primaryBtn:hover {
   background-color: #EB5E28; /* لونك الأساسي */
   color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.textDesktop { display: block; }
+.iconMobile { display: none; }
+
+@media (max-width: 768px) {
+  .primaryBtn {
+    padding: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  .textDesktop { display: none; }
+  .iconMobile { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+  }
 }
 
 /* ── Back to Top Button ── */

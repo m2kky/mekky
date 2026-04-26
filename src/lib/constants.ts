@@ -19,6 +19,7 @@ export const NAV_LINKS = [
     { label: 'Career', href: '/career' },
     { label: 'Contact', href: '/contact' },
     { label: 'Consultation', href: '/book' },
+    { label: 'Guides', href: '/guides' },
     { label: 'Email Me', href: 'mailto:contact@muhammedmekky.com' },
     { label: 'WhatsApp', href: 'https://wa.me/201016629910' },
 ];

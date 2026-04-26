@@ -89,7 +89,12 @@ export default function FloatingCTA() {
     return (
         <div className={styles.ctaContainer}>
             <Link href="/book" ref={ctaRef} className={styles.primaryBtn}>
-                LET&apos;S TALK SYSTEMS
+                <span className={styles.textDesktop}>LET&apos;S TALK SYSTEMS</span>
+                <span className={styles.iconMobile}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </span>
             </Link>
 
             <button

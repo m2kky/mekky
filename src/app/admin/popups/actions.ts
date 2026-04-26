@@ -45,6 +45,11 @@ export interface PopupData {
     show_on_pages: string[];
     is_active: boolean;
     show_once: boolean;
+    priority: number;
+    delay_after_close?: number | null;
+    delay_after_submit?: number | null;
+    next_popup_on_close?: string | null;
+    next_popup_on_submit?: string | null;
     fields: PopupField[];
 }
 
@@ -127,4 +132,20 @@ export async function togglePopupActive(id: string, is_active: boolean) {
     revalidatePath('/admin/popups');
     revalidatePath('/');
     return { success: true };
+}
+
+// ─── Get Popups for Sequencing ──────────────────
+
+export async function getPopupOptions() {
+    const supabase = await requireAuth();
+    const { data, error } = await supabase
+        .from('popups')
+        .select('id, title')
+        .order('created_at', { ascending: false });
+        
+    if (error) {
+        console.error("Error fetching popup options:", error);
+        return [];
+    }
+    return data || [];
 }

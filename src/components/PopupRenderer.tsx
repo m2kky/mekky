@@ -37,6 +37,11 @@ interface Popup {
     button_action_url: string;
     show_on_pages: string[];
     show_once: boolean;
+    priority?: number;
+    delay_after_close?: number | null;
+    delay_after_submit?: number | null;
+    next_popup_on_close?: string | null;
+    next_popup_on_submit?: string | null;
     popup_fields: PopupField[];
 }
 
@@ -123,31 +128,66 @@ export default function PopupRenderer() {
         );
     }, [pathname]);
 
-    // ─── Check localStorage ─────────────────────
-    const wasDismissed = useCallback((popupId: string) => {
+    // ─── Check & Record State ───────────────────
+    const checkIsSuppressed = useCallback((popup: Popup) => {
         try {
-            const dismissed = localStorage.getItem(`popup_dismissed_${popupId}`);
-            return !!dismissed;
+            const stored = localStorage.getItem(`popup_state_${popup.id}`);
+            const legacyDismissed = localStorage.getItem(`popup_dismissed_${popup.id}`);
+            
+            // Legacy support
+            if (legacyDismissed === 'true' && popup.show_once) return true;
+            
+            if (!stored) return false;
+            
+            const state = JSON.parse(stored);
+            const minutesPassed = (Date.now() - state.timestamp) / (1000 * 60);
+
+            if (state.action === 'close') {
+                if (popup.show_once && (!popup.delay_after_close || popup.delay_after_close === 0)) return true;
+                if (popup.delay_after_close && minutesPassed < popup.delay_after_close) return true;
+            } else if (state.action === 'submit') {
+                if (popup.show_once && (!popup.delay_after_submit || popup.delay_after_submit === 0)) return true;
+                if (popup.delay_after_submit && minutesPassed < popup.delay_after_submit) return true;
+            }
+            return false;
         } catch {
             return false;
         }
     }, []);
 
-    const markDismissed = useCallback((popupId: string) => {
+    const recordAction = useCallback((popupId: string, action: 'close' | 'submit') => {
         try {
-            localStorage.setItem(`popup_dismissed_${popupId}`, 'true');
+            localStorage.setItem(`popup_state_${popupId}`, JSON.stringify({
+                action,
+                timestamp: Date.now()
+            }));
+            localStorage.removeItem(`popup_dismissed_${popupId}`); // clean up legacy
         } catch {
             // localStorage not available
         }
     }, []);
 
+    const triggerNextPopup = useCallback((nextPopupId: string | null | undefined) => {
+        if (!nextPopupId) return false;
+        const nextPopup = popups.find(p => p.id === nextPopupId);
+        if (nextPopup && matchesPage(nextPopup) && !checkIsSuppressed(nextPopup)) {
+            setTimeout(() => {
+                setActivePopup(nextPopup);
+                setFormData({});
+                setIsSubmitted(false);
+            }, 500); // Small transition delay
+            return true;
+        }
+        return false;
+    }, [popups, matchesPage, checkIsSuppressed]);
+
     // ─── Trigger Logic ──────────────────────────
     useEffect(() => {
         if (isAdmin || popups.length === 0 || activePopup) return;
 
-        const eligiblePopups = popups.filter(p =>
-            matchesPage(p) && (!p.show_once || !wasDismissed(p.id))
-        );
+        const eligiblePopups = popups
+            .filter(p => matchesPage(p) && !checkIsSuppressed(p))
+            .sort((a, b) => (b.priority || 0) - (a.priority || 0));
 
         if (eligiblePopups.length === 0) return;
 
@@ -193,17 +233,21 @@ export default function PopupRenderer() {
             document.addEventListener('mouseleave', handleMouseLeave);
             return () => document.removeEventListener('mouseleave', handleMouseLeave);
         }
-    }, [isAdmin, popups, activePopup, matchesPage, wasDismissed]);
+    }, [isAdmin, popups, activePopup, matchesPage, checkIsSuppressed]);
 
     // ─── Close Handler ──────────────────────────
     const handleClose = () => {
-        if (activePopup?.show_once) {
-            markDismissed(activePopup.id);
-        }
+        if (!activePopup) return;
+        recordAction(activePopup.id, 'close');
+        
+        const nextId = activePopup.next_popup_on_close;
+        
         setActivePopup(null);
         setFormData({});
         setIsSubmitted(false);
         exitIntentRef.current = false;
+        
+        triggerNextPopup(nextId);
     };
 
     // ─── Submit Handler ─────────────────────────
@@ -233,19 +277,22 @@ export default function PopupRenderer() {
             }
 
             if (activePopup.button_action_type === 'link' && activePopup.button_action_url) {
-                if (activePopup.show_once) {
-                    markDismissed(activePopup.id);
-                }
+                recordAction(activePopup.id, 'submit');
                 window.location.href = activePopup.button_action_url;
                 return; // Do not proceed to success state
             }
 
+            const nextId = activePopup.next_popup_on_submit;
             setIsSubmitted(true);
-            if (activePopup.show_once) {
-                markDismissed(activePopup.id);
-            }
+            recordAction(activePopup.id, 'submit');
+            
             // Auto-close after success
-            setTimeout(() => handleClose(), 3000);
+            setTimeout(() => {
+                setActivePopup(null);
+                setFormData({});
+                setIsSubmitted(false);
+                triggerNextPopup(nextId);
+            }, 3000);
         } catch {
             // Fail silently
         } finally {

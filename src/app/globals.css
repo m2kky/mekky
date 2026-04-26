@@ -30,13 +30,13 @@
   --font-body: 'Inter', sans-serif;
   --font-accent: 'Bebas Neue', cursive;
 
-  /* Whitespace / Padding - Extreme Spacing */
+  /* Whitespace / Padding - Extreme Spacing (Reduced by ~30%) */
   --space-sm: 1rem;
   --space-md: 2rem;
-  --space-lg: 5rem;
-  --space-xl: 10rem;
-  --space-2xl: 20vh;
-  --space-3xl: 30vh;
+  --space-lg: 3.5rem; /* Was 5rem */
+  --space-xl: 7rem; /* Was 10rem */
+  --space-2xl: 14vh; /* Was 20vh */
+  --space-3xl: 20vh; /* Was 30vh */
 
   /* Layout */
   --container-padding: clamp(1rem, 4vw, 4rem);

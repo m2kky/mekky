@@ -195,9 +195,9 @@
 }
 
 .navLinksList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 1rem;
 }
 
 /* ── Menu CTA Buttons ── */
@@ -352,7 +352,10 @@
   }
 
   .navLinksList {
-    gap: 0.15rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 0.5rem;
+    margin-top: 1rem;
   }
 
   .linkItem {
@@ -361,11 +364,11 @@
   }
 
   .hugeLink {
-    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
     letter-spacing: -0.01em;
-    font-weight: 600;
-    line-height: 1.1;
-    padding: 2px 0;
+    font-weight: 700;
+    line-height: 1.2;
+    padding: 6px 0;
   }
 
   .hugeLink::before {
@@ -373,11 +376,12 @@
   }
 
   .menuActions {
-    margin-top: 2rem;
+    margin-top: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 8px;
     width: 100%;
+    padding-top: 3rem;
     padding-bottom: 2rem;
   }
 
