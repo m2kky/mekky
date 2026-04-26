@@ -83,31 +83,38 @@ ALTER TABLE popup_fields ENABLE ROW LEVEL SECURITY;
 ALTER TABLE popup_submissions ENABLE ROW LEVEL SECURITY;
 
 -- Public can read active popups
+DROP POLICY IF EXISTS "Public can read active popups" ON popups;
 CREATE POLICY "Public can read active popups" ON popups
     FOR SELECT USING (is_active = true);
 
 -- Authenticated users can do everything
+DROP POLICY IF EXISTS "Authenticated full access on popups" ON popups;
 CREATE POLICY "Authenticated full access on popups" ON popups
     FOR ALL USING (auth.role() = 'authenticated');
 
 -- Public can read fields of active popups
+DROP POLICY IF EXISTS "Public can read popup fields" ON popup_fields;
 CREATE POLICY "Public can read popup fields" ON popup_fields
     FOR SELECT USING (
         EXISTS (SELECT 1 FROM popups WHERE popups.id = popup_fields.popup_id AND popups.is_active = true)
     );
 
 -- Authenticated users can manage fields
+DROP POLICY IF EXISTS "Authenticated full access on popup_fields" ON popup_fields;
 CREATE POLICY "Authenticated full access on popup_fields" ON popup_fields
     FOR ALL USING (auth.role() = 'authenticated');
 
 -- Anyone can submit (insert) — but not read others' submissions
+DROP POLICY IF EXISTS "Anyone can submit" ON popup_submissions;
 CREATE POLICY "Anyone can submit" ON popup_submissions
     FOR INSERT WITH CHECK (true);
 
 -- Only authenticated can read submissions
+DROP POLICY IF EXISTS "Authenticated can read submissions" ON popup_submissions;
 CREATE POLICY "Authenticated can read submissions" ON popup_submissions
     FOR SELECT USING (auth.role() = 'authenticated');
 
 -- Authenticated can delete submissions
+DROP POLICY IF EXISTS "Authenticated can delete submissions" ON popup_submissions;
 CREATE POLICY "Authenticated can delete submissions" ON popup_submissions
     FOR DELETE USING (auth.role() = 'authenticated');
