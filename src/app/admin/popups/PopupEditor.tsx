@@ -57,6 +57,8 @@ interface PopupEditorProps {
         show_on_pages: string[];
         is_active: boolean;
         show_once: boolean;
+        button_action_type: string;
+        button_action_url: string;
         popup_fields?: FieldItem[];
     };
 }
@@ -89,6 +91,8 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
     const [imageUrl, setImageUrl] = useState(initialData?.image_url || '');
     const [triggerType, setTriggerType] = useState(initialData?.trigger_type || 'page_load');
     const [triggerValue, setTriggerValue] = useState(initialData?.trigger_value || '3');
+    const [buttonActionType, setButtonActionType] = useState(initialData?.button_action_type || 'submit');
+    const [buttonActionUrl, setButtonActionUrl] = useState(initialData?.button_action_url || '');
     const [showOnPages, setShowOnPages] = useState(initialData?.show_on_pages?.join(', ') || '*');
     const [isActive, setIsActive] = useState(initialData?.is_active || false);
     const [showOnce, setShowOnce] = useState(initialData?.show_once ?? true);
@@ -167,6 +171,8 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
             image_url: imageUrl,
             trigger_type: triggerType,
             trigger_value: triggerValue,
+            button_action_type: buttonActionType,
+            button_action_url: buttonActionUrl,
             show_on_pages: showOnPages.split(',').map(s => s.trim()).filter(Boolean),
             is_active: isActive,
             show_once: showOnce,
@@ -326,6 +332,31 @@ export default function PopupEditor({ initialData }: PopupEditorProps) {
                                     placeholder="Thank you!"
                                 />
                             </div>
+                        </div>
+
+                        <div className={styles.row} style={{ marginTop: '0.75rem' }}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Button Action</label>
+                                <select
+                                    className={styles.input}
+                                    value={buttonActionType}
+                                    onChange={e => setButtonActionType(e.target.value)}
+                                >
+                                    <option value="submit">Submit Form</option>
+                                    <option value="link">Go to Link</option>
+                                </select>
+                            </div>
+                            {buttonActionType === 'link' && (
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Action URL</label>
+                                    <input
+                                        className={styles.input}
+                                        value={buttonActionUrl}
+                                        onChange={e => setButtonActionUrl(e.target.value)}
+                                        placeholder="https://..."
+                                    />
+                                </div>
+                            )}
                         </div>
                     </section>
 

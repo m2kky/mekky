@@ -33,6 +33,8 @@ interface Popup {
     image_url: string;
     trigger_type: string;
     trigger_value: string;
+    button_action_type: string;
+    button_action_url: string;
     show_on_pages: string[];
     show_once: boolean;
     popup_fields: PopupField[];
@@ -218,15 +220,26 @@ export default function PopupRenderer() {
 
         setIsSubmitting(true);
         try {
-            await fetch('/api/popups/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    popup_id: activePopup.id,
-                    data: formData,
-                    page_url: pathname,
-                }),
-            });
+            if (activePopup.popup_fields.length > 0 || activePopup.button_action_type !== 'link') {
+                await fetch('/api/popups/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        popup_id: activePopup.id,
+                        data: formData,
+                        page_url: pathname,
+                    }),
+                });
+            }
+
+            if (activePopup.button_action_type === 'link' && activePopup.button_action_url) {
+                if (activePopup.show_once) {
+                    markDismissed(activePopup.id);
+                }
+                window.location.href = activePopup.button_action_url;
+                return; // Do not proceed to success state
+            }
+
             setIsSubmitted(true);
             if (activePopup.show_once) {
                 markDismissed(activePopup.id);

@@ -40,6 +40,8 @@ export interface PopupData {
     image_url: string;
     trigger_type: string;
     trigger_value: string;
+    button_action_type: string;
+    button_action_url: string;
     show_on_pages: string[];
     is_active: boolean;
     show_once: boolean;
