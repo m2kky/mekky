@@ -1,8 +1,8 @@
 .guideContainer {
-    font-family: var(--font-sans);
+    font-family: 'Cairo', 'Tajawal', 'Almarai', system-ui, var(--font-sans);
     color: var(--text-primary);
     line-height: 1.8;
-    font-size: 1.1rem;
+    font-size: 1.15rem; /* Slightly larger for easier Arabic reading */
 }
 
 .guideContainer h1 {
@@ -113,15 +113,18 @@
     padding: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.75);
+    text-align: start;
 }
 
 .guideContainer code {
     font-family: 'Fira Code', 'Courier New', Courier, monospace;
     background: rgba(255, 255, 255, 0.1);
-    padding: 0.2em 0.4em;
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-size: 0.9em;
     color: #e2f979;
+    direction: ltr;
+    display: inline-block;
 }
 
 /* Ensure pre containing code doesn't get inline code styles */
@@ -129,6 +132,7 @@
     background: none;
     padding: 0;
     color: inherit;
+    display: block;
 }
 
 .guideContainer pre {
@@ -136,6 +140,8 @@
     overflow: auto;
     margin-bottom: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    direction: ltr; /* Force LTR on multiline code blocks */
+    text-align: left;
 }
 
 .guideContainer img {
