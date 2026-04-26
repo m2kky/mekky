@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
+import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from './Guide.module.css';
@@ -16,14 +17,20 @@ interface GuideContentProps {
 export default function GuideContent({ content }: GuideContentProps) {
     const isArabic = /[\u0600-\u06FF]/.test(content.slice(0, 500));
     
-    // Inject TOC heading at the start of the content (after the first h1)
-    const contentWithToc = content.replace(/^#\s+(.*)\n/, `# $1\n\n## جدول المحتويات\n\n`);
+    // Inject TOC heading at the start of the content (after the first h1) only if content is reasonably long
+    const isLongContent = content.length > 1500;
+    const contentWithToc = isLongContent 
+        ? content.replace(/^#\s+(.*)\n/, `# $1\n\n## جدول المحتويات\n\n`)
+        : content;
 
     return (
         <article className={styles.guideContainer} dir={isArabic ? "rtl" : "ltr"}>
             <ReactMarkdown
-                remarkPlugins={[remarkGfm, [remarkToc, { heading: 'جدول المحتويات', tight: true, maxDepth: 3 }]]}
-                rehypePlugins={[rehypeSlug]}
+                remarkPlugins={[
+                    remarkGfm, 
+                    ...(isLongContent ? [[remarkToc, { heading: 'جدول المحتويات', tight: true, maxDepth: 3 }]] : [])
+                ] as any}
+                rehypePlugins={[rehypeRaw, rehypeSlug]}
                 components={{
                     code({ node, inline, className, children, ...props }: any) {
                         const match = /language-(\w+)/.exec(className || '');

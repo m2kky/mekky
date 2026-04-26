@@ -9,6 +9,7 @@ import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import styles from '@/app/DetailPage.module.css';
 import MetricsCharts, { type MetricDefinition } from '@/components/portfolio/MetricsChart';
+import GuideContent from '@/app/guides/[slug]/GuideContent';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -28,7 +29,7 @@ interface CaseStudyData {
     fullGuideLabel?: string;
 }
 
-export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
+export default function CaseStudyClient({ study, markdownContent }: { study: CaseStudyData, markdownContent?: string | null }) {
     const heroRef = useRef<HTMLElement>(null);
     const challengeRef = useRef<HTMLDivElement>(null);
     const resultsRef = useRef<HTMLDivElement>(null);
@@ -79,48 +80,62 @@ export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
                     </div>
                 </section>
 
-                {/* Challenge — Dark */}
-                <div className={styles.body}>
-                    <div className={styles.bodyInner} ref={challengeRef}>
-                        <div className={styles.sectionBlock}>
-                            <span className={styles.sectionLabel}>The Challenge</span>
-                            <p className={styles.bodyText}>{study.challenge}</p>
-                        </div>
-                        <div className={styles.sectionBlock}>
-                            <span className={styles.sectionLabel}>The Solution</span>
-                            <p className={styles.bodyText}>{study.solution}</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Results — Light */}
-                <div className={styles.lightBlock}>
-                    <div className={styles.lightBlockInner} ref={resultsRef}>
-                        <span className={styles.lightLabel}>The Results</span>
-                        <ul className={styles.lightResultsList}>
-                            {study.results.map((result, i) => (
-                                <li key={i} className={styles.lightResultItem}>
-                                    <span className={styles.lightBullet}>✦</span>
-                                    {result}
-                                </li>
-                            ))}
-                        </ul>
-
-                        {/* Interactive Data Visualization */}
-                        {study.metrics && study.metrics.length > 0 && (
-                            <MetricsCharts metrics={study.metrics} />
-                        )}
-
-                        {/* Guide CTA */}
-                        {study.fullGuideLink && (
-                            <div style={{ marginTop: '3rem', textAlign: 'center' }}>
-                                <a href={study.fullGuideLink} className={styles.ctaLink}>
-                                    {study.fullGuideLabel || 'View Step-by-Step Technical Guide'}
-                                </a>
+                {/* Classic Built-in Content - Hide if full markdown guide is provided */
+                 !markdownContent && (
+                    <>
+                        {/* Challenge — Dark */}
+                        <div className={styles.body}>
+                            <div className={styles.bodyInner} ref={challengeRef}>
+                                <div className={styles.sectionBlock}>
+                                    <span className={styles.sectionLabel}>The Challenge</span>
+                                    <p className={styles.bodyText}>{study.challenge}</p>
+                                </div>
+                                <div className={styles.sectionBlock}>
+                                    <span className={styles.sectionLabel}>The Solution</span>
+                                    <p className={styles.bodyText}>{study.solution}</p>
+                                </div>
                             </div>
-                        )}
+                        </div>
+
+                        {/* Results — Light */}
+                        <div className={styles.lightBlock}>
+                            <div className={styles.lightBlockInner} ref={resultsRef}>
+                                <span className={styles.lightLabel}>The Results</span>
+                                <ul className={styles.lightResultsList}>
+                                    {study.results.map((result, i) => (
+                                        <li key={i} className={styles.lightResultItem}>
+                                            <span className={styles.lightBullet}>✦</span>
+                                            {result}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Interactive Data Visualization */}
+                                {study.metrics && study.metrics.length > 0 && (
+                                    <MetricsCharts metrics={study.metrics} />
+                                )}
+
+                                {/* Guide CTA */}
+                                {study.fullGuideLink && (
+                                    <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+                                        <a href={study.fullGuideLink} className={styles.ctaLink}>
+                                            {study.fullGuideLabel || 'View Step-by-Step Technical Guide'}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </>
+                )}
+
+                {/* Embedded Markdown Content (e.g. Detailed Case Study Steps) */}
+                {markdownContent && (
+                    <div style={{ backgroundColor: 'var(--bg-primary)', padding: '4rem 0' }}>
+                        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
+                            <GuideContent content={markdownContent} />
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Bottom CTA */}
                 <div className={styles.bottomCta}>

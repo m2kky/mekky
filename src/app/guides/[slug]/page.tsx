@@ -41,16 +41,16 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     const firstLineMatch = fileContents.match(/^#\s+(.*)/m);
     const title = firstLineMatch ? firstLineMatch[1] : 'Technical Guide';
 
-    // Remove the title from the content so we can render it beautifully outside the raw markdown if needed
-    // However, keeping it in the markdown is usually fine, or we can handle it inside GuideContent.
+    const isArabic = /[\u0600-\u06FF]/.test(fileContents.slice(0, 500));
+
     return (
         <>
             <Navbar />
             <div style={{ position: 'relative', zIndex: 1, backgroundColor: 'var(--bg-primary)', minHeight: '100vh', paddingTop: '100px' }}>
-                <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
-                    <div style={{ marginBottom: '3rem' }}>
-                        <a href="/case-studies/automated-marketing-audit" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', opacity: 0.8 }}>
-                            ← Back to Case Study
+                <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }} dir={isArabic ? 'rtl' : 'ltr'}>
+                    <div style={{ marginBottom: '3rem', textAlign: isArabic ? 'right' : 'left' }}>
+                        <a href={`/case-studies/${slug}`} style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', opacity: 0.8, display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                            {isArabic ? '← العودة لدراسة الحالة' : '← Back to Case Study'}
                         </a>
                     </div>
                     <GuideContent content={fileContents} />

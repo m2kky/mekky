@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import { CASE_STUDIES } from '@/lib/constants';
 import type { Metadata } from 'next';
+import fs from 'fs';
+import path from 'path';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const resolvedParams = await params;
@@ -50,5 +52,15 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
         );
     }
 
-    return <CaseStudyClient study={study as any} />;
+    let markdownContent = null;
+    try {
+        const fullPath = path.join(process.cwd(), 'src/content/case-studies', `${study.slug}.md`);
+        if (fs.existsSync(fullPath)) {
+            markdownContent = fs.readFileSync(fullPath, 'utf8');
+        }
+    } catch (error) {
+        // Silent fail if no markdown exists
+    }
+
+    return <CaseStudyClient study={study as any} markdownContent={markdownContent} />;
 }

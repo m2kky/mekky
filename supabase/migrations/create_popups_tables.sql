@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS popups (
     heading TEXT NOT NULL DEFAULT '',
     description TEXT DEFAULT '',
     button_text TEXT DEFAULT 'Submit',
+    button_action_type TEXT DEFAULT 'submit'
+        CHECK (button_action_type IN ('submit', 'redirect')),
+    button_action_url TEXT DEFAULT '',
     success_message TEXT DEFAULT 'Thank you! We''ll be in touch.',
     bg_color TEXT DEFAULT '#0a0a0a',
     text_color TEXT DEFAULT '#ffffff',
