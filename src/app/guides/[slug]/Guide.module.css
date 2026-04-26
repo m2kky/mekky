@@ -61,7 +61,7 @@
 .guideContainer ul,
 .guideContainer ol {
     margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
+    padding-inline-start: 1.5rem;
     color: rgba(255, 255, 255, 0.75);
 }
 
@@ -74,15 +74,15 @@
 }
 
 .guideContainer blockquote {
-    border-left: 4px solid #e2f979;
-    padding-left: 1.5rem;
-    margin-left: 0;
-    margin-right: 0;
+    border-inline-start: 4px solid #e2f979;
+    padding-inline-start: 1.5rem;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
     margin-bottom: 2rem;
     background: rgba(226, 249, 121, 0.05);
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px; /* Simplified for RTL support */
 }
 
 .guideContainer blockquote p {
@@ -103,7 +103,7 @@
 .guideContainer th {
     background: rgba(255, 255, 255, 0.05);
     padding: 1rem;
-    text-align: left;
+    text-align: start;
     font-weight: 600;
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);

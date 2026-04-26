@@ -12,8 +12,10 @@ interface GuideContentProps {
 }
 
 export default function GuideContent({ content }: GuideContentProps) {
+    const isArabic = /[\u0600-\u06FF]/.test(content.slice(0, 500));
+
     return (
-        <article className={styles.guideContainer}>
+        <article className={styles.guideContainer} dir={isArabic ? "rtl" : "ltr"}>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
