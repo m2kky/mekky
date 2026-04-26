@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import Link from 'next/link';
 import { NAV_LINKS } from '@/lib/constants';
@@ -8,6 +9,7 @@ import styles from './Navbar.module.css';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     // Refs للـ GSAP
     const overlayRef = useRef<HTMLDivElement>(null);
@@ -120,6 +122,11 @@ export default function Navbar() {
         }
     }, [isMenuOpen]);
 
+    // Close menu purely on route change
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [pathname]);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -182,7 +189,6 @@ export default function Navbar() {
                                         ref={(el) => {
                                             linksRef.current[index] = el;
                                         }}
-                                        onClick={() => setIsMenuOpen(false)}
                                     >
                                         {item.label}
                                     </Link>
@@ -196,7 +202,6 @@ export default function Navbar() {
                                     key={item.label}
                                     href={item.href}
                                     className={styles.menuActionButton}
-                                    onClick={() => setIsMenuOpen(false)}
                                 >
                                     {item.label}
                                 </Link>
