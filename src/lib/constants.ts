@@ -354,6 +354,23 @@ export const CASE_STUDIES = {
             solution: 'We implemented a three-phase strategy: Phase 1 was content seeding with high-value educational posts. Phase 2 was community activation through challenges and AMAs. Phase 3 was automated onboarding funnels that turned followers into active participants.',
             results: ['50k+ active members in 12 months', '85% monthly retention rate', 'Community-driven content generates 40% of all engagement', 'Zero paid acquisition — 100% organic growth'],
         },
+        {
+            title: 'Automated Marketing Audit Pipeline',
+            category: 'Data Engineering & Analytics',
+            description: 'Replacing manual guesswork with an automated Vibe Coding pipeline pulling API data from Meta, TikTok, Google Ads, and Shopify for real-time Break-Even ROAS.',
+            image: '/images/projects/dietty-store.webp',
+            slug: 'automated-marketing-audit',
+            challenge: 'The growth team was drowning in manual data extraction across Meta, Google, and Shopify. Disconnected metrics caused massive discrepancies and hid the true acquisition costs—resulting in wasted ad spend and stalled scaling.',
+            solution: 'We engineered an automated data pipeline using Python and modern APIs. This AI-powered ecosystem synchronizes real sales data directly from Shopify, merges it with platform costs via custom attribution models, and performs real-time NLP on customer conversations.',
+            results: [
+                'Discovered actual CPA was 398 EGP instead of 4.85 EGP misreported by Meta',
+                'Identified and fixed a fatal campaign objective misconfiguration',
+                'Eliminated 30+ hours of manual spreadsheet work monthly',
+                'Generated actionable Break-Even ROAS matrices'
+            ],
+            fullGuideLink: '/guides/automated-marketing-audit',
+            fullGuideLabel: 'View Step-by-Step Technical Guide'
+        },
     ],
 };
 

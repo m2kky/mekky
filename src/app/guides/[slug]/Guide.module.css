@@ -1,0 +1,155 @@
+.guideContainer {
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.guideContainer h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.guideContainer h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: #e2f979; /* Brand Yellow/Lime */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.guideContainer h3 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.guideContainer h4 {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.guideContainer p {
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.guideContainer a {
+    color: #e2f979;
+    text-decoration: underline;
+    text-decoration-color: rgba(226, 249, 121, 0.4);
+    text-underline-offset: 4px;
+    transition: all 0.2s ease;
+}
+
+.guideContainer a:hover {
+    text-decoration-color: #e2f979;
+}
+
+.guideContainer ul,
+.guideContainer ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.guideContainer li {
+    margin-bottom: 0.5rem;
+}
+
+.guideContainer li > p {
+    margin-bottom: 0.5rem;
+}
+
+.guideContainer blockquote {
+    border-left: 4px solid #e2f979;
+    padding-left: 1.5rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 2rem;
+    background: rgba(226, 249, 121, 0.05);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.guideContainer blockquote p {
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.guideContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.guideContainer th {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guideContainer td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.guideContainer code {
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #e2f979;
+}
+
+/* Ensure pre containing code doesn't get inline code styles */
+.guideContainer pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.guideContainer pre {
+    border-radius: 8px;
+    overflow: auto;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guideContainer img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin: 2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guideContainer hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 3rem 0;
+}

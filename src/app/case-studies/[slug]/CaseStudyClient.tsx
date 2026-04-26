@@ -8,6 +8,7 @@ import { SITE } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import FooterSection from '@/components/FooterSection';
 import styles from '@/app/DetailPage.module.css';
+import MetricsCharts, { type MetricDefinition } from '@/components/portfolio/MetricsChart';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -23,6 +24,8 @@ interface CaseStudyData {
     solution: string;
     results: string[];
     metrics?: MetricDefinition[];
+    fullGuideLink?: string;
+    fullGuideLabel?: string;
 }
 
 export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
@@ -106,6 +109,15 @@ export default function CaseStudyClient({ study }: { study: CaseStudyData }) {
                         {/* Interactive Data Visualization */}
                         {study.metrics && study.metrics.length > 0 && (
                             <MetricsCharts metrics={study.metrics} />
+                        )}
+
+                        {/* Guide CTA */}
+                        {study.fullGuideLink && (
+                            <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+                                <a href={study.fullGuideLink} className={styles.ctaLink}>
+                                    {study.fullGuideLabel || 'View Step-by-Step Technical Guide'}
+                                </a>
+                            </div>
                         )}
                     </div>
                 </div>
