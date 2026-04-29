@@ -1,18 +1,24 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import styles from './FloatingCTA.module.css';
 import Link from 'next/link';
 
 export default function FloatingCTA() {
+    const pathname = usePathname();
     const [isVisible, setIsVisible] = useState(false);
     const [scrollDirection, setScrollDirection] = useState<'down' | 'up' | 'top'>('top');
     const lastScrollY = useRef(0);
     const ctaRef = useRef<HTMLAnchorElement>(null);
     const topRef = useRef<HTMLButtonElement>(null);
 
+    const isFocusedFlow = pathname?.startsWith('/octaholic-assessment');
+
     useEffect(() => {
+        if (isFocusedFlow) return;
+
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
@@ -32,9 +38,11 @@ export default function FloatingCTA() {
         handleScroll(); // Init
 
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isFocusedFlow]);
 
     useEffect(() => {
+        if (isFocusedFlow) return;
+
         const ctx = gsap.context(() => {
             if (scrollDirection === 'top' || scrollDirection === 'down') {
                 // Hide Back to Top first
@@ -80,14 +88,18 @@ export default function FloatingCTA() {
         });
 
         return () => ctx.revert();
-    }, [scrollDirection]);
+    }, [isFocusedFlow, scrollDirection]);
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    if (isFocusedFlow) {
+        return null;
+    }
+
     return (
-        <div className={styles.ctaContainer}>
+        <div className={styles.ctaContainer} aria-hidden={!isVisible}>
             <Link href="/book" ref={ctaRef} className={styles.primaryBtn}>
                 <span className={styles.textDesktop}>LET&apos;S TALK SYSTEMS</span>
                 <span className={styles.iconMobile}>

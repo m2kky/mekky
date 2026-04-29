@@ -99,12 +99,13 @@ export default function PopupRenderer() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const exitIntentRef = useRef(false);
 
-    // Skip on admin pages
+    // Skip on pages where popups would interrupt focused flows.
     const isAdmin = pathname?.startsWith('/admin') || pathname?.startsWith('/login');
+    const isFocusedFlow = pathname?.startsWith('/octaholic-assessment');
 
     // ─── Fetch Popups ───────────────────────────
     useEffect(() => {
-        if (isAdmin) return;
+        if (isAdmin || isFocusedFlow) return;
 
         const fetchPopups = async () => {
             try {
@@ -117,7 +118,7 @@ export default function PopupRenderer() {
         };
 
         fetchPopups();
-    }, [isAdmin]);
+    }, [isAdmin, isFocusedFlow]);
 
     // ─── Check Page Match ───────────────────────
     const matchesPage = useCallback((popup: Popup) => {
