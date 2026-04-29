@@ -96,9 +96,6 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
     }
 
     // 4. Filter overlapping (with local bookings + buffer support)
-    const { getCairoOffset } = await import('@/utils/google');
-    const offset = getCairoOffset(new Date(dateStr));
-
     const finalAvailableSlots = filteredSlots.filter(slot => {
         const slotStart = new Date(`${dateStr}T${slot}:00${offset}`);
         const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000);
