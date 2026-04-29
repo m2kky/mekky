@@ -159,19 +159,24 @@ export async function submitBooking(formData: FormData) {
 
     // Create Google Calendar Event
     let meeting_link = 'Not generated yet';
+    let calendar_event_link = '';
     try {
         const { createGoogleCalendarEvent } = await import('@/utils/google');
         const googleEvent = await createGoogleCalendarEvent({
             title: `${eventType?.title || 'Meeting'} with ${client_name}`,
-            description: `Booked via website.\nAnswers: ${JSON.stringify(answers)}`,
+            description: `Booked via website.\nClient: ${client_name} (${client_email})\nAnswers: ${JSON.stringify(answers)}`,
             startTime: startDate,
             endTime: endDate,
             clientEmail: client_email
         });
         if (googleEvent?.hangoutLink) meeting_link = googleEvent.hangoutLink;
-        else if (googleEvent?.htmlLink) meeting_link = googleEvent.htmlLink;
+        if (googleEvent?.htmlLink) calendar_event_link = googleEvent.htmlLink;
+        // Fallback: if no Meet link, use calendar link
+        if (meeting_link === 'Not generated yet' && calendar_event_link) {
+            meeting_link = calendar_event_link;
+        }
     } catch (e: any) {
-        console.error("Failed to create Google Calendar event", e);
+        console.error("Failed to create Google Calendar event:", e?.message || e);
     }
 
     // Insert booking

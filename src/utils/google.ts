@@ -1,5 +1,16 @@
 import { google } from 'googleapis';
-import { createClient } from '@/utils/supabase/server';
+import { createClient as createServerClient } from '@/utils/supabase/server';
+import { createClient } from '@supabase/supabase-js';
+
+// Use service role client for settings table to bypass RLS
+function getAdminSupabase() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !serviceKey) {
+        throw new Error('Missing Supabase URL or Service Role Key for admin client');
+    }
+    return createClient(url, serviceKey);
+}
 
 const getOAuth2Client = () => {
     const clientId = process.env.GOOGLE_CLIENT_ID || '';
@@ -12,26 +23,68 @@ const getOAuth2Client = () => {
 };
 
 export async function getGoogleTokens() {
-    const supabase = await createClient();
-    const { data } = await supabase.from('settings').select('value').eq('key', 'google_calendar_tokens').single();
+    const supabase = getAdminSupabase();
+    const { data, error } = await supabase.from('settings').select('value').eq('key', 'google_calendar_tokens').single();
+    if (error) {
+        console.error('Failed to fetch Google tokens from settings:', error);
+        return null;
+    }
     return data?.value || null;
 }
 
 export async function setGoogleTokens(tokens: any) {
-    const supabase = await createClient();
-    // Upsert the tokens into the settings table
-    await supabase.from('settings').upsert({ key: 'google_calendar_tokens', value: tokens });
+    const supabase = getAdminSupabase();
+    const { error } = await supabase.from('settings').upsert({ key: 'google_calendar_tokens', value: tokens });
+    if (error) {
+        console.error('Failed to save Google tokens:', error);
+    }
 }
 
 export async function getAuthenticatedCalendar() {
     const tokens = await getGoogleTokens();
-    if (!tokens) return null;
+    if (!tokens) {
+        console.error('No Google Calendar tokens found in settings table.');
+        return null;
+    }
 
     const oAuth2Client = getOAuth2Client();
     oAuth2Client.setCredentials(tokens);
 
-    // You can optionally add logic to refresh the token if it's expired,
-    // but googleapis usually handles it automatically if a refresh_token is present.
+    // Listen for token refresh events and persist new tokens
+    oAuth2Client.on('tokens', async (newTokens) => {
+        console.log('Google OAuth tokens refreshed, saving...');
+        const merged = { ...tokens, ...newTokens };
+        // Keep existing refresh_token if not returned
+        if (!merged.refresh_token && tokens.refresh_token) {
+            merged.refresh_token = tokens.refresh_token;
+        }
+        await setGoogleTokens(merged);
+    });
+
+    // Proactively refresh if token is expired or about to expire
+    try {
+        const tokenInfo = oAuth2Client.credentials;
+        const now = Date.now();
+        const expiryDate = tokenInfo.expiry_date || 0;
+
+        if (expiryDate && expiryDate < now + 60000) {
+            // Token expired or expiring in < 1 minute — force refresh
+            console.log('Access token expired, refreshing...');
+            const { credentials } = await oAuth2Client.refreshAccessToken();
+            const merged = { ...tokens, ...credentials };
+            if (!merged.refresh_token && tokens.refresh_token) {
+                merged.refresh_token = tokens.refresh_token;
+            }
+            oAuth2Client.setCredentials(merged);
+            await setGoogleTokens(merged);
+        }
+    } catch (refreshError: any) {
+        console.error('Failed to refresh Google token:', refreshError?.message || refreshError);
+        if (refreshError?.message?.includes('invalid_grant')) {
+            console.error('⚠️ CRITICAL: Google refresh token is revoked/expired. User needs to re-authorize via /admin/integrations');
+        }
+        return null;
+    }
 
     return google.calendar({ version: 'v3', auth: oAuth2Client });
 }
@@ -58,13 +111,17 @@ export async function authorizeWithCode(code: string) {
         tokens.refresh_token = existingTokens.refresh_token;
     }
 
+    console.log('Google Calendar authorized successfully. Refresh token present:', !!tokens.refresh_token);
     await setGoogleTokens(tokens);
     return tokens;
 }
 
 export async function checkCalendarConflicts(dateStr: string, timeSlots: string[], durationMinutes: number): Promise<string[]> {
     const calendar = await getAuthenticatedCalendar();
-    if (!calendar) return timeSlots; // If not connected, assume all slots are free (or handle gracefully)
+    if (!calendar) {
+        console.warn('Google Calendar not connected — skipping conflict check.');
+        return timeSlots;
+    }
 
     const freeSlots = [...timeSlots];
 
@@ -83,6 +140,7 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
         });
 
         const busyIntervals = response.data.calendars?.['primary']?.busy || [];
+        console.log(`Google Calendar: Found ${busyIntervals.length} busy intervals for ${dateStr}`);
 
         // Check each slot against busy intervals.
         // Parse slot times as Cairo time (UTC+2) so comparison with UTC busy intervals is correct.
@@ -99,12 +157,13 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
                     const index = freeSlots.indexOf(slot);
                     if (index > -1) {
                         freeSlots.splice(index, 1);
+                        console.log(`Slot ${slot} conflicts with busy period ${busy.start} - ${busy.end}`);
                     }
                 }
             }
         }
-    } catch (e) {
-        console.error('Failed to query Google Calendar freebusy', e);
+    } catch (e: any) {
+        console.error('Failed to query Google Calendar freebusy:', e?.message || e);
         // Fallback: return all slots if calendar check fails
     }
 
@@ -120,6 +179,7 @@ export async function createGoogleCalendarEvent(eventDetails: {
 }) {
     const calendar = await getAuthenticatedCalendar();
     if (!calendar) {
+        console.error('Cannot create event: Google Calendar not authenticated.');
         return null;
     }
 
@@ -127,14 +187,17 @@ export async function createGoogleCalendarEvent(eventDetails: {
         const event = await calendar.events.insert({
             calendarId: 'primary',
             conferenceDataVersion: 1, // Required to create Google Meet link
+            sendUpdates: 'all', // Send email invites to attendees
             requestBody: {
                 summary: eventDetails.title,
                 description: eventDetails.description,
                 start: {
                     dateTime: eventDetails.startTime.toISOString(),
+                    timeZone: 'Africa/Cairo',
                 },
                 end: {
                     dateTime: eventDetails.endTime.toISOString(),
+                    timeZone: 'Africa/Cairo',
                 },
                 attendees: [
                     { email: eventDetails.clientEmail }
@@ -146,13 +209,24 @@ export async function createGoogleCalendarEvent(eventDetails: {
                             type: 'hangoutsMeet'
                         }
                     }
+                },
+                reminders: {
+                    useDefault: false,
+                    overrides: [
+                        { method: 'email', minutes: 60 },
+                        { method: 'popup', minutes: 15 },
+                    ]
                 }
             }
         });
 
+        console.log('Google Calendar event created successfully:', event.data.id);
+        console.log('Meet link:', event.data.hangoutLink);
+        console.log('Calendar link:', event.data.htmlLink);
+
         return event.data;
     } catch (e: any) {
-        console.error('Failed to create Google Calendar event', e);
+        console.error('Failed to create Google Calendar event:', e?.message || e);
         throw e;
     }
 }
