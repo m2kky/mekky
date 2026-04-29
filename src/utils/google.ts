@@ -116,6 +116,32 @@ export async function authorizeWithCode(code: string) {
     return tokens;
 }
 
+/**
+ * Get the current UTC offset for Cairo (handles DST automatically)
+ */
+export function getCairoOffset(date: Date = new Date()): string {
+    try {
+        const parts = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Africa/Cairo',
+            timeZoneName: 'shortOffset'
+        }).formatToParts(date);
+        const offsetName = parts.find(p => p.type === 'timeZoneName')?.value || 'GMT+2';
+        let offset = offsetName.replace('GMT', '');
+        
+        // Ensure format is +HH:MM or -HH:MM
+        const match = offset.match(/([+-])(\d+)(?::(\d+))?/);
+        if (match) {
+            const sign = match[1];
+            const hours = match[2].padStart(2, '0');
+            const minutes = (match[3] || '0').padStart(2, '0');
+            return `${sign}${hours}:${minutes}`;
+        }
+        return "+02:00"; 
+    } catch (e) {
+        return "+02:00";
+    }
+}
+
 export async function checkCalendarConflicts(dateStr: string, timeSlots: string[], durationMinutes: number): Promise<string[]> {
     const calendar = await getAuthenticatedCalendar();
     if (!calendar) {
@@ -126,10 +152,10 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
     const freeSlots = [...timeSlots];
 
     try {
-        // Query a wide UTC window (full day ±1 day) to handle any timezone offset
-        // so we don't miss events near midnight boundaries
-        const timeMin = new Date(`${dateStr}T00:00:00+02:00`); // Cairo UTC+2
-        const timeMax = new Date(`${dateStr}T23:59:59+02:00`); // Cairo UTC+2
+        // Query a window based on Cairo local time boundaries
+        const offset = getCairoOffset(new Date(dateStr));
+        const timeMin = new Date(`${dateStr}T00:00:00${offset}`); 
+        const timeMax = new Date(`${dateStr}T23:59:59${offset}`); 
 
         const response = await calendar.freebusy.query({
             requestBody: {
@@ -140,17 +166,16 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
         });
 
         const busyIntervals = response.data.calendars?.['primary']?.busy || [];
-        console.log(`Google Calendar: Found ${busyIntervals.length} busy intervals for ${dateStr}`);
+        console.log(`Google Calendar: Found ${busyIntervals.length} busy intervals for ${dateStr} (Offset: ${offset})`);
 
         // Check each slot against busy intervals.
-        // Parse slot times as Cairo time (UTC+2) so comparison with UTC busy intervals is correct.
         for (const slot of timeSlots) {
-            const slotStart = new Date(`${dateStr}T${slot}:00+02:00`); // Cairo local time → UTC
+            const slotStart = new Date(`${dateStr}T${slot}:00${offset}`); 
             const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000);
 
             for (const busy of busyIntervals) {
-                const busyStart = new Date(busy.start!); // already UTC from Google
-                const busyEnd = new Date(busy.end!);     // already UTC from Google
+                const busyStart = new Date(busy.start!); 
+                const busyEnd = new Date(busy.end!);     
 
                 // Conflict exists if: slot starts before busy ends AND slot ends after busy starts
                 if (slotStart < busyEnd && slotEnd > busyStart) {
@@ -164,7 +189,6 @@ export async function checkCalendarConflicts(dateStr: string, timeSlots: string[
         }
     } catch (e: any) {
         console.error('Failed to query Google Calendar freebusy:', e?.message || e);
-        // Fallback: return all slots if calendar check fails
     }
 
     return freeSlots;

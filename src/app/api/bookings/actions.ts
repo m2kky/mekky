@@ -45,13 +45,15 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
     }
 
     // 2. Generate all possible slots
+    const { getCairoOffset } = await import('@/utils/google');
+    const offset = getCairoOffset(new Date(dateStr));
     const slots: string[] = [];
     const now = new Date();
     const minNoticeTime = new Date(now.getTime() + minNoticeHours * 60 * 60 * 1000);
 
     for (const seg of segments) {
-        let currentTime = new Date(`${dateStr}T${seg.start_time}`);
-        const endTime = new Date(`${dateStr}T${seg.end_time}`);
+        let currentTime = new Date(`${dateStr}T${seg.start_time}${offset}`);
+        const endTime = new Date(`${dateStr}T${seg.end_time}${offset}`);
 
         while (currentTime.getTime() + durationMinutes * 60000 <= endTime.getTime()) {
             const timeString = currentTime.toTimeString().substring(0, 5);
@@ -93,16 +95,19 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
         if (eventBookings >= maxPerDay) return [];
     }
 
-    // 4. Filter overlapping (with buffer support)
-    const availableSlots = slots.filter(slot => {
-        const slotStart = new Date(`${dateStr}T${slot}:00`);
+    // 4. Filter overlapping (with local bookings + buffer support)
+    const { getCairoOffset } = await import('@/utils/google');
+    const offset = getCairoOffset(new Date(dateStr));
+
+    const finalAvailableSlots = filteredSlots.filter(slot => {
+        const slotStart = new Date(`${dateStr}T${slot}:00${offset}`);
         const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000);
         const bufferedStart = new Date(slotStart.getTime() - bufferBefore * 60000);
         const bufferedEnd = new Date(slotEnd.getTime() + bufferAfter * 60000);
 
         for (const booking of bookings) {
-            const bookingStart = new Date(`${dateStr}T${booking.start_time}`);
-            const bookingEnd = new Date(`${dateStr}T${booking.end_time}`);
+            const bookingStart = new Date(`${dateStr}T${booking.start_time}${offset}`);
+            const bookingEnd = new Date(`${dateStr}T${booking.end_time}${offset}`);
 
             if (
                 (bufferedStart >= bookingStart && bufferedStart < bookingEnd) ||
@@ -115,7 +120,7 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
         return true;
     });
 
-    return availableSlots;
+    return finalAvailableSlots;
 }
 
 export async function submitBooking(formData: FormData) {
@@ -131,8 +136,10 @@ export async function submitBooking(formData: FormData) {
     const client_email = formData.get('email') as string;
     const notes = formData.get('notes') as string;
 
-    // Calculate end time
-    const startDate = new Date(`${booking_date}T${start_time}:00`);
+    // Calculate end time using correct timezone offset
+    const { getCairoOffset } = await import('@/utils/google');
+    const offset = getCairoOffset(new Date(booking_date));
+    const startDate = new Date(`${booking_date}T${start_time}:00${offset}`);
     const endDate = new Date(startDate.getTime() + duration_minutes * 60000);
     const end_time = endDate.toTimeString().substring(0, 8);
 
