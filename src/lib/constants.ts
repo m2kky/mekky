@@ -522,9 +522,9 @@ export const SOCIAL_LINKS = [
 ];
 
 export const SEO = {
-    title: 'Muhammed Mekky — Marketing Automation Strategist & Performance Trainer',
+    title: 'Muhammed Mekky | AI Transformation Consultant & Corporate Trainer',
     description:
-        'Build smarter, scale faster. Expert in Marketing Automation, AI Workflows, Web Design, and Shopify. Helping businesses leverage ChatGPT, n8n, and automation tools to scale without manual effort.',
+        'Empowering businesses with AI Transformation, Marketing Automation, and Corporate Training. Specialized in integrating AI tools like ChatGPT, n8n, and Midjourney to scale operations, reduce costs, and future-proof corporate teams across the MENA region.',
     keywords: [
         // Personal Name & Brand (English)
         'Muhammed Mekky', 'Mohamed Mekky', 'Muhammed Eissa Mekky', 'Mohamed Eissa', 'Muhammed Hassan Mekky', 'Mohamed Eissa Hassan', 'Mekky',
@@ -532,27 +532,30 @@ export const SEO = {
         // Personal Name & Brand (Arabic)
         'محمد مكي', 'محمد عيسي مكي', 'محمد عيسي', 'محمد حسن مكي', 'محمد عيسي حسن', 'محمد عيسي حسن مكي', 'مكي',
 
-        // English - Core
-        'Marketing Automation Strategist', 'AI Workflows', 'Performance Trainer',
-        'Web Design', 'Digital Marketing', 'Automation Expert', 'AI for Business',
+        // English - Core & Consulting (High Intent B2B)
+        'AI Transformation Consultant', 'AI integration strategies for businesses', 
+        'Corporate Trainer', 'Marketing Automation Strategist', 
+        'AI for marketing agencies', 'Upskilling employees in AI and automation',
+        'AI Readiness Assessment', 'AI Consultant MENA', 'Automate agency workflows with AI',
 
         // English - AI & Tools
-        'AI Tools', 'AI Tutorials', 'ChatGPT prompting', 'Midjourney prompts',
+        'AI Tools Training', 'ChatGPT for business', 'Midjourney corporate training',
         'n8n workflows', 'Zapier automations', 'Notion templates', 'AI agents',
 
         // English - Dev & E-commerce
-        'Web Development with AI', 'Shopify Expert', 'Shopify SEO', 'Automated Community Growth', 'SEO Optimization',
+        'Web Development with AI', 'Shopify Expert', 'Shopify SEO', 'Automated Community Growth',
 
-        // Arabic - Core
-        'أتمتة التسويق', 'تسويق إلكتروني', 'تحسين محركات البحث SEO', 'تصميم مواقع',
+        // Arabic - High Intent B2B & Workshops (GEO & SEO)
+        'مستشار تحول رقمي وذكاء اصطناعي للشركات', 'كيفية تطبيق الذكاء الاصطناعي في الشركات',
+        'ورشة عمل ذكاء اصطناعي للموظفين', 'تدريب فرق التسويق على الذكاء الاصطناعي',
+        'مستشار ذكاء اصطناعي في مصر', 'تقييم جاهزية الموظفين للذكاء الاصطناعي',
+        'ازاي أسرع شغل فريقي بالذكاء الاصطناعي', 'حلول أتمتة مهام السوشيال ميديا بالذكاء الاصطناعي',
+        'حماية بيانات الشركة عند استخدام الذكاء الاصطناعي', 'أتمتة شغل الـ Account Management',
+        'كورس استخدام ChatGPT في العمل للشركات', 'أفضل مستشار لتدريب الموظفين على الذكاء الاصطناعي',
 
-        // Arabic - AI & Tools
-        'ذكاء اصطناعي', 'أدوات الذكاء الاصطناعي', 'شروحات AI', 'كورسات ذكاء اصطناعي',
-        'شات جي بي تي', 'ميدجورني', 'ادوات AI مجانية', 'تسويق بالذكاء الاصطناعي',
-        'n8n عربي', 'Notion بالعربي', 'Zapier شروحات',
-
-        // Arabic - Business & E-commerce
-        'أتمتة العمليات', 'انشاء متجر شوبيفاي', 'تطوير ويب بالذكاء الاصطناعي', 'تطوير متاجر شوبيفاي'
+        // Arabic - AI & General
+        'ذكاء اصطناعي', 'شروحات AI', 'شات جي بي تي', 'ميدجورني', 'تسويق بالذكاء الاصطناعي',
+        'n8n عربي', 'Notion بالعربي', 'Zapier شروحات', 'أتمتة العمليات', 'تطوير ويب بالذكاء الاصطناعي'
     ],
     image: '/images/og-preview.png',
 };
