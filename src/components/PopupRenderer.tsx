@@ -101,7 +101,7 @@ export default function PopupRenderer() {
 
     // Skip on pages where popups would interrupt focused flows.
     const isAdmin = pathname?.startsWith('/admin') || pathname?.startsWith('/login');
-    const isFocusedFlow = pathname?.startsWith('/octaholic-assessment');
+    const isFocusedFlow = pathname?.startsWith('/assessment');
 
     // ─── Fetch Popups ───────────────────────────
     useEffect(() => {

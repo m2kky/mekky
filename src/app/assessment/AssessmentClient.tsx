@@ -9,7 +9,7 @@ import {
   Send,
   Sparkles,
 } from 'lucide-react';
-import styles from './OctaholicAssessment.module.css';
+import styles from './Assessment.module.css';
 import {
   ASSESSMENT_COMPANY,
   ASSESSMENT_ID,
@@ -18,13 +18,18 @@ import {
   getAssessmentPosition,
 } from './assessmentData';
 
+type AssessmentConfig = {
+  companyName?: string;
+  assessmentId?: string;
+};
+
 type Applicant = {
   fullName: string;
   email: string;
   phone: string;
 };
 
-type Answers = Record<string, string | number>;
+type Answers = Record<string, string | number | string[]>;
 type FlowStep = 'intro' | 'identity' | 'position' | 'question' | 'success';
 
 const emptyApplicant: Applicant = {
@@ -64,6 +69,7 @@ function questionLabel(question: AssessmentQuestion) {
   }
 
   if (question.type === 'choice') return 'اختيار من متعدد';
+  if (question.type === 'multi-select') return 'اختار كل ما ينطبق';
   if (question.type === 'scale') return 'مقياس 1-5';
   return 'إجابة مفتوحة';
 }
@@ -88,7 +94,10 @@ function localizeError(message: string) {
   return message || 'حصل خطأ أثناء الإرسال. جرّب تاني.';
 }
 
-export default function OctaholicAssessmentClient() {
+export default function AssessmentClient({ config }: { config?: AssessmentConfig }) {
+  const companyName = config?.companyName || ASSESSMENT_COMPANY;
+  const assessmentId = config?.assessmentId || ASSESSMENT_ID;
+  const headerLabel = companyName ? `Muhammed Mekky x ${companyName}` : 'Muhammed Mekky';
   const [step, setStep] = useState<FlowStep>('intro');
   const [positionId, setPositionId] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -154,7 +163,7 @@ export default function OctaholicAssessmentClient() {
     setError('');
   };
 
-  const setAnswer = (questionId: string, answer: string | number) => {
+  const setAnswer = (questionId: string, answer: string | number | string[]) => {
     setAnswers((current) => ({ ...current, [questionId]: answer }));
     setError('');
   };
@@ -191,12 +200,12 @@ export default function OctaholicAssessmentClient() {
     setError('');
 
     try {
-      const response = await fetch('/api/octaholic-assessment', {
+      const response = await fetch('/api/assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          assessmentId: ASSESSMENT_ID,
-          company: ASSESSMENT_COMPANY,
+          assessmentId,
+          company: companyName,
           fullName: applicant.fullName,
           email: applicant.email,
           phone: applicant.phone,
@@ -213,7 +222,7 @@ export default function OctaholicAssessmentClient() {
       }
 
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(`octaholic-assessment:${clean(applicant.email).toLowerCase()}`, 'submitted');
+        window.localStorage.setItem(`assessment:${assessmentId}:${clean(applicant.email).toLowerCase()}`, 'submitted');
       }
 
       setStep('success');
@@ -233,11 +242,11 @@ export default function OctaholicAssessmentClient() {
       </div>
 
       {step === 'intro' ? (
-        <IntroScreen completion={completion} onStart={startAssessment} />
+        <IntroScreen completion={completion} headerLabel={headerLabel} onStart={startAssessment} />
       ) : (
         <form className={styles.flowShell} onSubmit={handleSubmit}>
           <div className={styles.flowHeader}>
-            <span>Muhammed Mekky x Octaholic</span>
+            <span>{headerLabel}</span>
             <strong>AI Workshop Assessment</strong>
           </div>
 
@@ -281,16 +290,17 @@ export default function OctaholicAssessmentClient() {
   );
 }
 
-function isAnswered(answer: string | number | undefined) {
+function isAnswered(answer: string | number | string[] | undefined) {
+  if (Array.isArray(answer)) return answer.length > 0;
   return typeof answer === 'number' || clean(String(answer || '')).length > 0;
 }
 
-function IntroScreen({ completion, onStart }: { completion: number; onStart: () => void }) {
+function IntroScreen({ completion, headerLabel, onStart }: { completion: number; headerLabel: string; onStart: () => void }) {
   return (
     <section className={styles.intro}>
       <div className={styles.introCopy}>
-        <p className={styles.kicker}>Muhammed Mekky x Octaholic</p>
-        <h1>AI Workshop Assessment</h1>
+        <p className={styles.kicker}>{headerLabel}</p>
+        <h1>AI Assessment Training</h1>
         <p>
           اختبار قصير قبل الورشة عشان نعرف كل رول محتاج إيه بالظبط، ونبني السيشن على مشاكل الفريق الحقيقية.
         </p>
@@ -457,14 +467,14 @@ function QuestionStep({
   questionAnswered,
   totalQuestions,
 }: {
-  answer: string | number | undefined;
+  answer: string | number | string[] | undefined;
   answeredCount: number;
   canSubmit: boolean;
   completion: number;
   currentIndex: number;
   error: string;
   isSubmitting: boolean;
-  onAnswer: (questionId: string, answer: string | number) => void;
+  onAnswer: (questionId: string, answer: string | number | string[]) => void;
   onBack: () => void;
   onNext: () => void;
   positionLabel: string;
@@ -527,9 +537,9 @@ function QuestionInput({
   onAnswer,
   question,
 }: {
-  answer: string | number | undefined;
+  answer: string | number | string[] | undefined;
   index: number;
-  onAnswer: (questionId: string, answer: string | number) => void;
+  onAnswer: (questionId: string, answer: string | number | string[]) => void;
   question: AssessmentQuestion;
 }) {
   return (
@@ -555,6 +565,36 @@ function QuestionInput({
                 onClick={() => onAnswer(question.id, option)}
                 aria-pressed={isSelected}
               >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {question.type === 'multi-select' && question.options ? (
+        <div className={styles.optionGrid}>
+          {question.options.map((option) => {
+            const currentAnswers = Array.isArray(answer) ? answer : [];
+            const isSelected = currentAnswers.includes(option);
+
+            return (
+              <button
+                className={`${styles.optionButton} ${styles.multiSelectButton} ${isSelected ? styles.selectedOption : ''
+                  }`}
+                key={option}
+                type="button"
+                onClick={() => {
+                  const newAnswers = isSelected
+                    ? currentAnswers.filter((a) => a !== option)
+                    : [...currentAnswers, option];
+                  onAnswer(question.id, newAnswers);
+                }}
+                aria-pressed={isSelected}
+              >
+                <div className={styles.checkbox}>
+                  {isSelected && <CheckCircle2 size={14} className={styles.checkIcon} />}
+                </div>
                 {option}
               </button>
             );

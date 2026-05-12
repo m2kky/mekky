@@ -1,7 +1,7 @@
-export const ASSESSMENT_ID = 'octaholic-ai-workshop-2026';
-export const ASSESSMENT_COMPANY = 'Octaholic';
+export const ASSESSMENT_ID = 'ai-workshop-2026';
+export const ASSESSMENT_COMPANY = '';
 
-export type QuestionType = 'choice' | 'scale' | 'text';
+export type QuestionType = 'choice' | 'multi-select' | 'scale' | 'text';
 export type QuestionMode = 'standard' | 'scenario';
 
 export type AssessmentQuestion = {
@@ -141,6 +141,61 @@ export const assessmentPositions: AssessmentPosition[] = [
         mode: 'scenario',
         prompt: 'لو قلنا الـ AI هو "موظف جديد عندكم"، هتكون وظيفته الأساسية إيه في شركتكم؟',
       },
+      {
+        id: 'management-16',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: ظهر تريند جديد في مجالكم ومحدش في الفريق بيعرفه. بتعمل إيه كـ مدير؟',
+        options: [
+          'بتعلمه بنفسي الأول وبعدين بعلم الفريق',
+          'بكلف حد من الفريق يتعلمه ويعمل presentation',
+          'بجيب trainer أو expert من بره',
+          'بستنى لما يبقى ضروري فعلاً',
+        ],
+      },
+      {
+        id: 'management-17',
+        type: 'choice',
+        prompt: 'لما بتواجهك مشكلة في الشغل مفيش ليها solution واضح، أول حاجة بتعملها إيه؟',
+        options: [
+          'بحلل المشكلة وبكسرها لأجزاء صغيرة',
+          'بسأل حد عنده خبرة في الموضوع',
+          'بدور على حلول مشابهة من شركات تانية',
+          'بستخدم AI يساعدني أفكر في approaches مختلفة',
+        ],
+      },
+      {
+        id: 'management-18',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في شغلك؟ (اختار كل ما ينطبق)',
+        options: [
+          'ChatGPT',
+          'Claude',
+          'Notion AI',
+          'Copilot / Gemini',
+          'Midjourney / DALL-E',
+          'Fireflies / Otter (للاجتماعات)',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'management-19',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: عندك تقرير مالي أو خطة استراتيجية سرية وعايز تلخصها بسرعة، هل ممكن تحطها على ChatGPT؟',
+        options: [
+          'أكيد، هيوفر عليا وقت كبير جداً',
+          'هحطها بس بعد ما أشيل اسم الشركة والأرقام الحساسة',
+          'مستحيل أعمل كدا لأسباب أمنية',
+          'هسأل حد الـ IT أو الإدارة الأول',
+        ],
+      },
+      {
+        id: 'management-20',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في إدارتك للفريق؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
+      },
     ],
   },
   {
@@ -246,8 +301,13 @@ export const assessmentPositions: AssessmentPosition[] = [
       {
         id: 'content-14',
         type: 'choice',
-        prompt: 'بتكتب عادةً بالعربي ولا الإنجليزي؟',
-        options: ['عربي بس', 'إنجليزي بس', 'الاتنين بالتساوي', 'حسب الكلايت'],
+        prompt: 'لما tool أو platform جديدة بتنزل في مجالك، بتجربها إمتى؟',
+        options: [
+          'أول ما بسمع عنها',
+          'في أول أسبوع لو شكلها مفيدة',
+          'لما حد يقنعني أو يوريني',
+          'مش بجرب حاجات جديدة عادةً',
+        ],
       },
       {
         id: 'content-15',
@@ -262,9 +322,34 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'content-16',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي بتستخدمها أو جربتها في صناعة المحتوى؟ (اختار كل ما ينطبق)',
+        options: [
+          'ChatGPT',
+          'Claude',
+          'Copy.ai / Jasper',
+          'Grammarly GO',
+          'Midjourney (للأفكار)',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'content-17',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: بتكتب محتوى لحملة إعلانية لمنتج جديد لسه متسربش للسوق، هل تستخدم AI عشان يساعدك في الأفكار؟',
+        options: [
+          'أكيد، هكتب كل تفاصيل المنتج عشان يديني أفكار دقيقة',
+          'هسأله عن أفكار عامة من غير ما أذكر تفاصيل المنتج الجديد',
+          'مستحيل أستخدمه عشان سرية المنتج',
+          'هستخدمه بس لو الإدارة سمحتلي',
+        ],
+      },
+      {
+        id: 'content-18',
         type: 'scale',
-        prompt: 'قد ايه بتحس بـ ownership تجاه المحتوى اللي بتكتبه؟',
-        helper: '1 = مجرد شغل، 5 = ده جزء من هويتي',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في كتابة المحتوى؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
       {
         id: 'content-17',
@@ -446,9 +531,14 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'design-18',
-        type: 'scale',
-        prompt: 'قد ايه بتتابع التريند في عالم التصميم؟',
-        helper: '1 = نادراً، 5 = يومياً',
+        type: 'choice',
+        prompt: 'لما برنامج تصميم جديد بينزل أو feature جديدة اتضافت، بتاخد قد إيه عشان تتعود عليها؟',
+        options: [
+          'يوم أو اتنين وببقى مرتاح',
+          'أسبوع تقريباً',
+          'شهر أو أكتر عشان أتعود',
+          'مش بحب أغير أدواتي، بفضل اللي أعرفه',
+        ],
       },
       {
         id: 'design-19',
@@ -464,8 +554,34 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'design-20',
-        type: 'text',
-        prompt: 'لو قدرت توصف نفسك في 3 كلمات كـ designer، إيه هما؟',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في التصميم؟ (اختار كل ما ينطبق)',
+        options: [
+          'Midjourney',
+          'DALL-E',
+          'Adobe Firefly / Generative Fill',
+          'Canva AI',
+          'Leonardo AI',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'design-21',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: الكلاينت بعتلك صور شخصية خاصة بيه عشان تستخدمها في تصميم، هل ممكن ترفعها على أداة AI لتعديلها؟',
+        options: [
+          'آه طبعاً، الأدوات دي بتطلع نتيجة أسرع وأحسن',
+          'هرفعها بس بعد ما أتأكد إن الأداة مش بتسجل الصور',
+          'مستحيل أرفع صور شخصية على سيرفرات خارجية',
+          'هسأل الكلاينت الأول لو موافق',
+        ],
+      },
+      {
+        id: 'design-22',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في شغلك كـ designer؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
     ],
   },
@@ -594,8 +710,13 @@ export const assessmentPositions: AssessmentPosition[] = [
       {
         id: 'media-16',
         type: 'choice',
-        prompt: 'كام أكاونت بتدير في نفس الوقت؟',
-        options: ['1 - 2', '3 - 5', '6 - 10', 'أكتر من 10'],
+        prompt: 'جربت تستخدم AI في تحليل الداتا أو عمل التقارير بتاعت الـ campaigns؟',
+        options: [
+          'لأ خالص',
+          'جربت بس مش بستخدمه',
+          'بستخدمه أحياناً في التقارير',
+          'بستخدمه بانتظام في تحليل البيانات وعمل التقارير',
+        ],
       },
       {
         id: 'media-17',
@@ -604,9 +725,14 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'media-18',
-        type: 'scale',
-        prompt: 'قد ايه بتحس بـ burnout من إدارة الإعلانات؟',
-        helper: '1 = نادراً، 5 = كتير',
+        type: 'choice',
+        prompt: 'لما المنصة بتنزل feature جديدة أو بتغير الـ algorithm، بتجربها إمتى؟',
+        options: [
+          'أول ما بتنزل بجربها فوراً',
+          'في أول أسبوع بعد ما أقرأ عنها',
+          'لما أشوف حد تاني استخدمها ونفعت معاه',
+          'مش بحب أغير أسلوبي كتير',
+        ],
       },
       {
         id: 'media-19',
@@ -622,8 +748,33 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'media-20',
-        type: 'text',
-        prompt: 'لو قدرت تفوّض حاجة واحدة في شغلك لـ AI، هتفوضه إيه؟',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في شغلك؟ (اختار كل ما ينطبق)',
+        options: [
+          'ChatGPT (لكتابة الـ Copy أو الـ Targeting)',
+          'AdCreative.ai / Canva AI',
+          'Madgicx / Revealbot',
+          'Claude (لتحليل الداتا)',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'media-21',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: عندك داتا عملاء (أرقام تليفونات وايميلات) وعايز تستخدم AI عشان يحللها ويطلعلك insights. هتعمل إيه؟',
+        options: [
+          'هرفع الشيت زي ما هو عشان النتيجة تبقى دقيقة',
+          'همسح أرقام التليفونات والإيميلات وأرفع الداتا العامة بس',
+          'مش هستخدم AI في تحليل الداتا نهائياً',
+          'هسأل الكلاينت الأول لو موافق',
+        ],
+      },
+      {
+        id: 'media-22',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في شغلك كـ media buyer؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
     ],
   },
@@ -722,8 +873,14 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'account-12',
-        type: 'text',
-        prompt: 'إيه أكتر جملة بتقولها لكلايت زعلان عشان تهدّيه؟',
+        type: 'choice',
+        prompt: 'لما الشركة بتجيب tool جديدة أو بتغير system، بتتعود عليها إزاي؟',
+        options: [
+          'بتعلمها لوحدي بسرعة وبساعد غيري',
+          'بستنى حد يعلمني أو يعمل training',
+          'باخد وقتي بس بتعود في الآخر',
+          'بحاول أتجنبها وأفضل الطريقة القديمة',
+        ],
       },
       {
         id: 'account-13',
@@ -751,8 +908,14 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'account-16',
-        type: 'text',
-        prompt: 'إيه الفرق بينك وبين Account Manager تاني عادي في نظرك؟',
+        type: 'choice',
+        prompt: 'بتستخدم أي AI tools في شغلك دلوقتي؟ (إيميلات، تقارير، ملخصات، meeting notes)',
+        options: [
+          'لأ خالص، كل حاجة يدوي',
+          'جربت ChatGPT مرة أو اتنين',
+          'بستخدمه أحياناً في الإيميلات والتقارير',
+          'بستخدمه بانتظام في أكتر من حاجة',
+        ],
       },
       {
         id: 'account-17',
@@ -785,8 +948,33 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'account-20',
-        type: 'text',
-        prompt: 'لو في أداة بتلخصلك محادثات الواتساب مع الكلايت وبتعمللك action items تلقائياً، هتستخدمها؟ ليه؟',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في إدارة الشغل أو التواصل؟ (اختار كل ما ينطبق)',
+        options: [
+          'ChatGPT / Claude',
+          'Fireflies / Otter / Fathom (لتلخيص الميتنجز)',
+          'Notion AI / Taskade',
+          'Grammarly / LanguageTool',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'account-21',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: ميتنج طويل مع كلاينت فيه تفاصيل عن مشاكل داخلية في شركته، هل تستخدم أداة AI تلخص الميتنج؟',
+        options: [
+          'آه، ده هيوفر عليا كتابة الـ MoM',
+          'هستخدم الأداة بس أمسح الأجزاء الحساسة من الـ Transcript',
+          'مستحيل أستخدمها في ميتنج سري',
+          'هستأذن الكلاينت الأول إني أسجل بـ AI',
+        ],
+      },
+      {
+        id: 'account-22',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في إدارة الكلاينت؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
     ],
   },
@@ -891,9 +1079,14 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'video-14',
-        type: 'scale',
-        prompt: 'قد ايه بتحس إنك فنان مش بس editor؟',
-        helper: '1 = أنا بس بنفذ، 5 = أنا فنان بيعبر',
+        type: 'choice',
+        prompt: 'لما برنامج editing جديد نزل أو اتعمله update كبير، بتاخد قد إيه عشان تتعلمه؟',
+        options: [
+          'يوم أو اتنين وببقى مرتاح',
+          'أسبوع تقريباً',
+          'شهر أو أكتر عشان أتعود',
+          'مش بحب أغير أدواتي، بفضل اللي أعرفه',
+        ],
       },
       {
         id: 'video-15',
@@ -943,8 +1136,34 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'video-20',
-        type: 'text',
-        prompt: 'لو قدرت تأتمت جزء واحد من شغلك بالكامل، هيبقى إيه؟',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في المونتاج؟ (اختار كل ما ينطبق)',
+        options: [
+          'Premiere Pro AI Features (Auto Reframe, Text-based editing)',
+          'CapCut AI Tools',
+          'RunwayML',
+          'ElevenLabs (للصوت)',
+          'Topaz Video AI',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'video-21',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: بتعمل مونتاج لفيديو لمنتج لسه متسربش للسوق ومحتاج تشيل حاجة من الخلفية، هل تستخدم أداة Cloud AI (زي Runway)؟',
+        options: [
+          'آه طبعاً، النتيجة هتبقى أحسن وأسرع',
+          'هستخدم أدوات الـ AI اللي جوه البرنامج (Offline) بس',
+          'هعملها يدوي عشان أحافظ على السرية تماماً',
+          'هسأل الإدارة الأول عن سياسة السرية',
+        ],
+      },
+      {
+        id: 'video-22',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في المونتاج؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
     ],
   },
@@ -1033,8 +1252,13 @@ export const assessmentPositions: AssessmentPosition[] = [
       {
         id: 'web-11',
         type: 'choice',
-        prompt: 'بتشتغل مع فريق ولا لوحدك عادةً؟',
-        options: ['لوحدي دايماً', 'أحياناً مع فريق صغير', 'دايماً مع فريق', 'بتفاوت حسب البروجيكت'],
+        prompt: 'لما framework أو library جديدة بتنزل، بتجربها إمتى؟',
+        options: [
+          'أول ما بتنزل بجربها في side project',
+          'بقرأ عنها الأول وبجربها في أول فرصة',
+          'لما project يحتاجها فعلاً',
+          'بفضل أفضل مع اللي أعرفه ويشتغل',
+        ],
       },
       {
         id: 'web-12',
@@ -1106,8 +1330,33 @@ export const assessmentPositions: AssessmentPosition[] = [
       },
       {
         id: 'web-20',
-        type: 'text',
-        prompt: 'لو قدرت تفوّض حاجة واحدة في شغلك لـ AI من غير أي قلق، هتفوضه إيه؟',
+        type: 'multi-select',
+        prompt: 'إيه أدوات الـ AI اللي جربت تستخدمها في الكود؟ (اختار كل ما ينطبق)',
+        options: [
+          'GitHub Copilot / Tabnine',
+          'Cursor / Windsurf',
+          'ChatGPT / Claude',
+          'Vercel v0 (للـ UI)',
+          'ولا واحدة منهم',
+        ],
+      },
+      {
+        id: 'web-21',
+        type: 'choice',
+        mode: 'scenario',
+        prompt: 'سيناريو: عندك مشكلة معقدة في كود الـ Backend وفيه API Keys واسم الداتابيز، هل تحط الكود على ChatGPT عشان يساعدك؟',
+        options: [
+          'آه، هو هيلاقي الـ bug أسرع مني',
+          'هحط الكود بس هشيل الـ API Keys وأي بيانات حساسة الأول',
+          'مستحيل أشارك كود الـ backend على سيرفرات خارجية',
+          'هستخدم Local LLM زي Ollama عشان السرية',
+        ],
+      },
+      {
+        id: 'web-22',
+        type: 'scale',
+        prompt: 'على مقياس 1 لـ5، قد ايه متحمس تتعلم AI وتطبقه في الكود والبرمجة؟',
+        helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
     ],
   },

@@ -14,7 +14,7 @@ export default function FloatingCTA() {
     const ctaRef = useRef<HTMLAnchorElement>(null);
     const topRef = useRef<HTMLButtonElement>(null);
 
-    const isFocusedFlow = pathname?.startsWith('/octaholic-assessment');
+    const isFocusedFlow = pathname?.startsWith('/assessment');
 
     useEffect(() => {
         if (isFocusedFlow) return;

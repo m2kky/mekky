@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
-  ASSESSMENT_COMPANY,
   ASSESSMENT_ID,
   AssessmentQuestion,
   getAssessmentPosition,
-} from '@/app/octaholic-assessment/assessmentData';
+} from '@/app/assessment/assessmentData';
 
-type RawAnswer = string | number | null | undefined;
+type RawAnswer = string | number | string[] | null | undefined;
 
 type AssessmentPayload = {
   assessmentId?: string;
@@ -40,8 +39,18 @@ function normalizeAnswer(question: AssessmentQuestion, answer: RawAnswer) {
     if (!Number.isInteger(numericAnswer) || numericAnswer < 1 || numericAnswer > 5) {
       return null;
     }
-
     return numericAnswer;
+  }
+
+  if (question.type === 'multi-select') {
+    if (!Array.isArray(answer) || answer.length === 0) {
+      return null;
+    }
+    // Only keep selected options that actually exist in the question
+    const validSelections = answer.filter(
+      (item) => typeof item === 'string' && question.options?.includes(item)
+    );
+    return validSelections.length > 0 ? validSelections : null;
   }
 
   const textAnswer = cleanValue(answer);
@@ -60,17 +69,13 @@ export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as AssessmentPayload;
     const assessmentId = cleanValue(payload.assessmentId) || ASSESSMENT_ID;
-    const company = cleanValue(payload.company) || ASSESSMENT_COMPANY;
+    const company = cleanValue(payload.company);
     const fullName = cleanValue(payload.fullName);
     const email = normalizeEmail(payload.email || '');
     const phone = normalizePhone(cleanValue(payload.phone));
     const positionId = cleanValue(payload.position);
     const position = getAssessmentPosition(positionId);
     const rawAnswers = payload.answers || {};
-
-    if (assessmentId !== ASSESSMENT_ID) {
-      return NextResponse.json({ error: 'Invalid assessment.' }, { status: 400 });
-    }
 
     if (!fullName || !email || !phone || !position) {
       return NextResponse.json(
@@ -131,7 +136,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error('Octaholic assessment insert failed:', error);
+      console.error('Assessment insert failed:', error);
 
       if (error.code === '23505') {
         return NextResponse.json(
@@ -148,7 +153,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id: data?.id });
   } catch (error) {
-    console.error('Octaholic assessment error:', error);
+    console.error('Assessment error:', error);
     return NextResponse.json({ error: 'Unexpected server error. Please try again.' }, { status: 500 });
   }
 }
