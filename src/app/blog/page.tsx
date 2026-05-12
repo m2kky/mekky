@@ -4,6 +4,7 @@ import BlogHero from '@/components/blog/BlogHero';
 import BlogGrid from '@/components/blog/BlogGrid';
 import BlogNewsletter from '@/components/blog/BlogNewsletter';
 import { createClient } from '@/utils/supabase/server';
+import { BLOGS } from '@/lib/constants';
 
 export const metadata = { title: "Insights & Blog | Muhammed Mekky", description: "Articles and insights on marketing automation, AI tools, web development, and digital scaling strategies." };
 
@@ -26,8 +27,15 @@ export default async function BlogPage() {
         .eq('published', true)
         .order('publish_date', { ascending: false });
 
-    // Merge static articles with Supabase data, sorted by date (newest first)
-    const allPosts = [...STATIC_ARTICLES, ...(blogs || [])]
+    // Format constants.ts blogs to match the expected structure
+    const constantsBlogs = BLOGS.items.map(blog => ({
+        ...blog,
+        publish_date: blog.date,
+        content: blog.content || []
+    }));
+
+    // Merge static articles, constants blogs, and Supabase data, sorted by date (newest first)
+    const allPosts = [...STATIC_ARTICLES, ...constantsBlogs, ...(blogs || [])]
         .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime());
 
     return (
