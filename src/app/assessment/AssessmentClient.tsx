@@ -68,8 +68,7 @@ function questionLabel(question: AssessmentQuestion) {
     return question.type === 'text' ? 'سيناريو / إجابة مفتوحة' : 'سيناريو';
   }
 
-  if (question.type === 'choice') return 'اختيار من متعدد';
-  if (question.type === 'multi-select') return 'اختار كل ما ينطبق';
+  if (question.type === 'choice' || question.type === 'multi-select') return 'يمكنك اختيار أكثر من إجابة';
   if (question.type === 'scale') return 'مقياس 1-5';
   return 'إجابة مفتوحة';
 }
@@ -552,36 +551,15 @@ function QuestionInput({
       <h3>{question.prompt}</h3>
       {question.helper ? <p className={styles.helper}>{question.helper}</p> : null}
 
-      {question.type === 'choice' && question.options ? (
+      {(question.type === 'choice' || question.type === 'multi-select') && question.options ? (
         <div className={styles.optionGrid}>
           {question.options.map((option) => {
-            const isSelected = answer === option;
-
-            return (
-              <button
-                className={`${styles.optionButton} ${isSelected ? styles.selectedOption : ''}`}
-                key={option}
-                type="button"
-                onClick={() => onAnswer(question.id, option)}
-                aria-pressed={isSelected}
-              >
-                {option}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-
-      {question.type === 'multi-select' && question.options ? (
-        <div className={styles.optionGrid}>
-          {question.options.map((option) => {
-            const currentAnswers = Array.isArray(answer) ? answer : [];
+            const currentAnswers = Array.isArray(answer) ? answer : (answer ? [String(answer)] : []);
             const isSelected = currentAnswers.includes(option);
 
             return (
               <button
-                className={`${styles.optionButton} ${styles.multiSelectButton} ${isSelected ? styles.selectedOption : ''
-                  }`}
+                className={`${styles.optionButton} ${styles.multiSelectButton} ${isSelected ? styles.selectedOption : ''}`}
                 key={option}
                 type="button"
                 onClick={() => {
