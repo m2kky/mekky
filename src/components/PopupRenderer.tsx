@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import styles from './PopupStyles.module.css';
 
 // ─── Types ──────────────────────────────────────
@@ -47,24 +47,24 @@ interface Popup {
 
 // ─── Animation Variants ─────────────────────────
 
-const overlayVariants = {
+const overlayVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.3 } },
     exit: { opacity: 0, transition: { duration: 0.2 } },
 };
 
-const getPopupVariants = (style: string) => {
+const getPopupVariants = (style: string): Variants => {
     switch (style) {
         case 'slide_in':
             return {
                 hidden: { x: '100%' },
-                visible: { x: 0, transition: { type: 'spring', damping: 25, stiffness: 200 } },
+                visible: { x: 0, transition: { type: 'spring' as const, damping: 25, stiffness: 200 } },
                 exit: { x: '100%', transition: { duration: 0.3 } },
             };
         case 'bottom_bar':
             return {
                 hidden: { y: '100%' },
-                visible: { y: 0, transition: { type: 'spring', damping: 30, stiffness: 300 } },
+                visible: { y: 0, transition: { type: 'spring' as const, damping: 30, stiffness: 300 } },
                 exit: { y: '100%', transition: { duration: 0.25 } },
             };
         case 'fullscreen':
@@ -76,13 +76,13 @@ const getPopupVariants = (style: string) => {
         case 'corner_card':
             return {
                 hidden: { opacity: 0, y: 20, scale: 0.9 },
-                visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', damping: 20, stiffness: 300 } },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, damping: 20, stiffness: 300 } },
                 exit: { opacity: 0, y: 20, scale: 0.9, transition: { duration: 0.2 } },
             };
         default: // modal
             return {
                 hidden: { opacity: 0, scale: 0.9, y: 20 },
-                visible: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', damping: 25, stiffness: 300 } },
+                visible: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring' as const, damping: 25, stiffness: 300 } },
                 exit: { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } },
             };
     }
