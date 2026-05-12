@@ -1,4 +1,4 @@
-import { ImageResponse } from '@vercel/og';
+import { ImageResponse } from 'next/og';
 /* eslint-disable @next/next/no-img-element */
 
 export const runtime = 'edge';
