@@ -42,7 +42,7 @@ function normalizeAnswer(question: AssessmentQuestion, answer: RawAnswer) {
     return numericAnswer;
   }
 
-  if (question.type === 'multi-select') {
+  if (question.type === 'multi-select' || question.type === 'choice') {
     if (!Array.isArray(answer) || answer.length === 0) {
       return null;
     }
@@ -55,10 +55,6 @@ function normalizeAnswer(question: AssessmentQuestion, answer: RawAnswer) {
 
   const textAnswer = cleanValue(answer);
   if (!textAnswer) {
-    return null;
-  }
-
-  if (question.type === 'choice' && question.options && !question.options.includes(textAnswer)) {
     return null;
   }
 
