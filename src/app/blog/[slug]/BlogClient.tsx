@@ -94,22 +94,23 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
             <Navbar />
 
             <div className="page-wrapper" style={{ position: 'relative', zIndex: 1 }}>
-                {/* Hero */}
-                <section ref={heroRef} className={styles.hero}>
-                    <div className={styles.heroImageWrapper}>
-                        <Image src={post.image} alt={post.title} fill sizes="100vw" className={styles.heroImage} priority />
-                        <div className={styles.heroOverlay} />
+                {/* Header (Title, Meta) */}
+                <header ref={heroRef} className={styles.articleHeader} dir={dir}>
+                    <a href="/blog" className={styles.backLink} data-reveal>← Back to Blog</a>
+                    <div className={styles.heroMeta} data-reveal>
+                        <span className={styles.date}>{displayDate}</span>
+                        <span className={styles.readTime}>· {readTime} {isArabic ? 'دقائق قراءة' : 'min read'}</span>
                     </div>
-                    <div className={styles.heroContent}>
-                        <a href="/blog" className={styles.backLink} data-reveal>← Back to Blog</a>
-                        <div className={styles.heroMeta} data-reveal>
-                            <span className={styles.date}>{displayDate}</span>
-                            <span className={styles.readTime}>· {readTime} {isArabic ? 'دقائق قراءة' : 'min read'}</span>
-                        </div>
-                        <h1 className={styles.title} data-reveal style={{ textAlign }}>{post.title}</h1>
+                    <h1 className={styles.title} data-reveal style={{ textAlign }}>{post.title}</h1>
+                    <div data-reveal>
                         <ShareRow title={post.title} />
                     </div>
-                </section>
+                </header>
+
+                {/* Cover Image */}
+                <div className={styles.coverImageWrapper}>
+                    <Image src={post.image} alt={post.title} fill sizes="(max-width: 1200px) 100vw, 1200px" className={styles.coverImage} priority />
+                </div>
 
                 {/* Article body */}
                 <div className={styles.articleLayout} dir={dir}>
