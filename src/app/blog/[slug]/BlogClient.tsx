@@ -43,6 +43,11 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
     const progressRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
 
+    // Arabic detection
+    const isArabic = /[\u0600-\u06FF]/.test(post.title + post.content.join(' '));
+    const dir = isArabic ? 'rtl' : 'ltr';
+    const textAlign = isArabic ? 'right' : 'left';
+
     // Reading progress bar + word count
     const wordCount = post.content.join(' ').split(' ').length;
     const readTime = Math.max(1, Math.ceil(wordCount / 200));
@@ -99,41 +104,64 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                         <a href="/blog" className={styles.backLink} data-reveal>← Back to Blog</a>
                         <div className={styles.heroMeta} data-reveal>
                             <span className={styles.date}>{displayDate}</span>
-                            <span className={styles.readTime}>· {readTime} min read</span>
+                            <span className={styles.readTime}>· {readTime} {isArabic ? 'دقائق قراءة' : 'min read'}</span>
                         </div>
-                        <h1 className={styles.title} data-reveal>{post.title}</h1>
+                        <h1 className={styles.title} data-reveal style={{ textAlign }}>{post.title}</h1>
                         <ShareRow title={post.title} />
                     </div>
                 </section>
 
                 {/* Article body */}
-                <div className={styles.articleLayout}>
+                <div className={styles.articleLayout} dir={dir}>
                     <div className={styles.articleBody} ref={bodyRef}>
-                        {post.content.map((paragraph, i) => (
-                            <p key={i} className={styles.paragraph}>{paragraph}</p>
-                        ))}
+                        {post.content.map((paragraph, i) => {
+                            // Simple heuristic to style "Conclusion:" or "الخلاصة:" differently
+                            const isHeadingLike = paragraph.startsWith('الخلاصة:') || paragraph.split(' ').length < 10;
+                            return (
+                                <p 
+                                    key={i} 
+                                    id={`section-${i}`}
+                                    className={styles.paragraph} 
+                                    style={{ 
+                                        textAlign, 
+                                        color: isHeadingLike ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                        fontWeight: isHeadingLike ? '600' : '400',
+                                        fontSize: isHeadingLike ? '1.35rem' : undefined
+                                    }}
+                                >
+                                    {paragraph}
+                                </p>
+                            );
+                        })}
 
                         {/* Bottom share */}
-                        <div className={styles.bottomShare}>
-                            <p className={styles.bottomShareText}>Found this useful? Share it.</p>
+                        <div className={styles.bottomShare} style={{ textAlign }}>
+                            <p className={styles.bottomShareText}>{isArabic ? 'هل وجدت هذا مفيداً؟ شاركه.' : 'Found this useful? Share it.'}</p>
                             <ShareRow title={post.title} />
                         </div>
                     </div>
 
                     {/* Sidebar TOC */}
-                    <aside className={styles.tocSidebar}>
+                    <aside className={styles.tocSidebar} style={{ textAlign }}>
                         <div className={styles.tocCard}>
-                            <span className={styles.tocLabel}>In This Article</span>
+                            <span className={styles.tocLabel}>{isArabic ? 'في هذا المقال' : 'In This Article'}</span>
                             <ul className={styles.tocList}>
-                                {post.content.map((_, i) => (
-                                    <li key={i} className={styles.tocItem}>
-                                        <span className={styles.tocNum}>{String(i + 1).padStart(2, '0')}</span>
-                                        <span className={styles.tocText}>Section {i + 1}</span>
-                                    </li>
-                                ))}
+                                {post.content.map((p, i) => {
+                                    // Extract first 3-4 words for TOC
+                                    const words = p.split(' ');
+                                    const tocLabel = words.slice(0, 4).join(' ') + (words.length > 4 ? '...' : '');
+                                    return (
+                                        <li key={i} className={styles.tocItem}>
+                                            <span className={styles.tocNum}>{String(i + 1).padStart(2, '0')}</span>
+                                            <a href={`#section-${i}`} className={styles.tocText} style={{ textDecoration: 'none' }}>
+                                                {tocLabel}
+                                            </a>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                             <div className={styles.readTimeBadge}>
-                                🕐 {readTime} min read
+                                🕐 {readTime} {isArabic ? 'دقيقة قراءة' : 'min read'}
                             </div>
                         </div>
                     </aside>
@@ -141,22 +169,25 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
 
                 {/* Related posts */}
                 {related.length > 0 && (
-                    <section className={styles.relatedSection}>
-                        <span className={styles.relatedLabel}>● More Articles</span>
-                        <h2 className={styles.relatedHeading}>KEEP READING.</h2>
+                    <section className={styles.relatedSection} dir={dir}>
+                        <span className={styles.relatedLabel} style={{ textAlign }}>{isArabic ? '● مقالات أخرى' : '● More Articles'}</span>
+                        <h2 className={styles.relatedHeading} style={{ textAlign }}>{isArabic ? 'تابع القراءة.' : 'KEEP READING.'}</h2>
                         <div className={styles.relatedGrid}>
                             {related.map((r) => {
                                 const rDate = new Date(r.publish_date).toLocaleDateString();
+                                const rIsArabic = /[\u0600-\u06FF]/.test(r.title + r.excerpt);
                                 return (
-                                    <a key={r.slug} href={`/blog/${r.slug}`} className={styles.relatedCard}>
+                                    <a key={r.slug} href={`/blog/${r.slug}`} className={styles.relatedCard} dir={rIsArabic ? 'rtl' : 'ltr'}>
                                         <div className={styles.relatedImg}>
                                             <Image src={r.image} alt={r.title} fill sizes="(max-width: 768px) 100vw, 33vw" />
                                         </div>
                                         <div className={styles.relatedInfo}>
                                             <span className={styles.relatedDate}>{rDate}</span>
-                                            <h3 className={styles.relatedTitle}>{r.title}</h3>
-                                            <p className={styles.relatedExcerpt}>{r.excerpt}</p>
-                                            <span className={styles.relatedLink}>Read Article →</span>
+                                            <h3 className={styles.relatedTitle} style={{ textAlign: rIsArabic ? 'right' : 'left' }}>{r.title}</h3>
+                                            <p className={styles.relatedExcerpt} style={{ textAlign: rIsArabic ? 'right' : 'left' }}>{r.excerpt}</p>
+                                            <span className={styles.relatedLink} style={{ textAlign: rIsArabic ? 'right' : 'left' }}>
+                                                {rIsArabic ? 'اقرأ المقال ←' : 'Read Article →'}
+                                            </span>
                                         </div>
                                     </a>
                                 );
