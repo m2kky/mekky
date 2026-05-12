@@ -60,7 +60,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             content: b.content || []
         }));
 
-    const related = [...staticRelated, ...(supabaseRelated || [])]
+    const allRelatedRaw = [...staticRelated, ...(supabaseRelated || [])];
+    const uniqueRelated = Array.from(new Map(allRelatedRaw.map(item => [item.slug, item])).values());
+
+    const related = uniqueRelated
         .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())
         .slice(0, 3);
 

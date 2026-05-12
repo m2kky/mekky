@@ -22,18 +22,24 @@ interface BlogData {
 
 function ShareRow({ title }: { title: string }) {
     const [copied, setCopied] = useState(false);
+    const [url, setUrl] = useState('');
+
+    useEffect(() => {
+        setUrl(window.location.href);
+    }, []);
+
     const copy = () => {
         navigator.clipboard.writeText(window.location.href);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
-    const url = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <div className={styles.shareRow}>
             <span className={styles.shareLabel}>Share</span>
             <button onClick={copy} className={styles.shareBtn}>{copied ? '✓ Copied' : '🔗 Link'}</button>
-            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>𝕏 Twitter</a>
-            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>in LinkedIn</a>
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${url ? encodeURIComponent(url) : ''}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>𝕏 Twitter</a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${url ? encodeURIComponent(url) : ''}`} target="_blank" rel="noopener noreferrer" className={styles.shareBtn}>in LinkedIn</a>
         </div>
     );
 }
