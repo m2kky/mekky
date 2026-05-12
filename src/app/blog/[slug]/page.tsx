@@ -9,7 +9,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     const supabase = await createClient();
 
     // First, check if it's a static blog from constants.ts
-    const staticPost = BLOGS.items.find(b => b.slug === resolvedParams.slug);
+    const staticPost = BLOGS.items.find((b: any) => b.slug === resolvedParams.slug);
     
     let post = null;
 
@@ -53,15 +53,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     // Merge static related posts
     const staticRelated = BLOGS.items
-        .filter(b => b.slug !== resolvedParams.slug)
-        .map(b => ({
+        .filter((b: any) => b.slug !== resolvedParams.slug)
+        .map((b: any) => ({
             ...b,
             publish_date: b.date,
             content: b.content || []
         }));
 
     const allRelatedRaw = [...staticRelated, ...(supabaseRelated || [])];
-    const uniqueRelated = Array.from(new Map(allRelatedRaw.map(item => [item.slug, item])).values());
+    const uniqueRelated = Array.from(new Map(allRelatedRaw.map((item: any) => [item.slug, item])).values());
 
     const related = uniqueRelated
         .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())

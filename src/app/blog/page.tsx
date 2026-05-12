@@ -28,7 +28,7 @@ export default async function BlogPage() {
         .order('publish_date', { ascending: false });
 
     // Format constants.ts blogs to match the expected structure
-    const constantsBlogs = BLOGS.items.map(blog => ({
+    const constantsBlogs = BLOGS.items.map((blog: any) => ({
         ...blog,
         publish_date: blog.date,
         content: blog.content || []
@@ -38,7 +38,7 @@ export default async function BlogPage() {
     const allPostsRaw = [...STATIC_ARTICLES, ...constantsBlogs, ...(blogs || [])];
     
     // Deduplicate by slug to prevent React key errors
-    const uniquePosts = Array.from(new Map(allPostsRaw.map(item => [item.slug, item])).values());
+    const uniquePosts = Array.from(new Map(allPostsRaw.map((item: any) => [item.slug, item])).values());
     
     const allPosts = uniquePosts
         .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime());
