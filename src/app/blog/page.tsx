@@ -6,7 +6,31 @@ import BlogNewsletter from '@/components/blog/BlogNewsletter';
 import { createClient } from '@/utils/supabase/server';
 import { BLOGS } from '@/lib/constants';
 
-export const metadata = { title: "Insights & Blog | Muhammed Mekky", description: "Articles and insights on marketing automation, AI tools, web development, and digital scaling strategies." };
+import { Metadata } from 'next';
+
+export const metadata: Metadata = { 
+    title: "Insights & Blog | Muhammed Mekky", 
+    description: "Articles and insights on marketing automation, AI tools, web development, and digital scaling strategies.",
+    openGraph: {
+        title: "Insights & Blog | Muhammed Mekky",
+        description: "Articles and insights on marketing automation, AI tools, web development, and digital scaling strategies.",
+        url: "https://muhammedmekky.com/blog",
+        images: [
+            {
+                url: "https://muhammedmekky.com/api/og/workshop-share", // Fallback to main OG image
+                width: 1200,
+                height: 630,
+                alt: "Muhammed Mekky Blog",
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: "Insights & Blog | Muhammed Mekky",
+        description: "Articles and insights on marketing automation, AI tools, web development, and digital scaling strategies.",
+        images: ["https://muhammedmekky.com/api/og/workshop-share"],
+    }
+};
 
 /* Static articles that live as standalone pages (not in Supabase) */
 const STATIC_ARTICLES = [
