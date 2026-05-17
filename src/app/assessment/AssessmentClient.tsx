@@ -64,13 +64,20 @@ function validateApplicant(applicant: Applicant) {
 }
 
 function questionLabel(question: AssessmentQuestion) {
+  const inputLabel =
+    question.type === 'choice'
+      ? 'اختيار واحد'
+      : question.type === 'multi-select'
+        ? 'يمكنك اختيار أكثر من إجابة'
+        : question.type === 'scale'
+          ? 'مقياس 1-5'
+          : 'إجابة مفتوحة';
+
   if (question.mode === 'scenario') {
-    return question.type === 'text' ? 'سيناريو / إجابة مفتوحة' : 'سيناريو';
+    return `سيناريو / ${inputLabel}`;
   }
 
-  if (question.type === 'choice' || question.type === 'multi-select') return 'يمكنك اختيار أكثر من إجابة';
-  if (question.type === 'scale') return 'مقياس 1-5';
-  return 'إجابة مفتوحة';
+  return inputLabel;
 }
 
 function localizeError(message: string) {
@@ -292,6 +299,22 @@ export default function AssessmentClient({ config }: { config?: AssessmentConfig
 function isAnswered(answer: string | number | string[] | undefined) {
   if (Array.isArray(answer)) return answer.length > 0;
   return typeof answer === 'number' || clean(String(answer || '')).length > 0;
+}
+
+function isNoneOption(option: string) {
+  return option.includes('ولا واحدة');
+}
+
+function getNextMultiSelectAnswers(currentAnswers: string[], option: string) {
+  if (isNoneOption(option)) {
+    return currentAnswers.includes(option) ? [] : [option];
+  }
+
+  const answersWithoutNone = currentAnswers.filter((answer) => !isNoneOption(answer));
+
+  return currentAnswers.includes(option)
+    ? answersWithoutNone.filter((answer) => answer !== option)
+    : [...answersWithoutNone, option];
 }
 
 function IntroScreen({ completion, headerLabel, onStart }: { completion: number; headerLabel: string; onStart: () => void }) {
@@ -541,6 +564,9 @@ function QuestionInput({
   onAnswer: (questionId: string, answer: string | number | string[]) => void;
   question: AssessmentQuestion;
 }) {
+  const isChoiceQuestion = question.type === 'choice';
+  const isMultiSelectQuestion = question.type === 'multi-select';
+
   return (
     <article className={styles.singleQuestion}>
       <div className={styles.questionTop}>
@@ -551,8 +577,12 @@ function QuestionInput({
       <h3>{question.prompt}</h3>
       {question.helper ? <p className={styles.helper}>{question.helper}</p> : null}
 
-      {(question.type === 'choice' || question.type === 'multi-select') && question.options ? (
-        <div className={styles.optionGrid}>
+      {(isChoiceQuestion || isMultiSelectQuestion) && question.options ? (
+        <div
+          className={styles.optionGrid}
+          role={isChoiceQuestion ? 'radiogroup' : 'group'}
+          aria-label={question.prompt}
+        >
           {question.options.map((option) => {
             const currentAnswers = Array.isArray(answer) ? answer : (answer ? [String(answer)] : []);
             const isSelected = currentAnswers.includes(option);
@@ -563,12 +593,14 @@ function QuestionInput({
                 key={option}
                 type="button"
                 onClick={() => {
-                  const newAnswers = isSelected
-                    ? currentAnswers.filter((a) => a !== option)
-                    : [...currentAnswers, option];
+                  const newAnswers = isChoiceQuestion
+                    ? [option]
+                    : getNextMultiSelectAnswers(currentAnswers, option);
                   onAnswer(question.id, newAnswers);
                 }}
-                aria-pressed={isSelected}
+                aria-checked={isChoiceQuestion ? isSelected : undefined}
+                aria-pressed={isMultiSelectQuestion ? isSelected : undefined}
+                role={isChoiceQuestion ? 'radio' : undefined}
               >
                 <div className={styles.checkbox}>
                   {isSelected && <CheckCircle2 size={14} className={styles.checkIcon} />}

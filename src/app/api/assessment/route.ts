@@ -33,6 +33,10 @@ function normalizePhone(input: string) {
   return input.replace(/\D/g, '');
 }
 
+function isNoneOption(option: string) {
+  return option.includes('ولا واحدة');
+}
+
 function normalizeAnswer(question: AssessmentQuestion, answer: RawAnswer) {
   if (question.type === 'scale') {
     const numericAnswer = typeof answer === 'number' ? answer : Number(answer);
@@ -42,14 +46,29 @@ function normalizeAnswer(question: AssessmentQuestion, answer: RawAnswer) {
     return numericAnswer;
   }
 
-  if (question.type === 'multi-select' || question.type === 'choice') {
+  if (question.type === 'choice') {
+    const selectedAnswer = (Array.isArray(answer) ? answer : [answer]).find(
+      (item) => typeof item === 'string' && question.options?.includes(item)
+    );
+
+    return typeof selectedAnswer === 'string' ? [selectedAnswer] : null;
+  }
+
+  if (question.type === 'multi-select') {
     if (!Array.isArray(answer) || answer.length === 0) {
       return null;
     }
+
     // Only keep selected options that actually exist in the question
     const validSelections = answer.filter(
       (item) => typeof item === 'string' && question.options?.includes(item)
     );
+
+    const noneSelection = validSelections.find(isNoneOption);
+    if (noneSelection) {
+      return [noneSelection];
+    }
+
     return validSelections.length > 0 ? validSelections : null;
   }
 

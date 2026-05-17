@@ -352,12 +352,12 @@ export const assessmentPositions: AssessmentPosition[] = [
         helper: '1 = مش مهتم خالص، 5 = متحمس جداً وعايز أبدأ فوراً',
       },
       {
-        id: 'content-17',
+        id: 'content-19',
         type: 'text',
         prompt: 'لو عندك أداة بتساعدك تكتب 3 مرات أسرع، بس الأسلوب هيبقى مختلف شوية عن أسلوبك، هتستخدمها؟ ليه؟',
       },
       {
-        id: 'content-18',
+        id: 'content-20',
         type: 'choice',
         mode: 'scenario',
         prompt: 'سيناريو: صاحبك كونتنت كريتور زيك قالك "أنا بستخدم AI وبعمل شغل 3 كلايت في وقت ما كنت بعمل 1". ردك الداخلي إيه؟',
@@ -369,7 +369,7 @@ export const assessmentPositions: AssessmentPosition[] = [
         ],
       },
       {
-        id: 'content-19',
+        id: 'content-21',
         type: 'choice',
         prompt: 'إيه أكتر حاجة بتستهلك وقتك في اليوم من غير ما تحس بإنها بتفيد؟',
         options: [
@@ -380,7 +380,7 @@ export const assessmentPositions: AssessmentPosition[] = [
         ],
       },
       {
-        id: 'content-20',
+        id: 'content-22',
         type: 'text',
         prompt: 'لو قدرت تغير حاجة واحدة بس في طريقة شغلك دلوقتي، هتغير إيه؟',
       },
