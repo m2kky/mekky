@@ -95,6 +95,19 @@ export const PROJECTS = {
     title: 'FEATURED PROJECTS',
     items: [
         {
+            title: 'JBL Flip 6',
+            slug: 'jbl-flip-6',
+            category: 'Product Landing Page',
+            description:
+                'A cinematic, scroll-driven product showcase for JBL Flip 6 with immersive animations and a 300-frame story sequence.',
+            longDescription: 'JBL Flip 6 is a high-impact product landing page built to push the boundaries of web animation. The experience opens with a dramatic drop-entrance of the speaker through a rocky cinematic environment, transitions into a 300-frame scroll-driven story sequence rendered on canvas, and closes with an interactive color-variant selector featuring 8 finishes — each with its own ambient glow, dynamic gradients, and GSAP-powered swap animations. Every scroll pixel is intentional.',
+            image: '/images/projects/jbl-flip-6-desktop.webp',
+            color: '#FF3C00',
+            tools: ['Next.js 16', 'GSAP', 'Framer Motion', 'Tailwind CSS v4'],
+            results: ['300-frame scroll sequence on canvas', '8 interactive product variants', 'Cinematic GSAP entrance animations'],
+            liveUrl: 'https://jbl-flip6.vercel.app/',
+        },
+        {
             title: 'Ninja GenZ',
             slug: 'ninja-genz',
             category: 'Agency Management SaaS',
