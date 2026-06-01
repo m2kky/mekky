@@ -114,8 +114,8 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                 </header>
 
                 {/* Cover Image */}
-                <div className={styles.coverImageWrapper}>
-                    <Image src={post.image} alt={post.title} fill sizes="(max-width: 1200px) 100vw, 1200px" className={styles.coverImage} priority />
+                <div className={styles.coverImageWrapper} style={{ position: 'relative', width: '100%', maxWidth: '1200px', margin: '0 auto 3rem', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden' }}>
+                    <Image src={post.image} alt={post.title} fill sizes="(max-width: 1200px) 100vw, 1200px" style={{ objectFit: 'cover' }} priority />
                 </div>
 
                 {/* Article body */}

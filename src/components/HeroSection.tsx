@@ -85,8 +85,8 @@ export default function HeroSection() {
       <div ref={stickyRef} className={styles.stickyContainer}>
 
         {/* Layer 1 — Initial Text (Behind Image) */}
-        <div ref={bgTextRef} className={`${styles.textLayer} ${styles.bgLayer}`}>
-          <h1 className={styles.massiveTextBg}>STOP PLAYING SMALL</h1>
+        <div ref={bgTextRef} className={`${styles.textLayer} ${styles.bgLayer}`} aria-hidden="true">
+          <div className={styles.massiveTextBg}>STOP PLAYING SMALL</div>
         </div>
 
         {/* Layer 2 — Portrait (Centered) */}

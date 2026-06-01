@@ -145,3 +145,43 @@ export async function deleteBlog(id: string) {
     revalidatePath('/blog');
     return { success: true };
 }
+
+// --- GUIDES ---
+
+export async function saveGuide(formData: FormData) {
+    const supabase = await requireAuth();
+
+    const id = formData.get('id') as string;
+    const title = formData.get('title') as string;
+    const slug = formData.get('slug') as string;
+    const excerpt = formData.get('excerpt') as string;
+    const image = formData.get('image') as string;
+    const content = formData.get('content') as string;
+    const publish_date = formData.get('publish_date') as string || new Date().toISOString();
+    const published = formData.get('published') === 'true';
+
+    const payload = { title, slug, excerpt, image, content, published, publish_date };
+
+    let error;
+    if (id) {
+        ({ error } = await supabase.from('guides').update(payload).eq('id', id));
+    } else {
+        ({ error } = await supabase.from('guides').insert([payload]));
+    }
+
+    if (error) return { error: error.message };
+
+    revalidatePath('/admin/guides');
+    revalidatePath('/guides');
+    revalidatePath(`/guides/${slug}`);
+    return { success: true };
+}
+
+export async function deleteGuide(id: string) {
+    const supabase = await requireAuth();
+    const { error } = await supabase.from('guides').delete().eq('id', id);
+    if (error) return { error: error.message };
+    revalidatePath('/admin/guides');
+    revalidatePath('/guides');
+    return { success: true };
+}

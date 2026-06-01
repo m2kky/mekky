@@ -1,14 +1,15 @@
 export const SITE = {
     name: 'Muhammed Mekky',
-    title: 'Marketing Automation Strategist & Performance Trainer',
+    title: 'AI Marketing & Business Automation Systems Architect',
     tagline: 'CREATE. AUTOMATE. GROW.',
-    subtitle: 'Build Smarter. Scale Faster.',
+    subtitle: 'Build Automated Ecosystems. Scale Faster.',
     email: 'Contact@muhammedmekky.com',
     url: 'https://muhammedmekky.com',
 };
 
 export const NAV_LINKS = [
     { label: 'Home', href: '/' },
+    { label: 'Services', href: '/services' },
     { label: 'About Me', href: '/about' },
     { label: 'Portfolio', href: '/portfolio' },
     { label: 'Case Studies', href: '/case-studies' },
@@ -28,9 +29,9 @@ export const ABOUT = {
     sectionNumber: '01',
     sideLabel: 'The Strategy Behind The System',
     quote:
-        'I help businesses and individuals build smarter, scalable systems — bridging marketing, technology, and people.',
+        'I don\'t just do marketing. I build AI-driven business systems that scale your operations, reduce CAC, and eliminate manual bottlenecks.',
     paragraphs: [
-        'I am a marketing automation strategist and performance trainer who helps businesses and individuals build smarter, scalable systems.',
+        'I am an AI Marketing & Business Automation Systems Architect who helps businesses scale intelligently by eliminating manual bottlenecks and building self-sustaining ecosystems.',
         'With years of experience across marketing, automation, and AI-driven workflows, I have empowered startups and teams to grow efficiently and work intelligently.',
         'I bring a unique mix of creative strategy, technical precision, and human-centered training — bridging the gap between marketing, technology, and people.',
         'Beyond building systems, I teach them. Through my workshops and lectures, I share practical frameworks for automating marketing, scaling performance, and integrating AI into real-world workflows.',
@@ -44,40 +45,82 @@ export const SERVICES = {
     subtitle: 'I help teams design scalable systems and growth engines.',
     items: [
         {
-            icon: '⚙️',
-            title: 'AI & Automation',
-            description:
-                'Design intelligent workflows that eliminate repetitive tasks. From chatbots to full marketing-automation stacks, I build systems that work while you sleep.',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+            title: 'Artificial Intelligence',
+            slug: 'ai-solutions',
+            image: '/images/services/ai.jpg',
+            description: 'Custom AI models, intelligent agents, and LLM integrations that give your business a cognitive edge.',
+            longDescription: 'In the era of generative AI, off-the-shelf tools aren\'t enough to build a competitive moat. We develop bespoke Artificial Intelligence solutions tailored to your proprietary data. From deploying intelligent RAG (Retrieval-Augmented Generation) chatbots for customer support to building autonomous agents that execute complex analytical tasks, we turn AI from a buzzword into a measurable revenue driver. We ensure all models are secure, scalable, and strictly aligned with your corporate compliance standards.',
+            features: [
+                'Custom LLM Integration & RAG',
+                'Autonomous AI Agents',
+                'AI-Powered Search & Discovery',
+                'AI-Driven Customer Service Agents',
+                'Predictive Marketing & Personalization',
+                'Dynamic Pricing Algorithms',
+                'Business Data Analysis & Insights'
+            ],
+            process: ['Data Readiness Audit', 'Model Selection & Training', 'Integration Architecture', 'Testing & Fine-tuning']
         },
         {
-            icon: '📢',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="14" width="8" height="8" rx="2" ry="2"/><rect x="14" y="2" width="8" height="8" rx="2" ry="2"/><line x1="6" y1="14" x2="6" y2="2"/><line x1="6" y1="2" x2="14" y2="2"/><line x1="18" y1="10" x2="18" y2="22"/><line x1="18" y1="22" x2="10" y2="22"/></svg>`,
+            title: 'Business Automation',
+            slug: 'business-automation',
+            image: '/images/services/automation.jpg',
+            description: 'Design intelligent workflows that eliminate repetitive tasks. I build systems that work while you sleep.',
+            longDescription: 'Manual, repetitive tasks are the ultimate bottleneck to scaling any modern enterprise. Our Business Automation solutions are engineered to connect your disparate SaaS tools, process large volumes of data instantly, and deliver flawless operational execution without human intervention. By deploying robust automation pipelines (using platforms like n8n, Make, and Zapier combined with custom webhooks), we transform your operational overhead into a streamlined, high-margin growth engine.',
+            features: ['End-to-End Workflow Automation', 'Cross-Platform API Integrations', 'Automated Lead Qualification', 'Data Pipeline Engineering'],
+            process: ['Process Auditing', 'Workflow Architecture', 'Integration & Scripting', 'Deployment & Monitoring']
+        },
+        {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,
             title: 'Digital Marketing',
-            description:
-                'Data-driven campaigns across paid, organic, and content channels. Strategy-first, metrics-obsessed, results-guaranteed.',
+            slug: 'digital-marketing',
+            image: '/images/services/digital-marketing.jpg',
+            description: 'Data-driven campaigns across paid, organic, and content channels. Strategy-first, metrics-obsessed, results-guaranteed.',
+            longDescription: 'Marketing without measurement is just noise. We build end-to-end digital marketing architectures focused entirely on ROI and customer acquisition cost (CAC) reduction. From high-converting performance media buying across Meta and Google ecosystems to deep-funnel email automation strategies, we ensure every dollar spent is tracked, attributed, and optimized. Our corporate approach treats your marketing budget as an investment portfolio that requires rigorous quantitative management.',
+            features: ['Performance Media Buying', 'Conversion Rate Optimization (CRO)', 'Email & SMS Funnels', 'Advanced Analytics & Attribution'],
+            process: ['Market Research', 'Funnel Design', 'Campaign Launch', 'A/B Testing & Scaling']
         },
         {
-            icon: '🖥️',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
             title: 'Web Design & Development',
-            description:
-                'Beautiful, high-performance websites that convert. From portfolios to e-commerce, every pixel is intentional.',
+            slug: 'web-design',
+            image: '/images/services/web-design.jpg',
+            description: 'Beautiful, high-performance websites that convert. From portfolios to e-commerce, every pixel is intentional.',
+            longDescription: 'Your website is your most valuable digital real estate. We don\'t just design "pretty" pages; we architect high-performance, accessible, and ultra-fast web applications engineered for conversion. Utilizing cutting-edge frameworks like Next.js and advanced animation libraries like GSAP, we deliver enterprise-grade web experiences. Whether it\'s a corporate portal, a headless e-commerce store, or a bespoke landing page, we merge technical excellence with premium aesthetic design.',
+            features: ['Headless CMS Architecture', 'Advanced UI/UX Animation', 'E-Commerce Optimization', 'Technical SEO Compliance'],
+            process: ['Wireframing & UX', 'High-Fidelity UI Design', 'Frontend Engineering', 'QA & Performance Auditing']
         },
         {
-            icon: '👥',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
             title: 'Automated Community Growth',
-            description:
-                'Build and nurture online communities using automated workflows that drive loyalty, word-of-mouth, and sustainable growth.',
+            slug: 'community-growth',
+            image: '/images/services/community.jpg',
+            description: 'Build and nurture online communities using automated workflows that drive loyalty, word-of-mouth, and sustainable growth.',
+            longDescription: 'Building an audience is one thing; cultivating an engaged, self-sustaining community is another. We implement automated community management frameworks that nurture leads, welcome new members, and drive retention without requiring 24/7 human moderation. By integrating Discord, Slack, or proprietary community platforms with CRM and automation tools, we help corporate brands foster brand loyalty and transform passive users into active advocates.',
+            features: ['Automated Onboarding Sequences', 'Engagement Tracking Bots', 'Community Analytics', 'CRM Integration'],
+            process: ['Community Architecture', 'Bot Development', 'Engagement Strategy', 'Iterative Scaling']
         },
         {
-            icon: '🔧',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
             title: 'Team Enablement & Workflow',
-            description:
-                'Design internal tools, documentation, and SOPs that make your team 10x more productive.',
+            slug: 'team-enablement',
+            image: '/images/services/workflow.jpg',
+            description: 'Design internal tools, documentation, and SOPs that make your team 10x more productive.',
+            longDescription: 'A team\'s output is only as efficient as its underlying systems. We audit your internal operations to identify bottlenecks, redundant processes, and communication silos. We then design tailored operating systems using tools like Notion, Airtable, and custom internal dashboards. By establishing clear Standard Operating Procedures (SOPs) and robust knowledge bases, we empower your workforce to execute flawlessly, reducing onboarding times and operational friction.',
+            features: ['Custom Notion Dashboards', 'SOP Development', 'Internal Knowledge Bases', 'Task Management Systems'],
+            process: ['Operational Audit', 'System Design', 'Data Migration', 'Team Onboarding']
         },
         {
-            icon: '🎓',
-            title: 'Training & Workshops',
-            description:
-                'Hands-on sessions on AI, automation, Notion, and modern productivity. From startups to corporate teams.',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+            title: 'Corporate Training & Workshop',
+            slug: 'corporate-training',
+            image: '/images/services/training.jpg',
+            description: 'Hands-on sessions on AI, automation, Notion, and modern productivity. From startups to corporate teams.',
+            longDescription: 'Technology is useless without the human capital to leverage it. Our corporate training programs are designed to upskill your workforce rapidly in the age of AI. We don\'t deliver theoretical lectures; we conduct hands-on, implementation-focused workshops where teams learn to use ChatGPT, n8n, Notion, and advanced analytics in real-world scenarios. We future-proof your employees, turning them into highly efficient operators capable of leveraging modern tech stacks.',
+            features: ['AI Proficiency Workshops', 'Workflow Automation Training', 'Executive Strategy Sessions', 'Custom Curriculum Development'],
+            process: ['Skill Gap Analysis', 'Curriculum Design', 'Interactive Workshops', 'Post-Training Assessment']
         },
     ],
 };
@@ -584,7 +627,17 @@ export const SEO = {
         // English - Dev & E-commerce
         'Web Development with AI', 'Shopify Expert', 'Shopify SEO', 'Automated Community Growth',
 
+        // AI Marketing Cluster
+        'AI marketing expert', 'AI marketing systems', 'AI marketing automation', 'AI tools for marketing', 'AI in digital marketing',
+
+        // Automation Cluster
+        'business automation expert', 'marketing automation specialist', 'n8n automation workflows', 'Zapier automation for business', 'Make.com automation systems',
+
+        // Growth Systems Cluster
+        'growth marketing systems', 'scaling business with AI', 'conversion optimization systems', 'lead generation automation', 'funnel building expert',
+
         // Arabic - High Intent B2B & Workshops (GEO & SEO)
+        'خبير تسويق بالذكاء الاصطناعي', 'أتمتة التسويق للشركات', 'أنظمة تسويق ذكية', 'تحسين الإعلانات الممولة', 'أتمتة الأعمال بالذكاء الاصطناعي',
         'مستشار تحول رقمي وذكاء اصطناعي للشركات', 'كيفية تطبيق الذكاء الاصطناعي في الشركات',
         'ورشة عمل ذكاء اصطناعي للموظفين', 'تدريب فرق التسويق على الذكاء الاصطناعي',
         'مستشار ذكاء اصطناعي في مصر', 'تقييم جاهزية الموظفين للذكاء الاصطناعي',

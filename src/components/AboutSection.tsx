@@ -101,9 +101,11 @@ export default function AboutSection() {
                 <div className={styles.bioGrid}>
                     <p className={styles.paragraph}>
                         I am a{' '}
-                        <Highlighter type="underline" show={showHighlight} color="#EB5E28">
-                            marketing automation strategist
-                        </Highlighter>{' '}
+                        <a href="/#services" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Highlighter type="underline" show={showHighlight} color="#EB5E28">
+                                marketing automation strategist
+                            </Highlighter>
+                        </a>{' '}
                         and{' '}
                         <Highlighter type="underline" show={showHighlight} color="#EB5E28">
                             performance trainer
@@ -112,9 +114,11 @@ export default function AboutSection() {
                     </p>
                     <p className={styles.paragraph}>
                         With years of experience across marketing, automation, and{' '}
-                        <Highlighter type="highlight" show={showHighlight} color="rgba(235, 94, 40, 0.1)">
-                            AI-driven workflows
-                        </Highlighter>
+                        <a href="https://n8n.io" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Highlighter type="highlight" show={showHighlight} color="rgba(235, 94, 40, 0.1)">
+                                AI-driven workflows
+                            </Highlighter>
+                        </a>
                         , I have empowered startups and teams to grow efficiently and work intelligently.
                     </p>
                     <p className={styles.paragraph}>

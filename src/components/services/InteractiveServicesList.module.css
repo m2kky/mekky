@@ -1,0 +1,108 @@
+.listContainer {
+    position: relative;
+    width: 100%;
+    margin: 4rem 0;
+    /* Add some padding so items don't touch screen edges on mobile */
+    padding: 0 5%;
+}
+
+.serviceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.serviceRow:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.serviceRow:hover {
+    color: var(--primary-color, #fff); /* Or some brand color */
+    padding-left: 20px;
+    padding-right: 20px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.serviceTitle {
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.serviceIcon {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.serviceRow:hover .serviceIcon {
+    opacity: 1;
+}
+
+.serviceArrow {
+    font-size: 2rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.serviceRow:hover .serviceArrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Floating Image Container */
+.floatingImageContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 450px;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transform: scale(0.8) translate(-50%, -50%);
+    overflow: hidden;
+    border-radius: 8px;
+    will-change: transform, opacity;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* The actual image inside the floating container */
+.floatingImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.floatingImage.active {
+    opacity: 1;
+}
+
+/* Hide the custom cursor effect on small screens */
+@media (max-width: 768px) {
+    .floatingImageContainer {
+        display: none;
+    }
+    .serviceRow:hover {
+        padding-left: 0;
+        padding-right: 0;
+        background: transparent;
+    }
+}

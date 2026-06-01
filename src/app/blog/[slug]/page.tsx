@@ -91,6 +91,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             .eq('published', true)
             .single();
         post = data;
+        
+        if (post && typeof post.content === 'string') {
+            try {
+                post.content = JSON.parse(post.content);
+            } catch (e) {
+                post.content = post.content.split('\n').filter(Boolean);
+            }
+        }
+        if (post && !Array.isArray(post.content)) {
+            post.content = [];
+        }
     }
 
     if (!post) {

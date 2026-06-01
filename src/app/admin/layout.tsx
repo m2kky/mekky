@@ -24,7 +24,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         Case Studies
                     </Link>
                     <Link href="/admin/blogs" className={styles.navLink}>
-                        Blogs
+                        📝 Blogs
+                    </Link>
+                    <Link href="/admin/guides" className={styles.navLink}>
+                        📚 Guides
                     </Link>
 
                     <p className={styles.navGroupTitle}>Marketing</p>
