@@ -31,8 +31,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     }
 
     const SERVICE_TYPE_MAP: Record<string, string> = {
-      'ai-solutions': 'AI Marketing Strategy & Systems',
-      'business-automation': 'Business Process Automation',
+      'ai-marketing-systems': 'AI Marketing Strategy & Systems',
+      'marketing-automation': 'Business Process Automation',
       'digital-marketing': 'Paid Advertising & Growth Optimization',
       'web-design': 'Web Design & Development',
       'community-growth': 'Community Building & Management',

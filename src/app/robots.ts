@@ -16,8 +16,8 @@ export default function robots(): MetadataRoute.Robots {
             allow: [
                 '/',
                 '/services/',
-                '/services/ai-solutions',
-                '/services/business-automation',
+                '/services/ai-marketing-systems',
+                '/services/marketing-automation',
                 '/services/digital-marketing',
                 '/services/web-design',
                 '/services/community-growth',

@@ -47,7 +47,7 @@ export const SERVICES = {
         {
             icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
             title: 'Artificial Intelligence',
-            slug: 'ai-solutions',
+            slug: 'ai-marketing-systems',
             image: '/images/services/ai.jpg',
             description: 'Custom AI models, intelligent agents, and LLM integrations that give your business a cognitive edge.',
             longDescription: 'In the era of generative AI, off-the-shelf tools aren\'t enough to build a competitive moat. We develop bespoke Artificial Intelligence solutions tailored to your proprietary data. From deploying intelligent RAG (Retrieval-Augmented Generation) chatbots for customer support to building autonomous agents that execute complex analytical tasks, we turn AI from a buzzword into a measurable revenue driver. We ensure all models are secure, scalable, and strictly aligned with your corporate compliance standards.',
@@ -65,7 +65,7 @@ export const SERVICES = {
         {
             icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="14" width="8" height="8" rx="2" ry="2"/><rect x="14" y="2" width="8" height="8" rx="2" ry="2"/><line x1="6" y1="14" x2="6" y2="2"/><line x1="6" y1="2" x2="14" y2="2"/><line x1="18" y1="10" x2="18" y2="22"/><line x1="18" y1="22" x2="10" y2="22"/></svg>`,
             title: 'Business Automation',
-            slug: 'business-automation',
+            slug: 'marketing-automation',
             image: '/images/services/automation.jpg',
             description: 'Design intelligent workflows that eliminate repetitive tasks. I build systems that work while you sleep.',
             longDescription: 'Manual, repetitive tasks are the ultimate bottleneck to scaling any modern enterprise. Our Business Automation solutions are engineered to connect your disparate SaaS tools, process large volumes of data instantly, and deliver flawless operational execution without human intervention. By deploying robust automation pipelines (using platforms like n8n, Make, and Zapier combined with custom webhooks), we transform your operational overhead into a streamlined, high-margin growth engine.',

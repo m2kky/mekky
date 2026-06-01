@@ -141,6 +141,29 @@ export default function BlogClient({ post, related }: { post: BlogData, related:
                             );
                         })}
 
+                        {/* Strategic Internal Links (Entity Reinforcement) */}
+                        <div style={{ marginTop: '4rem', padding: '3rem', background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', textAlign: textAlign }}>
+                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', fontWeight: 700 }}>
+                                {isArabic ? 'جاهز لتطبيق هذه الأنظمة في شركتك؟' : 'Ready to implement these systems in your business?'}
+                            </h3>
+                            <p style={{ fontSize: '1.1rem', opacity: 0.8, marginBottom: '2rem', lineHeight: 1.6 }}>
+                                {isArabic 
+                                    ? 'بصفتي مهندس أنظمة تسويق ذكية وأتمتة، بساعد الشركات تبني أنظمة نمو متكاملة. اكتشف خدماتنا، أو شوف الأنظمة في أرض الواقع من خلال دراسات الحالة.'
+                                    : 'As an AI Marketing & Business Automation Systems Architect, I help businesses build self-sustaining growth ecosystems. Explore our services, or see the systems in action through our case studies.'}
+                            </p>
+                            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                                <a href="/services" style={{ padding: '0.8rem 1.5rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '4px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>
+                                    {isArabic ? 'تصفح الخدمات' : 'Explore Services'}
+                                </a>
+                                <a href="/case-studies" style={{ padding: '0.8rem 1.5rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '4px', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>
+                                    {isArabic ? 'دراسات الحالة' : 'Case Studies'}
+                                </a>
+                                <a href="/book" style={{ padding: '0.8rem 1.5rem', background: '#fff', border: '1px solid #fff', borderRadius: '4px', color: '#000', textDecoration: 'none', fontWeight: 700 }}>
+                                    {isArabic ? 'احجز استشارة' : 'Book Consultation'}
+                                </a>
+                            </div>
+                        </div>
+
                         {/* Bottom share */}
                         <div className={styles.bottomShare} style={{ textAlign }}>
                             <p className={styles.bottomShareText}>{isArabic ? 'هل وجدت هذا مفيداً؟ شاركه.' : 'Found this useful? Share it.'}</p>
