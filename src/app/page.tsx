@@ -25,6 +25,88 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "@id": "https://muhammedmekky.com/#person",
+              "name": "Muhammed Mekky",
+              "url": "https://muhammedmekky.com",
+              "image": "https://muhammedmekky.com/images/og-preview.png",
+              "description": "AI-driven marketing and business automation strategist building scalable systems using artificial intelligence, automation workflows, and performance marketing strategies.",
+              "jobTitle": "AI Marketing & Business Automation Strategist",
+              "hasOccupation": {
+                "@type": "Occupation",
+                "name": "AI Marketing Systems Architect",
+                "occupationLocation": {
+                  "@type": "Country",
+                  "name": "Egypt"
+                }
+              },
+              "sameAs": [
+                "https://www.linkedin.com/in/muhammedmekky",
+                "https://github.com/m2kky"
+              ],
+              "knowsAbout": [
+                "Artificial Intelligence", "Marketing Automation", "Business Systems Design",
+                "Performance Marketing", "Workflow Automation", "Lead Generation Systems", "Conversion Optimization", "AI Agents"
+              ],
+              "areaServed": [
+                { "@type": "Country", "name": "Egypt" },
+                { "@type": "Place", "name": "MENA Region" },
+                { "@type": "Place", "name": "Global" }
+              ],
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Independent AI & Automation Consultant"
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Muhammed Mekky - Consulting",
+              "url": "https://muhammedmekky.com",
+              "logo": "https://muhammedmekky.com/images/og-preview.png",
+              "sameAs": [
+                "https://www.linkedin.com/in/muhammedmekky"
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "url": "https://muhammedmekky.com",
+              "name": "Muhammed Mekky",
+              "description": "AI-driven marketing and business automation strategist building scalable systems.",
+              "dateModified": new Date().toISOString()
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What services do you offer?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "I offer AI & Automation, Digital Marketing, Web Design & Development, and Training & Workshops to help businesses build smarter systems."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How can marketing automation help my agency?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Automation can reduce administrative tasks by 40%. By integrating tools like n8n and ChatGPT, you can automate reporting, campaign analysis, and client management."
+                  }
+                }
+              ]
+            }
+          ])
+        }}
+      />
       <Preloader />
       <Navbar />
       <div className="page-wrapper">
