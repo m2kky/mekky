@@ -12,7 +12,6 @@ export const NAV_LINKS = [
     { label: 'Services', href: '/services' },
     { label: 'About Me', href: '/about' },
     { label: 'Portfolio', href: '/portfolio' },
-    { label: 'Rammah Project', href: '/rammah-project' },
     { label: 'Case Studies', href: '/case-studies' },
     { label: 'Testimonials', href: '/testimonials' },
     { label: 'Lectures', href: '/lectures' },

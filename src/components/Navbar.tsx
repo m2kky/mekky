@@ -153,7 +153,6 @@ export default function Navbar() {
                 <div className={styles.right}>
                     <Link href="/about" className={styles.link}>About</Link>
                     <Link href="/portfolio" className={styles.link}>Portfolio</Link>
-                    <Link href="/rammah-project" className={styles.link}>Rammah Project</Link>
                     <Link href="/case-studies" className={styles.link}>Case Studies</Link>
 
                     {/* زرار الـ Menu */}
