@@ -22,7 +22,7 @@ export const NAV_LINKS = [
     { label: 'Consultation', href: '/book' },
     { label: 'Guides', href: '/guides' },
     { label: 'Email Me', href: 'mailto:contact@muhammedmekky.com' },
-    { label: 'WhatsApp', href: 'https://wa.me/201016629910' },
+    { label: 'WhatsApp', href: 'https://wa.me/201098620547' },
 ];
 
 export const ABOUT = {

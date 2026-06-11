@@ -85,7 +85,7 @@ export default function ContactPage() {
                                 <a href={`mailto:${SITE.email}`} className={styles.contactLink}>
                                     {SITE.email}
                                 </a>
-                                <a href="https://wa.me/201016629910" className={styles.contactLink}>
+                                <a href="https://wa.me/201098620547" className={styles.contactLink}>
                                     WhatsApp Direct
                                 </a>
                             </div>
