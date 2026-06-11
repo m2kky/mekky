@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 const statusDate = 'June 11, 2026';
 
 const overview = [
-  { label: 'Current stage', value: 'Admin shell next' },
-  { label: 'Completed foundation', value: 'Backend + docs' },
+  { label: 'Current stage', value: 'Offerings Management' },
+  { label: 'Completed foundation', value: 'Admin shell & API' },
   { label: 'Main blocker', value: 'Provider decisions' },
   { label: 'Launch target', value: 'MVP ready' },
 ];
@@ -40,18 +40,18 @@ const timeline = [
   {
     phase: 'Phase 2',
     title: 'Admin Frontend Shell',
-    status: 'Next',
+    status: 'Mostly done',
     intent: 'Create the protected operational area that the admin will use to manage the platform.',
-    done: ['Scope is defined', 'Auth endpoints are available', 'Cookie-based session flow is planned'],
-    next: 'Build login, protected admin layout, navigation, session check, logout, and typed admin API client.',
+    done: ['Auth endpoints are available', 'Cookie-based session flow', 'Login, layout, API client'],
+    next: 'Navigation, session check refinement, and logout.',
   },
   {
     phase: 'Phase 3',
     title: 'Offerings Management',
     status: 'Started',
     intent: 'Make programs and services editable from admin and use them as booking source of truth.',
-    done: ['Public offerings API exists', 'Admin offerings API exists', 'Public services section has API fallback'],
-    next: 'Build admin list, create/edit form, category selector, pricing controls, and publish workflow.',
+    done: ['Public & Admin offerings APIs', 'Offerings list screen'],
+    next: 'Build create/edit form, category selector, pricing controls, and publish workflow.',
   },
   {
     phase: 'Phase 4',
@@ -98,7 +98,7 @@ const timeline = [
     title: 'Public Frontend Completion',
     status: 'Partially started',
     intent: 'Keep the existing premium frontend while wiring offerings, booking, legal, loading, and error states.',
-    done: ['Hero and premium sections exist', 'Services can read public offerings', 'Frontend quality target is documented'],
+    done: ['Hero and premium sections exist', 'Landing page interactions and assets updated', 'Services can read public offerings'],
     next: 'Add offering detail, booking, quote request, payment return, legal pages, and responsive browser QA.',
   },
   {
@@ -128,10 +128,6 @@ const timeline = [
 ];
 
 const nextSprint = [
-  'Build admin login screen',
-  'Build protected admin layout',
-  'Build admin API client with cookie credentials',
-  'Build offerings list screen',
   'Build offering create/edit form',
   'Add admin offering categories API',
   'Add offering category selector',
