@@ -1,84 +1,128 @@
 /* ── Container ── */
 .ctaContainer {
   position: fixed;
-  /* استخدمنا clamp عشان المسافة تتنفس على الديسكتوب وتلم على الموبايل */
   bottom: clamp(1.5rem, 4vh, 2.5rem);
   right: clamp(1.5rem, 4vw, 2.5rem);
-  z-index: 90; /* رقم تحت الـ Menu Overlay اللي عملناه (150) عشان لو المنيو فتحت تغطي عليه */
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.ctaContainer.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* ── Morphing Wrapper ── */
+.morphContainer {
+  position: relative;
+  height: 54px;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: width 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+              background-color 0.4s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* ── Primary CTA Button ── */
-.primaryBtn {
-  position: absolute; /* عشان الزرارين يكونوا فوق بعض في نفس النقطة */
-  right: 0;
-  bottom: 0;
-  white-space: nowrap; /* يمنع الكلام إنه ينزل على سطرين */
+.morphContainer.isTop {
+  width: 54px;
+  background-color: #252422;
+}
+
+.morphContainer.isTop:hover {
+  background-color: #1a1a1a;
+}
+
+.morphContainer.isBook {
+  width: 170px;
+  background-color: #ffffff;
+}
+
+.morphContainer.isBook:hover {
+  background-color: #EB5E28;
+}
+
+/* ── Content specific ── */
+.bookContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
   font-family: var(--font-heading, sans-serif);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background-color: #ffffff;
-  color: #1a1a1a;
-  padding: 1rem 2rem;
-  border-radius: 50px; /* modified to a pill shape */
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.morphContainer.isTop .bookContent {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.morphContainer.isBook .bookContent {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.morphContainer.isBook:hover .bookContent {
+  color: #ffffff;
+}
+
+.topContent {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-}
-
-.primaryBtn:hover {
-  background-color: #EB5E28; /* لونك الأساسي */
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50px;
   color: #ffffff;
-  transform: translateY(-2px);
+  cursor: pointer;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
 }
 
-.textDesktop { display: block; }
-.iconMobile { display: none; }
+.morphContainer.isTop .topContent {
+  opacity: 1;
+  pointer-events: auto;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.morphContainer.isTop:hover .topContent {
+  border-color: #ffffff;
+}
+
+.morphContainer.isBook .topContent {
+  opacity: 0;
+  pointer-events: none;
+}
 
 @media (max-width: 768px) {
-  .primaryBtn {
-    padding: 0;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+  .morphContainer {
+    height: 50px;
   }
-  .textDesktop { display: none; }
-  .iconMobile { 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+  .morphContainer.isTop {
+    width: 50px;
   }
-}
-
-/* ── Back to Top Button ── */
-.backToTopBtn {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #252422;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.backToTopBtn:hover {
-  border-color: #ffffff;
-  background-color: #1a1a1a;
+  .morphContainer.isBook {
+    width: 155px;
+  }
+  .bookContent {
+    font-size: 0.7rem;
+  }
 }

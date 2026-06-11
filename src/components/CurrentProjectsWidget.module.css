@@ -1,0 +1,289 @@
+.widget {
+  position: fixed;
+  top: 50%;
+  right: clamp(1rem, 2vw, 1.5rem);
+  z-index: 84;
+  width: 184px;
+  color: #fffcf2;
+  transform: translate(120%, -50%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(6px);
+}
+
+.isReady {
+  animation: widgetEnter 0.85s var(--ease-slow) forwards;
+  pointer-events: auto;
+}
+
+.isClosing {
+  animation: widgetExit 0.32s ease forwards;
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 0.8rem;
+  border: 1px solid rgba(255, 252, 242, 0.14);
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, rgba(235, 94, 40, 0.18), transparent 42%),
+    rgba(5, 5, 5, 0.86);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 252, 242, 0.13), transparent 65%);
+  transform: translateX(-65%) rotate(12deg);
+  animation: sheen 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.closeButton {
+  position: absolute;
+  top: -0.6rem;
+  right: -0.55rem;
+  z-index: 2;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(255, 252, 242, 0.16);
+  border-radius: 50%;
+  background: rgba(5, 5, 5, 0.94);
+  color: #fffcf2;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.closeButton:hover {
+  transform: rotate(90deg) scale(1.05);
+  border-color: rgba(235, 94, 40, 0.65);
+  background: #1a1a1a;
+}
+
+.topLine {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 252, 242, 0.74);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(235, 94, 40, 0.9);
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+.preview {
+  position: relative;
+  z-index: 1;
+  min-height: 112px;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 252, 242, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 252, 242, 0.045);
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fffcf2;
+}
+
+.phaseWindow {
+  position: relative;
+  height: 58px;
+  margin-top: 0.85rem;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+}
+
+.phaseTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  animation: phaseRoll 10s linear infinite;
+}
+
+.phaseTrack span {
+  display: block;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  line-height: 1;
+  color: rgba(255, 252, 242, 0.72);
+}
+
+.primaryLink {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 0.7rem;
+  padding: 0.72rem 0.7rem;
+  border-radius: 6px;
+  background: #fffcf2;
+  color: #050505;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.primaryLink:hover {
+  transform: translateY(-2px);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.madeBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  padding: 0.66rem 0.75rem;
+  border-radius: 999px;
+  background: #fffcf2;
+  color: #111111;
+  font-family: var(--font-heading);
+  font-size: 0.67rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.badgeAvatar {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #050505;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.16);
+}
+
+.badgeImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+@keyframes widgetEnter {
+  0% {
+    transform: translate(120%, -50%) scale(0.96);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  70% {
+    transform: translate(-5%, -50%) scale(1.01);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(0, -50%) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes widgetExit {
+  to {
+    transform: translate(120%, -50%) scale(0.95);
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes phaseRoll {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-50% - 0.225rem)); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.45); opacity: 1; }
+}
+
+@keyframes sheen {
+  0%, 35% { transform: translateX(-65%) rotate(12deg); }
+  70%, 100% { transform: translateX(65%) rotate(12deg); }
+}
+
+@media (max-width: 768px) {
+  .widget {
+    top: auto;
+    right: 1rem;
+    bottom: 5.75rem;
+    width: min(190px, calc(100vw - 2rem));
+    transform: translate(120%, 0) scale(0.96);
+  }
+
+  .isReady {
+    animation-name: widgetEnterMobile;
+  }
+
+  .isClosing {
+    animation-name: widgetExitMobile;
+  }
+
+  .madeBadge {
+    font-size: 0.62rem;
+  }
+}
+
+@keyframes widgetEnterMobile {
+  0% {
+    transform: translate(120%, 0) scale(0.96);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  70% {
+    transform: translate(-5%, 0) scale(1.01);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes widgetExitMobile {
+  to {
+    transform: translate(120%, 0) scale(0.95);
+    opacity: 0;
+    filter: blur(4px);
+  }
+}

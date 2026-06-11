@@ -101,7 +101,9 @@ export default function PopupRenderer() {
 
     // Skip on pages where popups would interrupt focused flows.
     const isAdmin = pathname?.startsWith('/admin') || pathname?.startsWith('/login');
-    const isFocusedFlow = pathname?.startsWith('/assessment');
+    const isFocusedFlow =
+        pathname?.startsWith('/assessment') ||
+        pathname?.startsWith('/rammah-project');
 
     // ─── Fetch Popups ───────────────────────────
     useEffect(() => {
@@ -184,7 +186,7 @@ export default function PopupRenderer() {
 
     // ─── Trigger Logic ──────────────────────────
     useEffect(() => {
-        if (isAdmin || popups.length === 0 || activePopup) return;
+        if (isAdmin || isFocusedFlow || popups.length === 0 || activePopup) return;
 
         const eligiblePopups = popups
             .filter(p => matchesPage(p) && !checkIsSuppressed(p))
@@ -234,7 +236,7 @@ export default function PopupRenderer() {
             document.addEventListener('mouseleave', handleMouseLeave);
             return () => document.removeEventListener('mouseleave', handleMouseLeave);
         }
-    }, [isAdmin, popups, activePopup, matchesPage, checkIsSuppressed]);
+    }, [isAdmin, isFocusedFlow, popups, activePopup, matchesPage, checkIsSuppressed]);
 
     // ─── Close Handler ──────────────────────────
     const handleClose = () => {
@@ -307,7 +309,7 @@ export default function PopupRenderer() {
     };
 
     // ─── Don't render on admin ──────────────────
-    if (isAdmin) return null;
+    if (isAdmin || isFocusedFlow) return null;
 
     // ─── Render ─────────────────────────────────
     const popup = activePopup;

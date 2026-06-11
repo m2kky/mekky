@@ -124,7 +124,11 @@ export default function Navbar() {
 
     // Close menu purely on route change
     useEffect(() => {
-        setIsMenuOpen(false);
+        const closeTimer = window.setTimeout(() => {
+            setIsMenuOpen(false);
+        }, 0);
+
+        return () => window.clearTimeout(closeTimer);
     }, [pathname]);
 
     const toggleMenu = () => {
@@ -149,6 +153,7 @@ export default function Navbar() {
                 <div className={styles.right}>
                     <Link href="/about" className={styles.link}>About</Link>
                     <Link href="/portfolio" className={styles.link}>Portfolio</Link>
+                    <Link href="/rammah-project" className={styles.link}>Rammah Project</Link>
                     <Link href="/case-studies" className={styles.link}>Case Studies</Link>
 
                     {/* زرار الـ Menu */}

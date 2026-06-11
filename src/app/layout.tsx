@@ -6,6 +6,7 @@ import { SEO, SITE } from '@/lib/constants';
 import LenisProvider from '@/components/LenisProvider';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import FloatingCTA from '@/components/FloatingCTA';
+import CurrentProjectsWidget from '@/components/CurrentProjectsWidget';
 import PopupRenderer from '@/components/PopupRenderer';
 import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 import { Analytics } from '@vercel/analytics/react';
@@ -74,6 +75,7 @@ export default function RootLayout({
         </Script>
         <NoiseOverlay />
         <LenisProvider>{children}</LenisProvider>
+        <CurrentProjectsWidget />
         <FloatingCTA />
         <PopupRenderer />
         <Analytics />
