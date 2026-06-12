@@ -11,11 +11,11 @@ export const metadata: Metadata = {
     'A client-facing delivery timeline for the Ahmed Ramah coaching platform project.',
 };
 
-const statusDate = 'June 11, 2026';
+const statusDate = 'June 13, 2026';
 
 const overview = [
-  { label: 'Current stage', value: 'Offerings Management' },
-  { label: 'Completed foundation', value: 'Admin shell & API' },
+  { label: 'Current stage', value: 'Booking Core & Pricing' },
+  { label: 'Completed foundation', value: 'Admin shell, Offerings, Booking API' },
   { label: 'Main blocker', value: 'Provider decisions' },
   { label: 'Launch target', value: 'MVP ready' },
 ];
@@ -48,9 +48,9 @@ const timeline = [
   {
     phase: 'Phase 3',
     title: 'Offerings Management',
-    status: 'Started',
+    status: 'Mostly done',
     intent: 'Make programs and services editable from admin and use them as booking source of truth.',
-    done: ['Public & Admin offerings APIs', 'Offerings list screen'],
+    done: ['Public & Admin offerings APIs', 'Offerings list screen', 'Sessions & Locations CRUD'],
     next: 'Build create/edit form, category selector, pricing controls, and publish workflow.',
   },
   {
@@ -64,17 +64,17 @@ const timeline = [
   {
     phase: 'Phase 5',
     title: 'Booking Core',
-    status: 'Pending',
+    status: 'Mostly done',
     intent: 'Build availability, slots, dynamic forms, free booking submission, and admin booking review.',
-    done: ['Booking model documented', 'Free booking path acceptance criteria defined'],
-    next: 'Implement availability rules, slot calculation, slot holds, forms, submission endpoint, and booking inbox.',
+    done: ['Booking model documented', 'Availability rules & overrides', 'Slot holds & calculation', 'Free booking submission & UI', 'Admin Inbox & form builder', 'Quote request flow'],
+    next: 'Paid booking paths and payment integrations.',
   },
   {
     phase: 'Phase 6',
     title: 'Pricing and Paid Booking',
-    status: 'Pending',
+    status: 'Started',
     intent: 'Add country-aware pricing, coupons, tax hooks, checkout sessions, webhooks, and payment confirmation.',
-    done: ['Payment adapter strategy is planned', 'Country pricing and fallback behavior are scoped'],
+    done: ['Payment adapter strategy is planned', 'Country-aware price preview'],
     next: 'Select provider, implement provider adapter, payment webhook idempotency, and admin pricing UI.',
   },
   {
@@ -128,12 +128,11 @@ const timeline = [
 ];
 
 const nextSprint = [
-  'Build offering create/edit form',
-  'Add admin offering categories API',
-  'Add offering category selector',
-  'Add price management API and UI',
-  'Wire offering CTA behavior on public frontend',
-  'Update API contract docs with implemented endpoints',
+  'Update API contract docs with implemented admin endpoints',
+  'Add admin category management CRUD when needed',
+  'Add country-aware paid booking checkout',
+  'Add payment provider adapter and checkout session creation',
+  'Add webhook-driven payment confirmation',
 ];
 
 const decisions = [
