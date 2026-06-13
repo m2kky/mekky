@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 const statusDate = 'June 13, 2026';
 
 const overview = [
-  { label: 'Current stage', value: 'Booking Core & Pricing' },
-  { label: 'Completed foundation', value: 'Admin shell, Offerings, Booking API' },
-  { label: 'Main blocker', value: 'Provider decisions' },
+  { label: 'Current stage', value: 'Paid Booking & Payment QA' },
+  { label: 'Completed foundation', value: 'Admin, Booking, Pricing, Kashier' },
+  { label: 'Main blocker', value: 'Production domain and live keys' },
   { label: 'Launch target', value: 'MVP ready' },
 ];
 
@@ -64,18 +64,18 @@ const timeline = [
   {
     phase: 'Phase 5',
     title: 'Booking Core',
-    status: 'Mostly done',
+    status: 'Done',
     intent: 'Build availability, slots, dynamic forms, free booking submission, and admin booking review.',
-    done: ['Booking model documented', 'Availability rules & overrides', 'Slot holds & calculation', 'Free booking submission & UI', 'Admin Inbox & form builder', 'Quote request flow'],
-    next: 'Paid booking paths and payment integrations.',
+    done: ['Availability rules & overrides', 'Slot holds & calculation', 'Free booking submission & UI', 'Admin Inbox & form builder', 'Quote request flow'],
+    next: 'Keep booking QA running while paid flow, calendar, and email integrations are finalized.',
   },
   {
     phase: 'Phase 6',
     title: 'Pricing and Paid Booking',
-    status: 'Started',
-    intent: 'Add country-aware pricing, coupons, tax hooks, checkout sessions, webhooks, and payment confirmation.',
-    done: ['Payment adapter strategy is planned', 'Country-aware price preview'],
-    next: 'Select provider, implement provider adapter, payment webhook idempotency, and admin pricing UI.',
+    status: 'Mostly done',
+    intent: 'Add country-aware pricing, checkout sessions, payment confirmation, and production-safe payment safeguards.',
+    done: ['Country-aware price preview', 'Admin pricing controls', 'Kashier iFrame checkout adapter', 'Single payment reference per booking', 'Backend callback handling', 'Kashier reconciliation for captured payments'],
+    next: 'Switch local callback/return URLs to production HTTPS, add live credentials, and run final paid booking QA on the live domain.',
   },
   {
     phase: 'Phase 7',
@@ -96,10 +96,10 @@ const timeline = [
   {
     phase: 'Phase 9',
     title: 'Public Frontend Completion',
-    status: 'Partially started',
+    status: 'Mostly done',
     intent: 'Keep the existing premium frontend while wiring offerings, booking, legal, loading, and error states.',
-    done: ['Hero and premium sections exist', 'Landing page interactions and assets updated', 'Services can read public offerings'],
-    next: 'Add offering detail, booking, quote request, payment return, legal pages, and responsive browser QA.',
+    done: ['Hero and premium sections exist', 'Landing page interactions and assets updated', 'Services can read public offerings', 'Free booking UI', 'Paid booking handoff to Kashier', 'Payment return state'],
+    next: 'Complete mobile/browser QA and final copy checks after production URLs are set.',
   },
   {
     phase: 'Phase 10',
@@ -128,15 +128,14 @@ const timeline = [
 ];
 
 const nextSprint = [
-  'Update API contract docs with implemented admin endpoints',
-  'Add admin category management CRUD when needed',
-  'Add country-aware paid booking checkout',
-  'Add payment provider adapter and checkout session creation',
-  'Add webhook-driven payment confirmation',
+  'Set the production domain and HTTPS callback URLs',
+  'Move Kashier from test credentials to live credentials after account approval',
+  'Run paid booking QA with Kashier return and reconciliation on the live domain',
+  'Complete Google Calendar and Meet event creation',
+  'Complete email notifications for booking and payment states',
 ];
 
 const decisions = [
-  'Payment provider for MVP',
   'Production domain',
   'Email provider and sender domain',
   'Google Calendar account ownership model',
@@ -149,11 +148,30 @@ const launchAcceptance = [
   'Public site complete',
   'Admin dashboard complete for MVP',
   'Free and paid booking paths tested',
-  'Payment provider integrated or mock replaced',
+  'Kashier payment provider integrated with live credentials',
   'Calendar and Meet tested',
   'Emails tested',
   'Backups and monitoring configured',
   'Privacy and terms published',
+];
+
+const paymentUpdate = [
+  {
+    label: 'Provider direction',
+    value: 'Kashier iFrame checkout is now the selected MVP path.',
+  },
+  {
+    label: 'Payment safety',
+    value: 'Each paid booking gets one stable merchant order reference to prevent duplicate payment attempts.',
+  },
+  {
+    label: 'Verified test result',
+    value: 'A sandbox card payment reached PAID in the Kashier dashboard for 234.00 EGP.',
+  },
+  {
+    label: 'Production behavior',
+    value: 'The app now confirms payments from backend reconciliation with Kashier, not from frontend redirect alone.',
+  },
 ];
 
 function statusClass(status: string) {
@@ -182,7 +200,7 @@ export default function RammahProjectPage() {
               <span className={styles.panelLabel}>Status date</span>
               <strong>{statusDate}</strong>
               <p>
-                Backend foundation is mostly complete. The practical next move is the protected admin shell, then offerings management.
+                Booking, pricing, and Kashier payment foundations are now in place. The practical next move is production setup, calendar, email, and final QA.
               </p>
             </div>
           </div>
@@ -208,23 +226,44 @@ export default function RammahProjectPage() {
               <span className={styles.blockNumber}>01</span>
               <h3>Already available</h3>
               <p>
-                Premium public frontend, standalone backend, PostgreSQL database, migrations, seed data, public offerings API, and admin auth primitives.
+                Premium public frontend, standalone backend, PostgreSQL database, admin auth, offerings, availability, free booking, quote requests, pricing, and paid booking foundation.
               </p>
             </div>
             <div className={styles.snapshotBlock}>
               <span className={styles.blockNumber}>02</span>
-              <h3>Not built yet</h3>
+              <h3>Payment progress</h3>
               <p>
-                Admin screens, CMS UI, booking engine, pricing UI, payment webhooks, Google Calendar/Meet, email provider, deployment pipeline, and E2E QA.
+                Kashier test mode is connected with iFrame checkout, signed callback handling, duplicate-payment safeguards, and backend reconciliation against Kashier order status.
               </p>
             </div>
             <div className={styles.snapshotBlock}>
               <span className={styles.blockNumber}>03</span>
               <h3>Critical path</h3>
               <p>
-                Backend foundation, admin authentication, admin shell, offerings, booking, pricing, calendar, email, public wiring, then launch hardening.
+                Production HTTPS domain, live Kashier credentials, Google Calendar/Meet, email notifications, legal pages, deployment hardening, and final browser QA.
               </p>
             </div>
+          </div>
+        </section>
+
+        <section className={styles.paymentSection}>
+          <div className={styles.timelineHeader}>
+            <div>
+              <span className={styles.eyebrow}>Payment milestone</span>
+              <h2>Kashier checkout moved from planning to working integration.</h2>
+            </div>
+            <p>
+              The payment flow now follows a production-grade pattern: one payment reference per booking, backend verification, and reconciliation with Kashier before confirming the booking.
+            </p>
+          </div>
+
+          <div className={styles.paymentGrid}>
+            {paymentUpdate.map((item) => (
+              <div className={styles.paymentCard} key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
           </div>
         </section>
 
