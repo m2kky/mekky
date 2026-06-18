@@ -28,6 +28,7 @@ export default function CurrentProjectsWidget() {
         pathname?.startsWith('/admin') ||
         pathname?.startsWith('/login') ||
         pathname?.startsWith('/assessment') ||
+        pathname?.startsWith('/coash-hossam-ibrahim') ||
         pathname?.startsWith('/rammah-project');
 
     useEffect(() => {
