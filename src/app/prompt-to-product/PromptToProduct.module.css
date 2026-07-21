@@ -392,12 +392,239 @@
   background: var(--paper);
 }
 
+.waitlistPrelude,
+.wizardShell {
+  min-height: 100svh;
+  padding: clamp(5rem, 10vw, 9rem) var(--container-padding);
+  color: var(--ink);
+  background: var(--orange);
+}
+
+.waitlistPrelude {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.waitlistPrelude > p {
+  font: 800 .78rem/1 var(--font-syne);
+}
+
+.waitlistPrelude h2 {
+  margin-top: 1.5rem;
+  font-size: clamp(2.8rem, 8vw, 8rem);
+  line-height: .9;
+  letter-spacing: -.06em;
+}
+
+.wizardShell {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.wizardTop {
+  display: flex;
+  justify-content: space-between;
+  font: 800 .78rem/1 var(--font-syne);
+  text-transform: uppercase;
+}
+
+.progressTrack {
+  height: 2px;
+  margin-top: 1rem;
+  overflow: hidden;
+  background: rgba(5, 5, 5, .18);
+}
+
+.progressTrack span {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transition: width .35s var(--ease-slow);
+}
+
+.wizardPanel {
+  width: min(920px, 100%);
+  margin: auto;
+  padding: 4rem 0;
+}
+
+.questionEyebrow {
+  font: 800 .78rem/1 var(--font-syne);
+  text-transform: uppercase;
+}
+
+.wizardPanel h2 {
+  max-width: 18ch;
+  margin-top: 1.2rem;
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.questionHelper {
+  margin-top: 1rem;
+}
+
+.identityFields,
+.optionList {
+  display: grid;
+  gap: .75rem;
+  margin-top: 2.5rem;
+}
+
+.identityFields {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.identityFields label {
+  display: grid;
+  gap: .55rem;
+  font-weight: 700;
+}
+
+.identityFields input {
+  min-height: 54px;
+  border: 0;
+  border-bottom: 1px solid rgba(5, 5, 5, .45);
+  border-radius: 0;
+  padding: .8rem 0;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  outline: none;
+}
+
+.identityFields input:focus {
+  border-bottom-color: var(--ink);
+}
+
+.optionList {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.optionList button {
+  display: grid;
+  min-height: 64px;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  gap: .7rem;
+  border: 1px solid rgba(5, 5, 5, .25);
+  padding: 1rem;
+  color: var(--ink);
+  background: transparent;
+  text-align: right;
+  cursor: pointer;
+}
+
+.optionList button > span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid currentColor;
+}
+
+.optionList .optionSelected {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.wizardActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.wizardActions button {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border: 1px solid var(--ink);
+  padding: .75rem 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.wizardActions button:disabled {
+  cursor: not-allowed;
+  opacity: .4;
+}
+
+.backButton {
+  color: var(--ink);
+  background: transparent;
+}
+
+.nextButton,
+.submitButton {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.formError {
+  margin-top: 1rem;
+  font-weight: 800;
+}
+
+.successState {
+  display: grid;
+  max-width: 780px;
+  align-content: center;
+  justify-items: start;
+  margin: auto;
+}
+
+.successState span {
+  margin-top: 2rem;
+  font: 800 .78rem/1 var(--font-syne);
+}
+
+.successState h2 {
+  margin-top: 1rem;
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: .9;
+}
+
+.successState p {
+  max-width: 48ch;
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.spinner {
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.page .waitlistPrelude button:focus-visible,
+.page .wizardShell :is(button, input):focus-visible {
+  outline-color: var(--ink);
+}
+
 .page :is(a, button, input):focus-visible {
   outline: 3px solid var(--orange);
   outline-offset: 4px;
 }
 
 @media (max-width: 800px) {
+  .identityFields,
+  .optionList {
+    grid-template-columns: 1fr;
+  }
+
+  .wizardPanel {
+    padding: 3rem 0;
+  }
+
   .campaignHeader {
     grid-template-columns: 1fr auto;
   }
