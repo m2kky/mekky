@@ -12,8 +12,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, LoaderCircle } from 'lucide-react';
 import {
   WAITLIST_STORAGE_KEY,
+  validateWaitlistIdentity,
   waitlistQuestions,
   type WaitlistAnswers,
+  type WaitlistIdentityErrors,
 } from './promptToProductData';
 import {
   chooseWizardAnswer,
@@ -43,6 +45,8 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [hydrated, setHydrated] = useState(false);
   const [error, setError] = useState('');
+  const [identityTouched, setIdentityTouched] = useState<Partial<Record<keyof Identity, boolean>>>({});
+  const [website, setWebsite] = useState('');
   const submitting = status === 'submitting';
 
   useEffect(() => {
@@ -108,16 +112,14 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
     ? 0
     : Math.round(((step + 1) / waitlistQuestions.length) * 100);
   const currentAnswer = currentQuestion ? answers[currentQuestion.id] : undefined;
+  const identityValidation = useMemo(() => validateWaitlistIdentity(identity), [identity]);
+  const identityErrors: WaitlistIdentityErrors = identityValidation.ok
+    ? {}
+    : identityValidation.errors;
   const canContinue = useMemo(() => {
-    if (step === -1) {
-      return Boolean(
-        identity.fullName.trim()
-        && identity.email.trim()
-        && identity.phone.trim()
-      );
-    }
+    if (step === -1) return identityValidation.ok;
     return Array.isArray(currentAnswer) ? currentAnswer.length > 0 : Boolean(currentAnswer);
-  }, [currentAnswer, identity, step]);
+  }, [currentAnswer, identityValidation.ok, step]);
 
   const updateIdentity = (field: keyof Identity) =>
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +127,10 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
       setIdentity((current) => ({ ...current, [field]: event.target.value }));
       setError('');
     };
+
+  const touchIdentity = (field: keyof Identity) => () => {
+    setIdentityTouched((current) => ({ ...current, [field]: true }));
+  };
 
   const chooseAnswer = (value: string) => {
     if (submitting) return;
@@ -138,15 +144,6 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
     if (submitting) return;
     if (!canContinue) return;
     setError('');
-
-    if (step === -1) {
-      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identity.email.trim());
-      const phone = identity.phone.replace(/\D/g, '').replace(/^20(?=1)/, '0');
-      if (!emailValid) return setError('اكتب إيميل صحيح.');
-      if (!/^01[0125]\d{8}$/.test(phone)) {
-        return setError('اكتب رقم واتساب مصري صحيح.');
-      }
-    }
 
     setStep((current) => nextWizardStep(current, waitlistQuestions.length - 1));
   };
@@ -167,7 +164,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
       const response = await fetch('/api/prompt-to-product', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...identity, answers }),
+        body: JSON.stringify({ ...identity, answers, website }),
       });
       const result = await response.json();
 
@@ -259,9 +256,16 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                   <input
                     autoComplete="name"
                     disabled={submitting}
+                    required
+                    aria-invalid={identityTouched.fullName && Boolean(identityErrors.fullName)}
+                    aria-describedby={identityTouched.fullName && identityErrors.fullName ? 'full-name-error' : undefined}
                     value={identity.fullName}
                     onChange={updateIdentity('fullName')}
+                    onBlur={touchIdentity('fullName')}
                   />
+                  {identityTouched.fullName && identityErrors.fullName ? (
+                    <span className={styles.fieldError} id="full-name-error">{identityErrors.fullName}</span>
+                  ) : null}
                 </label>
                 <label>
                   الإيميل
@@ -270,9 +274,16 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                     type="email"
                     autoComplete="email"
                     disabled={submitting}
+                    required
+                    aria-invalid={identityTouched.email && Boolean(identityErrors.email)}
+                    aria-describedby={identityTouched.email && identityErrors.email ? 'email-error' : undefined}
                     value={identity.email}
                     onChange={updateIdentity('email')}
+                    onBlur={touchIdentity('email')}
                   />
+                  {identityTouched.email && identityErrors.email ? (
+                    <span className={styles.fieldError} id="email-error">{identityErrors.email}</span>
+                  ) : null}
                 </label>
                 <label>
                   رقم واتساب
@@ -281,9 +292,26 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                     inputMode="tel"
                     autoComplete="tel"
                     disabled={submitting}
+                    required
+                    aria-invalid={identityTouched.phone && Boolean(identityErrors.phone)}
+                    aria-describedby={identityTouched.phone && identityErrors.phone ? 'phone-error' : undefined}
                     value={identity.phone}
                     onChange={updateIdentity('phone')}
+                    onBlur={touchIdentity('phone')}
                     placeholder="01xxxxxxxxx"
+                  />
+                  {identityTouched.phone && identityErrors.phone ? (
+                    <span className={styles.fieldError} id="phone-error">{identityErrors.phone}</span>
+                  ) : null}
+                </label>
+                <label className={styles.honeypot} hidden aria-hidden="true">
+                  Website
+                  <input
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
                   />
                 </label>
               </div>

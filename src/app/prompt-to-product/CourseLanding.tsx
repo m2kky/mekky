@@ -38,7 +38,7 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
         <div className={styles.heroGrid} aria-hidden="true" />
         <motion.p className={styles.eyebrow} lang="en" initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>Live Online Camp · 5 Weeks</motion.p>
         <motion.h1 id="course-title" lang="en" initial={shouldReduceMotion ? false : { opacity: 0, y: 42 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}>
-          <span>Prompt</span><i>to</i><span>Product</span>
+          <span>Prompt</span><span className={styles.productLine}><i>to</i><span>Product</span></span>
         </motion.h1>
         <motion.div className={styles.heroBottom} initial={shouldReduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
           <h2>مش هتتعلم أداة.<br />هتتعلم تحوّل الفكرة <em>لمنتج حقيقي.</em></h2>
@@ -62,7 +62,7 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
       <section className={styles.proofSection} aria-labelledby="proof-heading">
         <div className={styles.statsGrid}>{courseStats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
         <h2 className={styles.proofLine} id="proof-heading" lang="en">284+ products shipped. 263+ clients. <Globe2 size={20} /> 15+ countries.</h2>
-        <div className={styles.projectRail}>{projectProof.map((project, index) => <figure key={project.title} className={styles.projectFigure}><Image src={project.image} alt={project.title} width={1200} height={800} sizes="(max-width: 800px) 88vw, 40vw" /><figcaption lang="en"><span>0{index + 1}</span><strong>{project.title}</strong><small>{project.kind}</small></figcaption></figure>)}</div>
+        <div className={styles.projectRail}>{projectProof.map((project, index) => <figure key={project.title} className={styles.projectFigure}><Image src={project.image} alt={project.title} width={1200} height={800} sizes="(max-width: 800px) 88vw, 40vw" /><figcaption lang="en"><span>0{index + 1}</span><strong>{project.title}</strong><small>{project.kind}</small><p>{project.description}</p></figcaption></figure>)}</div>
       </section>
 
       <section className={styles.audienceSection} aria-labelledby="audience-heading">
@@ -88,8 +88,8 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
       </section>
 
       <section className={styles.offerSection} aria-labelledby="offer-heading">
-        <div><p className={styles.sectionIndex} lang="en">FOUNDING COHORT</p><h2 id="offer-heading">5 أسابيع.<br />10 سيشنز.<br />3 <span lang="en">Build Clinics.</span></h2></div>
-        <div className={styles.offerCopy}><strong lang="en">6,500 EGP</strong><p>أعضاء قائمة الانتظار لهم أولوية وسعر تأسيسي خاص قبل فتح التسجيل العام.</p>{['Live delivery', 'Recordings', 'Project files', 'Demo Day'].map((item) => <span key={item} lang="en"><Check size={16} /> {item}</span>)}<button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>ادخل قائمة الانتظار <ArrowLeft size={20} /></button></div>
+        <div><p className={styles.sectionIndex} lang="en">FOUNDING COHORT</p><h2 id="offer-heading">5 أسابيع.<br />10 سيشنز × 2.5 ساعة.<br />3 <span lang="en">Build Clinics</span> × ساعة.</h2></div>
+        <div className={styles.offerCopy}><strong lang="en">6,500 EGP</strong><p>حوالي 28 ساعة Live عملية. أعضاء قائمة الانتظار لهم أولوية وسعر تأسيسي خاص قبل فتح التسجيل العام.</p>{['Live delivery', 'Recordings', 'Project files', 'Demo Day'].map((item) => <span key={item} lang="en"><Check size={16} /> {item}</span>)}<button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>ادخل قائمة الانتظار <ArrowLeft size={20} /></button></div>
       </section>
     </>
   );

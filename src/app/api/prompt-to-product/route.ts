@@ -1,37 +1,67 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
-  WAITLIST_ID,
   normalizeWaitlistSubmission,
   type WaitlistPayload,
 } from '@/app/prompt-to-product/promptToProductData';
+import {
+  consumeWaitlistAttempt,
+  type WaitlistRateLimitStore,
+} from './waitlistRateLimit';
+import { buildWaitlistSubmissionRow } from './waitlistSubmission';
+
+const globalRateLimit = globalThis as typeof globalThis & {
+  promptToProductWaitlistAttempts?: WaitlistRateLimitStore;
+};
+const waitlistAttempts = globalRateLimit.promptToProductWaitlistAttempts
+  || new Map<string, number[]>();
+globalRateLimit.promptToProductWaitlistAttempts = waitlistAttempts;
+
+function getClientKey(request: Request) {
+  const forwardedIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const ip = forwardedIp || request.headers.get('x-real-ip') || 'unknown';
+  const userAgent = request.headers.get('user-agent') || 'unknown';
+  return `${ip}:${userAgent.slice(0, 120)}`;
+}
 
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as WaitlistPayload;
+    let payload: WaitlistPayload;
+    try {
+      payload = (await request.json()) as WaitlistPayload;
+    } catch {
+      return NextResponse.json({ error: 'بيانات التسجيل غير صالحة.' }, { status: 400 });
+    }
+
+    if (typeof payload.website === 'string' && payload.website.trim()) {
+      return NextResponse.json({ success: true, id: null });
+    }
+
     const normalized = normalizeWaitlistSubmission(payload);
 
     if (!normalized.ok) {
       return NextResponse.json({ error: normalized.error }, { status: 400 });
     }
 
+    const rateLimit = consumeWaitlistAttempt(waitlistAttempts, getClientKey(request));
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'محاولات كتير في وقت قصير. جرّب تاني بعد شوية.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) },
+        }
+      );
+    }
+
     const { fullName, email, phone, answers } = normalized.value;
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('assessment_submissions')
-      .insert([
-        {
-          assessment_id: WAITLIST_ID,
-          company: 'Prompt to Product',
-          full_name: fullName,
-          email,
-          phone,
-          position: 'waitlist',
-          position_label: 'Prompt to Product Waitlist',
-          answers,
-          user_agent: request.headers.get('user-agent') || '',
-        },
-      ])
+      .insert([buildWaitlistSubmissionRow(
+        { fullName, email, phone, answers },
+        request.headers.get('user-agent') || ''
+      )])
       .select('id')
       .single();
 

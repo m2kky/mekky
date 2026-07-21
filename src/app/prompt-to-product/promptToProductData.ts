@@ -18,7 +18,16 @@ export type WaitlistPayload = {
   email?: unknown;
   phone?: unknown;
   answers?: unknown;
+  website?: unknown;
 };
+
+export type WaitlistIdentity = {
+  fullName: string;
+  email: string;
+  phone: string;
+};
+
+export type WaitlistIdentityErrors = Partial<Record<keyof WaitlistIdentity, string>>;
 
 export type StoredWaitlistAnswer = {
   questionId: string;
@@ -158,9 +167,24 @@ export const courseSessions = [
 ];
 
 export const projectProof = [
-  { title: 'Mo7a Art', kind: 'Portfolio', image: '/images/projects/mo7a-art.webp' },
-  { title: 'Forbed Online', kind: 'Conversion Experience', image: '/images/projects/forbed-online.webp' },
-  { title: 'Automated Marketing Audit', kind: 'Performance Tool', image: '/images/projects/dietty-store.webp' },
+  {
+    title: 'Mo7a Art',
+    kind: 'Portfolio',
+    image: '/images/projects/mo7a-art.webp',
+    description: 'Personal brand translated into a focused portfolio experience.',
+  },
+  {
+    title: 'Forbed Online',
+    kind: 'Conversion Experience',
+    image: '/images/projects/forbed-online.webp',
+    description: 'A conversion-first journey that turns attention into a measurable action.',
+  },
+  {
+    title: 'Automated Marketing Audit',
+    kind: 'Performance Tool',
+    image: '/images/projects/dietty-store.webp',
+    description: 'Shopify + ad-platform data turned into acquisition cost, break-even ROAS, and a prioritized audit.',
+  },
 ];
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -169,6 +193,26 @@ const clean = (value: unknown) => typeof value === 'string' ? value.replace(/\s+
 const optionLabel = (question: WaitlistQuestion, value: string) =>
   question.options.find((option) => option.value === value)?.label;
 
+export function validateWaitlistIdentity(
+  value: unknown
+): { ok: true; value: WaitlistIdentity } | { ok: false; errors: WaitlistIdentityErrors } {
+  const raw = value && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+  const fullName = clean(raw.fullName);
+  const email = clean(raw.email).toLowerCase();
+  let phone = clean(raw.phone).replace(/\D/g, '');
+  if (phone.startsWith('20') && phone.length === 12) phone = `0${phone.slice(2)}`;
+
+  const errors: WaitlistIdentityErrors = {};
+  if (!fullName) errors.fullName = 'اكتب اسمك الأول.';
+  if (!EMAIL_REGEX.test(email)) errors.email = 'اكتب إيميل صحيح.';
+  if (!EGYPT_MOBILE_REGEX.test(phone)) errors.phone = 'اكتب رقم واتساب مصري صحيح.';
+
+  if (Object.keys(errors).length > 0) return { ok: false, errors };
+  return { ok: true, value: { fullName, email, phone } };
+}
+
 export function normalizeWaitlistSubmission(
   payload: unknown
 ): { ok: true; value: NormalizedWaitlistSubmission } | { ok: false; error: string } {
@@ -176,14 +220,17 @@ export function normalizeWaitlistSubmission(
     return { ok: false, error: 'بيانات التسجيل غير صالحة.' };
   }
   const rawPayload = payload as WaitlistPayload;
-  const fullName = clean(rawPayload.fullName);
-  const email = clean(rawPayload.email).toLowerCase();
-  let phone = clean(rawPayload.phone).replace(/\D/g, '');
-  if (phone.startsWith('20') && phone.length === 12) phone = `0${phone.slice(2)}`;
-
-  if (!fullName) return { ok: false, error: 'اكتب اسمك الأول.' };
-  if (!EMAIL_REGEX.test(email)) return { ok: false, error: 'اكتب إيميل صحيح.' };
-  if (!EGYPT_MOBILE_REGEX.test(phone)) return { ok: false, error: 'اكتب رقم واتساب مصري صحيح.' };
+  const identity = validateWaitlistIdentity(rawPayload);
+  if (!identity.ok) {
+    return {
+      ok: false,
+      error: identity.errors.fullName
+        || identity.errors.email
+        || identity.errors.phone
+        || 'بيانات التسجيل غير صالحة.',
+    };
+  }
+  const { fullName, email, phone } = identity.value;
   if (!rawPayload.answers || typeof rawPayload.answers !== 'object' || Array.isArray(rawPayload.answers)) {
     return { ok: false, error: 'جاوب على كل الأسئلة قبل الإرسال.' };
   }

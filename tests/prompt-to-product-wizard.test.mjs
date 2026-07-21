@@ -24,13 +24,11 @@ test('hydrates saved progress before writing it back', () => {
 });
 
 test('validates complete identity fields and Egyptian contact details', () => {
-  assert.match(wizardSource, /identity\.fullName\.trim\(\)/);
-  assert.match(wizardSource, /identity\.email\.trim\(\)/);
-  assert.match(wizardSource, /identity\.phone\.trim\(\)/);
-  assert.match(wizardSource, /\^\[\^\\s@\]\+@\[\^\\s@\]\+\\\.\[\^\\s@\]\+\$/);
-  assert.match(wizardSource, /\^01\[0125\]\\d\{8\}\$/);
-  assert.match(wizardSource, /اكتب إيميل صحيح/);
-  assert.match(wizardSource, /اكتب رقم واتساب مصري صحيح/);
+  assert.match(wizardSource, /validateWaitlistIdentity\(identity\)/);
+  assert.match(wizardSource, /if \(step === -1\) return identityValidation\.ok/);
+  assert.match(wizardSource, /aria-invalid=/);
+  assert.match(wizardSource, /aria-describedby=/);
+  assert.match(wizardSource, /styles\.fieldError/);
 });
 
 test('supports exclusive single choice and none-aware multi-select answers', () => {
@@ -47,7 +45,7 @@ test('moves backward and forward without leaving the assessment bounds', () => {
 test('submits the complete payload and leaves saved answers available for retry', () => {
   assert.match(wizardSource, /fetch\('\/api\/prompt-to-product'/);
   assert.match(wizardSource, /method: 'POST'/);
-  assert.match(wizardSource, /JSON\.stringify\(\{ \.\.\.identity, answers \}\)/);
+  assert.match(wizardSource, /JSON\.stringify\(\{ \.\.\.identity, answers, website \}\)/);
   assert.match(wizardSource, /if \(!response\.ok \|\| !result\.success\)/);
   assert.match(wizardSource, /setStatus\('idle'\)/);
   assert.match(wizardSource, /إجاباتك محفوظة، جرّب تاني/);
@@ -75,6 +73,8 @@ test('runs all waitlist checks through the canonical package script', () => {
   const command = packageJson.scripts['test:waitlist'];
   for (const testFile of [
     'prompt-to-product-domain.test.mjs',
+    'prompt-to-product-api-contract.test.mjs',
+    'prompt-to-product-rate-limit.test.mjs',
     'prompt-to-product-wizard-state.test.mjs',
     'prompt-to-product-wizard.test.mjs',
     'prompt-to-product-campaign.test.mjs',

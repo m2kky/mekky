@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   WAITLIST_ID,
   normalizeWaitlistSubmission,
+  validateWaitlistIdentity,
   waitlistQuestions,
 } from '../src/app/prompt-to-product/promptToProductData.ts';
 
@@ -32,6 +33,34 @@ test('normalizes a complete waitlist submission', () => {
   assert.equal(result.value.email, 'ahmed@example.com');
   assert.equal(result.value.phone, '01012345678');
   assert.equal(result.value.answers.length, 7);
+});
+
+test('shares normalized identity validation with the client flow', () => {
+  assert.deepEqual(
+    validateWaitlistIdentity(validPayload),
+    {
+      ok: true,
+      value: {
+        fullName: 'Ahmed Mohamed',
+        email: 'ahmed@example.com',
+        phone: '01012345678',
+      },
+    }
+  );
+});
+
+test('returns field-level Arabic identity errors', () => {
+  assert.deepEqual(
+    validateWaitlistIdentity({ fullName: '', email: 'wrong', phone: '1234' }),
+    {
+      ok: false,
+      errors: {
+        fullName: 'اكتب اسمك الأول.',
+        email: 'اكتب إيميل صحيح.',
+        phone: 'اكتب رقم واتساب مصري صحيح.',
+      },
+    }
+  );
 });
 
 test('rejects an invalid Egyptian mobile number', () => {

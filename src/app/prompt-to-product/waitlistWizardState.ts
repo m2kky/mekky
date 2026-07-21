@@ -1,9 +1,10 @@
 import type {
   WaitlistAnswers,
+  WaitlistIdentity,
   WaitlistQuestion,
 } from './promptToProductData';
 
-export type Identity = { fullName: string; email: string; phone: string };
+export type Identity = WaitlistIdentity;
 export type StoredProgress = {
   identity: Identity;
   answers: WaitlistAnswers;
