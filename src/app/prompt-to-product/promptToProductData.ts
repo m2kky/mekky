@@ -183,7 +183,7 @@ export const projectProof = [
     title: 'Automated Marketing Audit',
     kind: 'Performance Tool',
     image: '/images/projects/dietty-store.webp',
-    description: 'Shopify + ad-platform data turned into acquisition cost, break-even ROAS, and a prioritized audit.',
+    description: 'Connects Shopify orders with campaign spend, calculates blended acquisition cost and contribution-margin break-even ROAS, then prioritizes the performance leaks to fix first.',
   },
 ];
 

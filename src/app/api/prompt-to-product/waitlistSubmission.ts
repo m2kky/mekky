@@ -10,6 +10,14 @@ type WaitlistSubmissionInput = {
   }>;
 };
 
+export function isWaitlistRequestBody(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+export function hasFilledHoneypot(value: Record<string, unknown>): boolean {
+  return typeof value.website === 'string' && value.website.trim().length > 0;
+}
+
 export function buildWaitlistSubmissionRow(
   submission: WaitlistSubmissionInput,
   userAgent: string

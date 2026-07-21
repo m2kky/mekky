@@ -4,7 +4,11 @@ import {
   normalizeWaitlistSubmission,
   waitlistQuestions,
 } from '../src/app/prompt-to-product/promptToProductData.ts';
-import { buildWaitlistSubmissionRow } from '../src/app/api/prompt-to-product/waitlistSubmission.ts';
+import {
+  buildWaitlistSubmissionRow,
+  hasFilledHoneypot,
+  isWaitlistRequestBody,
+} from '../src/app/api/prompt-to-product/waitlistSubmission.ts';
 
 const answers = Object.fromEntries(
   waitlistQuestions.map((question) => [
@@ -49,4 +53,13 @@ test('maps a normalized lead to the fixed Supabase row contract', () => {
       user_agent: 'test-agent',
     }
   );
+});
+
+test('rejects non-object JSON bodies before reading the honeypot', () => {
+  assert.equal(isWaitlistRequestBody(null), false);
+  assert.equal(isWaitlistRequestBody([]), false);
+  assert.equal(isWaitlistRequestBody('body'), false);
+  assert.equal(isWaitlistRequestBody({ website: '' }), true);
+  assert.equal(hasFilledHoneypot({ website: 'bot-filled' }), true);
+  assert.equal(hasFilledHoneypot({ website: '' }), false);
 });

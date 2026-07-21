@@ -8,7 +8,11 @@ import {
   consumeWaitlistAttempt,
   type WaitlistRateLimitStore,
 } from './waitlistRateLimit';
-import { buildWaitlistSubmissionRow } from './waitlistSubmission';
+import {
+  buildWaitlistSubmissionRow,
+  hasFilledHoneypot,
+  isWaitlistRequestBody,
+} from './waitlistSubmission';
 
 const globalRateLimit = globalThis as typeof globalThis & {
   promptToProductWaitlistAttempts?: WaitlistRateLimitStore;
@@ -26,17 +30,22 @@ function getClientKey(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    let payload: WaitlistPayload;
+    let parsedBody: unknown;
     try {
-      payload = (await request.json()) as WaitlistPayload;
+      parsedBody = await request.json();
     } catch {
       return NextResponse.json({ error: 'بيانات التسجيل غير صالحة.' }, { status: 400 });
     }
 
-    if (typeof payload.website === 'string' && payload.website.trim()) {
+    if (!isWaitlistRequestBody(parsedBody)) {
+      return NextResponse.json({ error: 'بيانات التسجيل غير صالحة.' }, { status: 400 });
+    }
+
+    if (hasFilledHoneypot(parsedBody)) {
       return NextResponse.json({ success: true, id: null });
     }
 
+    const payload = parsedBody as WaitlistPayload;
     const normalized = normalizeWaitlistSubmission(payload);
 
     if (!normalized.ok) {
