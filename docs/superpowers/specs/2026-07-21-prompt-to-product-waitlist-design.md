@@ -15,10 +15,11 @@ No payment or booking occurs in this version.
 
 ## 2. Audience
 
-The page serves two audience segments in one flow:
+The page serves several audience segments in one flow, with three primary readiness profiles:
 
 - Non-developers who have tried tools such as Lovable or Replit and want to build beyond a first prototype.
 - People with basic or intermediate technical experience who want a repeatable, production-minded building process.
+- Media buyers and performance marketers who want to build campaign calculators, reporting dashboards, audit tools, landing-page experiments, and small internal utilities without waiting on a development team.
 
 The assessment segments applicants by role, current experience, tool usage, intended project, blocker, weekly availability, and budget.
 
@@ -94,13 +95,14 @@ A cinematic editorial campaign page that inherits the portfolio's stark black an
 1. Full-bleed hero: course name, promise, live format, and primary CTA.
 2. Problem: the difference between a convincing demo and a usable product.
 3. Proof: verified numbers and selected portfolio work.
-4. Outcomes: the three projects participants ship.
-5. Method: documentation, design, backend, and production layers.
-6. Curriculum: the ten-session progression.
-7. Format: five weeks, live sessions, clinics, and demo day.
-8. Price anchor and waitlist benefit.
-9. Inline assessment wizard.
-10. Confirmation state.
+4. Audience use cases: concrete applications for founders, creatives, developers, and media buyers.
+5. Outcomes: the three projects participants ship.
+6. Method: documentation, design, backend, and production layers.
+7. Curriculum: the ten-session progression.
+8. Format: five weeks, live sessions, clinics, and demo day.
+9. Price anchor and waitlist benefit.
+10. Inline assessment wizard.
+11. Confirmation state.
 
 ### Interaction thesis
 
@@ -136,9 +138,20 @@ Explain the production gap without attacking a specific tool. Contrast:
 
 ### 8.4 Proof
 
-Display the verified numbers as large editorial type, not dashboard cards. Pair the numbers with selected existing portfolio images that demonstrate portfolio, landing/e-commerce, and tool/system work.
+Display the verified numbers as large editorial type, not dashboard cards. Pair the numbers with selected existing portfolio images that demonstrate portfolio, landing/e-commerce, and tool/system work. Feature the Automated Marketing Audit case study as direct evidence for media buyers: a real system combining ad-platform and Shopify data to reveal acquisition cost and break-even ROAS.
 
-### 8.5 Outcomes
+### 8.5 Who this is for
+
+Show audience use cases as concise editorial examples rather than generic persona cards:
+
+- Founders: validate ideas, launch waitlists, and build internal tools.
+- Designers and creators: publish portfolios and interactive experiences.
+- Developers and technical builders: plan, accelerate, debug, and productionize AI-assisted work.
+- Media buyers and performance marketers: build break-even ROAS and budget calculators, UTM utilities, campaign dashboards, automated performance audits, creative-testing trackers, and higher-converting campaign landing pages.
+
+The media-buyer message must be prominent enough to appear while scanning the page and must not imply that the camp teaches media buying itself. It teaches product-building skills applied to performance-marketing workflows.
+
+### 8.6 Outcomes
 
 Present the three course outputs as a narrative progression:
 
@@ -146,15 +159,15 @@ Present the three course outputs as a narrative progression:
 2. Landing page — turn attention into action.
 3. Micro tool — solve a real problem with frontend, backend, and data.
 
-### 8.6 Method and curriculum
+### 8.7 Method and curriculum
 
 Show the workflow `Business → Product → Functional → Quality → Build → Verify`. The ten sessions appear as a clean indexed timeline, with documentation and production topics emphasized as differentiators.
 
-### 8.7 Format and price anchor
+### 8.8 Format and price anchor
 
 Show five weeks, ten sessions, three clinics, live delivery, recordings, project files, and demo day. Display the standard 6,500 EGP value while describing the waitlist benefit as private founding-cohort access without publishing the discounted price.
 
-### 8.8 Waitlist transition
+### 8.9 Waitlist transition
 
 The primary CTA scrolls to and activates the inline assessment. On activation, the assessment becomes the dominant surface and minimizes campaign distractions. Preserve progress in the browser so an accidental refresh does not discard completed answers.
 
@@ -172,6 +185,7 @@ Required fields:
 
 1. **Current role**
    - Founder / business owner
+   - Media buyer / performance marketer
    - Marketer / content creator
    - Designer
    - Developer
@@ -199,6 +213,7 @@ Required fields:
    - Personal portfolio
    - Landing page
    - Micro tool
+   - Marketing calculator, dashboard, or audit tool
    - SaaS / customer-facing product
    - Internal business tool
    - I have not decided yet
@@ -276,4 +291,3 @@ Show one question per screen with a progress indicator, back/next controls, keyb
 - Applicant scoring or automated acceptance.
 - A new admin reporting dashboard.
 - Student accounts or a learning-management system.
-
