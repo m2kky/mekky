@@ -103,6 +103,7 @@ export default function PopupRenderer() {
     const isAdmin = pathname?.startsWith('/admin') || pathname?.startsWith('/login');
     const isFocusedFlow =
         pathname?.startsWith('/assessment') ||
+        pathname?.startsWith('/prompt-to-product') ||
         pathname?.startsWith('/rammah-project');
 
     // ─── Fetch Popups ───────────────────────────

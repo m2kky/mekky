@@ -12,6 +12,9 @@ const routeFiles = [
 const clientSource = readFileSync(routeFiles[1], 'utf8');
 const landingSource = readFileSync(routeFiles[2], 'utf8');
 const styleSource = readFileSync(routeFiles[3], 'utf8');
+const floatingCtaSource = readFileSync('src/components/FloatingCTA.tsx', 'utf8');
+const currentProjectsWidgetSource = readFileSync('src/components/CurrentProjectsWidget.tsx', 'utf8');
+const popupRendererSource = readFileSync('src/components/PopupRenderer.tsx', 'utf8');
 
 const relativeLuminance = (hex) => {
   const channels = hex.match(/[0-9a-f]{2}/gi).map((channel) => parseInt(channel, 16) / 255);
@@ -90,4 +93,12 @@ test('exposes each campaign section through a labelled region', () => {
     (landingSource.match(/aria-labelledby=/g)?.length ?? 0) >= 8,
     'expected the hero and every content section to reference a visible heading'
   );
+});
+
+test('suppresses global distractions across the campaign route tree', () => {
+  const promptToProductRouteGuard = /pathname\?\.startsWith\('\/prompt-to-product'\)/;
+
+  assert.match(floatingCtaSource, promptToProductRouteGuard);
+  assert.match(currentProjectsWidgetSource, promptToProductRouteGuard);
+  assert.match(popupRendererSource, promptToProductRouteGuard);
 });

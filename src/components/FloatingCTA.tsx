@@ -11,7 +11,9 @@ export default function FloatingCTA() {
     const [scrollDirection, setScrollDirection] = useState<'down' | 'up' | 'top'>('top');
     const lastScrollY = useRef(0);
 
-    const isFocusedFlow = pathname?.startsWith('/assessment');
+    const isFocusedFlow =
+        pathname?.startsWith('/assessment') ||
+        pathname?.startsWith('/prompt-to-product');
 
     useEffect(() => {
         if (isFocusedFlow) return;
