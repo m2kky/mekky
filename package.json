@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:waitlist": "node --test tests/prompt-to-product-domain.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
