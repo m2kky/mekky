@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, LoaderCircle } from 'lucide-react';
 import {
@@ -8,46 +8,74 @@ import {
   waitlistQuestions,
   type WaitlistAnswers,
 } from './promptToProductData';
+import {
+  chooseWizardAnswer,
+  clearStoredProgress,
+  createProgressSnapshot,
+  getGreetingName,
+  nextWizardStep,
+  previousWizardStep,
+  readStoredProgress,
+  writeStoredProgress,
+  type Identity,
+} from './waitlistWizardState';
 import styles from './PromptToProduct.module.css';
 
-type Identity = { fullName: string; email: string; phone: string };
-type StoredProgress = { identity: Identity; answers: WaitlistAnswers; step: number };
 type Props = { active: boolean; onActivate: () => void };
 
 const emptyIdentity: Identity = { fullName: '', email: '', phone: '' };
 
 export default function WaitlistWizard({ active, onActivate }: Props) {
   const shouldReduceMotion = useReducedMotion();
+  const focusTargetRef = useRef<HTMLElement>(null);
+  const submissionLockedRef = useRef(false);
   const [identity, setIdentity] = useState(emptyIdentity);
   const [answers, setAnswers] = useState<WaitlistAnswers>({});
   const [step, setStep] = useState(-1);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [hydrated, setHydrated] = useState(false);
   const [error, setError] = useState('');
+  const submitting = status === 'submitting';
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(WAITLIST_STORAGE_KEY);
-      if (saved) {
-        const progress = JSON.parse(saved) as StoredProgress;
-        setIdentity(progress.identity || emptyIdentity);
-        setAnswers(progress.answers || {});
-        setStep(Number.isInteger(progress.step) ? progress.step : -1);
+    const frame = window.requestAnimationFrame(() => {
+      const progress = readStoredProgress(
+        window.localStorage,
+        WAITLIST_STORAGE_KEY,
+        waitlistQuestions
+      );
+
+      if (progress) {
+        setIdentity(progress.identity);
+        setAnswers(progress.answers);
+        setStep(progress.step);
+      } else {
+        setIdentity(emptyIdentity);
+        setAnswers({});
+        setStep(-1);
       }
-    } catch {
-      window.localStorage.removeItem(WAITLIST_STORAGE_KEY);
-    } finally {
       setHydrated(true);
-    }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
     if (!hydrated || status === 'success') return;
-    window.localStorage.setItem(
+    writeStoredProgress(
+      window.localStorage,
       WAITLIST_STORAGE_KEY,
-      JSON.stringify({ identity, answers, step })
+      createProgressSnapshot(identity, answers, step)
     );
   }, [answers, hydrated, identity, status, step]);
+
+  const focusKey = status === 'success' ? 'success' : step;
+  useEffect(() => {
+    if (!active || !hydrated) return;
+
+    const frame = window.requestAnimationFrame(() => focusTargetRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [active, focusKey, hydrated]);
 
   const currentQuestion = step >= 0 ? waitlistQuestions[step] : null;
   const progress = step < 0
@@ -67,29 +95,21 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
 
   const updateIdentity = (field: keyof Identity) =>
     (event: ChangeEvent<HTMLInputElement>) => {
+      if (submitting) return;
       setIdentity((current) => ({ ...current, [field]: event.target.value }));
       setError('');
     };
 
   const chooseAnswer = (value: string) => {
+    if (submitting) return;
     if (!currentQuestion) return;
-
-    if (currentQuestion.type === 'choice') {
-      setAnswers((current) => ({ ...current, [currentQuestion.id]: value }));
-      return;
-    }
-
-    const selected = Array.isArray(currentAnswer) ? currentAnswer : [];
-    const next = value === 'none'
-      ? (selected.includes('none') ? [] : ['none'])
-      : selected.includes(value)
-        ? selected.filter((item) => item !== value)
-        : [...selected.filter((item) => item !== 'none'), value];
-
+    const next = chooseWizardAnswer(currentQuestion, currentAnswer, value);
+    if (next === undefined) return;
     setAnswers((current) => ({ ...current, [currentQuestion.id]: next }));
   };
 
   const goNext = () => {
+    if (submitting) return;
     if (!canContinue) return;
     setError('');
 
@@ -102,15 +122,18 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
       }
     }
 
-    setStep((current) => Math.min(current + 1, waitlistQuestions.length - 1));
+    setStep((current) => nextWizardStep(current, waitlistQuestions.length - 1));
   };
 
   const goBack = () => {
+    if (submitting) return;
     setError('');
-    setStep((current) => Math.max(-1, current - 1));
+    setStep((current) => previousWizardStep(current));
   };
 
   const submit = async () => {
+    if (submissionLockedRef.current || submitting || !canContinue) return;
+    submissionLockedRef.current = true;
     setStatus('submitting');
     setError('');
 
@@ -124,14 +147,16 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
 
       if (!response.ok || !result.success) {
         setError(result.error || 'مقدرناش نسجل بياناتك. جرّب تاني.');
+        submissionLockedRef.current = false;
         setStatus('idle');
         return;
       }
 
-      window.localStorage.removeItem(WAITLIST_STORAGE_KEY);
+      clearStoredProgress(window.localStorage, WAITLIST_STORAGE_KEY);
       setStatus('success');
     } catch {
       setError('حصلت مشكلة في الاتصال. إجاباتك محفوظة، جرّب تاني.');
+      submissionLockedRef.current = false;
       setStatus('idle');
     }
   };
@@ -150,11 +175,16 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
 
   if (status === 'success') {
     return (
-      <section className={styles.wizardShell} aria-labelledby="waitlist-success-title">
+      <section
+        ref={focusTargetRef}
+        className={styles.wizardShell}
+        aria-labelledby="waitlist-success-title"
+        tabIndex={-1}
+      >
         <div className={styles.successState} role="status">
           <CheckCircle2 size={64} aria-hidden="true" />
           <span lang="en">YOU&apos;RE ON THE LIST</span>
-          <h2 id="waitlist-success-title">تمام يا {identity.fullName.split(' ')[0]}.</h2>
+          <h2 id="waitlist-success-title">تمام يا {getGreetingName(identity.fullName)}.</h2>
           <p>
             سجلنا اهتمامك. هيوصلك قبل أي حد موعد الدفعة التأسيسية والسعر الخاص
             بقائمة الانتظار.
@@ -167,7 +197,12 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
   const isLast = step === waitlistQuestions.length - 1;
 
   return (
-    <section className={styles.wizardShell} aria-labelledby="wizard-title">
+    <section
+      ref={focusTargetRef}
+      className={styles.wizardShell}
+      aria-labelledby="wizard-title"
+      tabIndex={-1}
+    >
       <div className={styles.wizardTop}>
         <span lang="en">Prompt to Product</span>
         <strong>
@@ -194,6 +229,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                   الاسم
                   <input
                     autoComplete="name"
+                    disabled={submitting}
                     value={identity.fullName}
                     onChange={updateIdentity('fullName')}
                   />
@@ -204,6 +240,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                     dir="ltr"
                     type="email"
                     autoComplete="email"
+                    disabled={submitting}
                     value={identity.email}
                     onChange={updateIdentity('email')}
                   />
@@ -214,6 +251,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                     dir="ltr"
                     inputMode="tel"
                     autoComplete="tel"
+                    disabled={submitting}
                     value={identity.phone}
                     onChange={updateIdentity('phone')}
                     placeholder="01xxxxxxxxx"
@@ -239,6 +277,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
                       type="button"
                       className={selected ? styles.optionSelected : ''}
                       aria-pressed={selected}
+                      disabled={submitting}
                       key={option.value}
                       onClick={() => chooseAnswer(option.value)}
                     >
@@ -255,7 +294,12 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
 
           <div className={styles.wizardActions}>
             {step >= 0 ? (
-              <button type="button" className={styles.backButton} onClick={goBack}>
+              <button
+                type="button"
+                className={styles.backButton}
+                disabled={submitting}
+                onClick={goBack}
+              >
                 <ArrowRight size={18} aria-hidden="true" /> رجوع
               </button>
             ) : <span />}
@@ -263,7 +307,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
               <button
                 type="button"
                 className={styles.submitButton}
-                disabled={!canContinue || status === 'submitting'}
+                disabled={!canContinue || submitting}
                 onClick={submit}
               >
                 {status === 'submitting' ? (
@@ -275,7 +319,7 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
               <button
                 type="button"
                 className={styles.nextButton}
-                disabled={!canContinue}
+                disabled={!canContinue || submitting}
                 onClick={goNext}
               >
                 التالي <ArrowLeft size={18} aria-hidden="true" />

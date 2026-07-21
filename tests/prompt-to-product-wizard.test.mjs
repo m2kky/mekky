@@ -15,13 +15,11 @@ test('models identity, seven answers, navigation, and request status', () => {
 });
 
 test('hydrates saved progress before writing it back', () => {
-  assert.match(wizardSource, /localStorage\.getItem\(WAITLIST_STORAGE_KEY\)/);
-  assert.match(wizardSource, /setIdentity\(progress\.identity \|\| emptyIdentity\)/);
-  assert.match(wizardSource, /setAnswers\(progress\.answers \|\| \{\}\)/);
-  assert.match(wizardSource, /Number\.isInteger\(progress\.step\)/);
+  assert.match(wizardSource, /readStoredProgress/);
+  assert.match(wizardSource, /createProgressSnapshot/);
+  assert.match(wizardSource, /writeStoredProgress/);
+  assert.match(wizardSource, /clearStoredProgress/);
   assert.match(wizardSource, /if \(!hydrated \|\| status === 'success'\) return/);
-  assert.match(wizardSource, /localStorage\.setItem\(\s*WAITLIST_STORAGE_KEY/);
-  assert.match(wizardSource, /localStorage\.removeItem\(WAITLIST_STORAGE_KEY\)/);
 });
 
 test('validates complete identity fields and Egyptian contact details', () => {
@@ -35,17 +33,13 @@ test('validates complete identity fields and Egyptian contact details', () => {
 });
 
 test('supports exclusive single choice and none-aware multi-select answers', () => {
-  assert.match(wizardSource, /currentQuestion\.type === 'choice'/);
-  assert.match(wizardSource, /\[currentQuestion\.id\]: value/);
-  assert.match(wizardSource, /value === 'none'/);
-  assert.match(wizardSource, /selected\.filter\(\(item\) => item !== 'none'\)/);
+  assert.match(wizardSource, /chooseWizardAnswer/);
   assert.match(wizardSource, /aria-pressed=\{selected\}/);
 });
 
 test('moves backward and forward without leaving the assessment bounds', () => {
-  assert.match(wizardSource, /Math\.min\(current \+ 1, waitlistQuestions\.length - 1\)/);
-  assert.match(wizardSource, /Math\.max\(-1, current - 1\)/);
-  assert.match(wizardSource, /disabled=\{!canContinue\}/);
+  assert.match(wizardSource, /nextWizardStep/);
+  assert.match(wizardSource, /previousWizardStep/);
   assert.match(wizardSource, /step === waitlistQuestions\.length - 1/);
 });
 
@@ -57,6 +51,32 @@ test('submits the complete payload and leaves saved answers available for retry'
   assert.match(wizardSource, /setStatus\('idle'\)/);
   assert.match(wizardSource, /إجاباتك محفوظة، جرّب تاني/);
   assert.match(wizardSource, /setStatus\('success'\)/);
+});
+
+test('moves focus to the active wizard surface after activation, steps, and success', () => {
+  assert.match(wizardSource, /useRef/);
+  assert.match(wizardSource, /focusTargetRef/);
+  assert.match(wizardSource, /requestAnimationFrame/);
+  assert.match(wizardSource, /cancelAnimationFrame/);
+  assert.match(wizardSource, /tabIndex=\{-1\}/);
+  assert.ok(
+    (wizardSource.match(/ref=\{focusTargetRef\}/g)?.length ?? 0) >= 2,
+    'expected the active and success surfaces to share the managed focus target'
+  );
+});
+
+test('freezes every mutation path while a request is submitting', () => {
+  assert.match(wizardSource, /submissionLockedRef/);
+  assert.ok(
+    (wizardSource.match(/if \(submitting\) return/g)?.length ?? 0) >= 4,
+    'expected identity, answer, next, and back handlers to be guarded'
+  );
+  assert.ok(
+    (wizardSource.match(/disabled=\{submitting\}/g)?.length ?? 0) >= 5,
+    'expected identity inputs, options, and back navigation to freeze'
+  );
+  assert.match(wizardSource, /disabled=\{!canContinue \|\| submitting\}/);
+  assert.match(wizardSource, /getGreetingName/);
 });
 
 test('renders accessible identity, error, progress, loading, and success states in the campaign system', () => {
