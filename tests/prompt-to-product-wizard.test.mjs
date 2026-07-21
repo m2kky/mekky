@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 
 const wizardSource = readFileSync('src/app/prompt-to-product/WaitlistWizard.tsx', 'utf8');
 const styleSource = readFileSync('src/app/prompt-to-product/PromptToProduct.module.css', 'utf8');
+const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 
 test('models identity, seven answers, navigation, and request status', () => {
   assert.match(wizardSource, /useState\(emptyIdentity\)/);
@@ -53,16 +54,33 @@ test('submits the complete payload and leaves saved answers available for retry'
   assert.match(wizardSource, /setStatus\('success'\)/);
 });
 
-test('moves focus to the active wizard surface after activation, steps, and success', () => {
-  assert.match(wizardSource, /useRef/);
-  assert.match(wizardSource, /focusTargetRef/);
+test('focuses each keyed panel when it mounts and handles success separately', () => {
+  assert.match(wizardSource, /useCallback/);
+  assert.match(wizardSource, /focusPanelOnMount/);
+  assert.match(wizardSource, /focusSuccessOnMount/);
   assert.match(wizardSource, /requestAnimationFrame/);
   assert.match(wizardSource, /cancelAnimationFrame/);
-  assert.match(wizardSource, /tabIndex=\{-1\}/);
-  assert.ok(
-    (wizardSource.match(/ref=\{focusTargetRef\}/g)?.length ?? 0) >= 2,
-    'expected the active and success surfaces to share the managed focus target'
+  assert.match(
+    wizardSource,
+    /<motion\.div[\s\S]*?ref=\{focusPanelOnMount\}[\s\S]*?tabIndex=\{-1\}/
   );
+  assert.match(
+    wizardSource,
+    /className=\{styles\.successState\}[\s\S]*?ref=\{focusSuccessOnMount\}[\s\S]*?tabIndex=\{-1\}/
+  );
+  assert.doesNotMatch(wizardSource, /focusTargetRef|focusKey/);
+});
+
+test('runs all waitlist checks through the canonical package script', () => {
+  const command = packageJson.scripts['test:waitlist'];
+  for (const testFile of [
+    'prompt-to-product-domain.test.mjs',
+    'prompt-to-product-wizard-state.test.mjs',
+    'prompt-to-product-wizard.test.mjs',
+    'prompt-to-product-campaign.test.mjs',
+  ]) {
+    assert.match(command, new RegExp(testFile.replaceAll('.', '\\.')));
+  }
 });
 
 test('freezes every mutation path while a request is submitting', () => {

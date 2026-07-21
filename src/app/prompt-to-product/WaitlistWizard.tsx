@@ -1,6 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+} from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, LoaderCircle } from 'lucide-react';
 import {
@@ -27,7 +34,8 @@ const emptyIdentity: Identity = { fullName: '', email: '', phone: '' };
 
 export default function WaitlistWizard({ active, onActivate }: Props) {
   const shouldReduceMotion = useReducedMotion();
-  const focusTargetRef = useRef<HTMLElement>(null);
+  const panelFocusFrameRef = useRef<number | null>(null);
+  const successFocusFrameRef = useRef<number | null>(null);
   const submissionLockedRef = useRef(false);
   const [identity, setIdentity] = useState(emptyIdentity);
   const [answers, setAnswers] = useState<WaitlistAnswers>({});
@@ -69,13 +77,31 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
     );
   }, [answers, hydrated, identity, status, step]);
 
-  const focusKey = status === 'success' ? 'success' : step;
-  useEffect(() => {
-    if (!active || !hydrated) return;
+  const focusPanelOnMount = useCallback((node: HTMLDivElement | null) => {
+    if (panelFocusFrameRef.current !== null) {
+      window.cancelAnimationFrame(panelFocusFrameRef.current);
+      panelFocusFrameRef.current = null;
+    }
+    if (!node) return;
 
-    const frame = window.requestAnimationFrame(() => focusTargetRef.current?.focus());
-    return () => window.cancelAnimationFrame(frame);
-  }, [active, focusKey, hydrated]);
+    panelFocusFrameRef.current = window.requestAnimationFrame(() => {
+      node.focus();
+      panelFocusFrameRef.current = null;
+    });
+  }, []);
+
+  const focusSuccessOnMount = useCallback((node: HTMLDivElement | null) => {
+    if (successFocusFrameRef.current !== null) {
+      window.cancelAnimationFrame(successFocusFrameRef.current);
+      successFocusFrameRef.current = null;
+    }
+    if (!node) return;
+
+    successFocusFrameRef.current = window.requestAnimationFrame(() => {
+      node.focus();
+      successFocusFrameRef.current = null;
+    });
+  }, []);
 
   const currentQuestion = step >= 0 ? waitlistQuestions[step] : null;
   const progress = step < 0
@@ -176,12 +202,15 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
   if (status === 'success') {
     return (
       <section
-        ref={focusTargetRef}
         className={styles.wizardShell}
         aria-labelledby="waitlist-success-title"
-        tabIndex={-1}
       >
-        <div className={styles.successState} role="status">
+        <div
+          className={styles.successState}
+          ref={focusSuccessOnMount}
+          role="status"
+          tabIndex={-1}
+        >
           <CheckCircle2 size={64} aria-hidden="true" />
           <span lang="en">YOU&apos;RE ON THE LIST</span>
           <h2 id="waitlist-success-title">تمام يا {getGreetingName(identity.fullName)}.</h2>
@@ -198,10 +227,8 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
 
   return (
     <section
-      ref={focusTargetRef}
       className={styles.wizardShell}
       aria-labelledby="wizard-title"
-      tabIndex={-1}
     >
       <div className={styles.wizardTop}>
         <span lang="en">Prompt to Product</span>
@@ -215,6 +242,8 @@ export default function WaitlistWizard({ active, onActivate }: Props) {
       <AnimatePresence mode="wait">
         <motion.div
           className={styles.wizardPanel}
+          ref={focusPanelOnMount}
+          tabIndex={-1}
           key={step}
           initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
