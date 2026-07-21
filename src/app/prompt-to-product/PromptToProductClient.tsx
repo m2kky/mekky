@@ -18,7 +18,7 @@ export default function PromptToProductClient() {
   };
 
   return (
-    <main className={styles.page} dir="rtl">
+    <main className={styles.page} dir="rtl" lang="ar">
       <CourseLanding onJoinWaitlist={startWaitlist} />
       <div className={styles.waitlistAnchor} id="waitlist" ref={waitlistRef}>
         <WaitlistWizard active={started} onActivate={startWaitlist} />

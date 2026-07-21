@@ -2,6 +2,7 @@
   --ink: #050505;
   --paper: #fffcf2;
   --orange: #eb5e28;
+  --orange-on-paper: #a63a13;
   --muted-paper: rgba(255, 252, 242, .68);
   --rule-dark: rgba(5, 5, 5, .2);
   position: relative;
@@ -140,7 +141,7 @@
 }
 
 .primaryCta:hover {
-  color: var(--paper);
+  color: var(--ink);
   background: var(--orange);
   transform: translateY(-2px);
 }
@@ -167,6 +168,12 @@
 .offerSection {
   color: var(--ink);
   background: var(--paper);
+}
+
+.gapSection .sectionIndex,
+.audienceSection .sectionIndex,
+.offerSection .sectionIndex {
+  color: var(--orange-on-paper);
 }
 
 .gapHeadline {
@@ -228,6 +235,7 @@
   margin: 4rem 0 2rem;
   color: var(--paper);
   font-size: clamp(1.3rem, 2.5vw, 2.5rem);
+  font-weight: 400;
 }
 
 .projectRail {
@@ -374,6 +382,7 @@
 }
 
 .offerCopy .primaryCta:hover {
+  color: var(--ink);
   background: var(--orange);
 }
 
