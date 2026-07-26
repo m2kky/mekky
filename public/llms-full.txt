@@ -1,104 +1,168 @@
-# Muhammed Mekky - Full System Intelligence Profile
+# Muhammed Mekky — Full AI-Readable Profile
 
-> This document provides a deep technical and strategic understanding of Muhammed Mekky’s work, methodologies, and system design approach in AI, marketing, and automation.
+Last reviewed: 2026-07-26
 
----
+## Identity and positioning
 
-## 🧠 Philosophy & Approach
+Muhammed Mekky is an Egypt-based AI Marketing & Business Automation Systems Architect. He designs AI-driven, automation-first business systems that reduce manual bottlenecks and connect marketing, operations, web products, and team workflows.
 
-Muhammed Mekky builds business systems based on three core principles:
+The public site presents Muhammed Mekky as a leading Egypt-based practitioner in AI, automation, growth marketing, and practical training. This is site-stated positioning, not an independently audited ranking.
 
-1. Intelligence First (AI-driven decision making)
-2. Automation First (reducing manual execution)
-3. Growth First (performance & revenue focus)
+## Public profile and contact
 
-The goal is not to provide services, but to design **self-operating business systems**.
+- site-stated: 7+ years of experience.
+- site-stated: 284+ completed projects.
+- site-stated: 263+ global clients.
+- site-stated: 2,400+ people impacted.
+- Website: https://muhammedmekky.com
+- Email: Contact@muhammedmekky.com
+- WhatsApp: https://wa.me/201098620547
+- LinkedIn: https://www.linkedin.com/in/muhammedmekky
+- GitHub: https://github.com/m2kky
 
----
+## Services and capabilities
 
-## 🧩 System Thinking Framework
+- Artificial Intelligence — custom LLM integrations, RAG systems, agents, AI search, personalization, and insight workflows.
+- Business Automation — workflow design, API integrations, lead qualification, and data pipelines using n8n, Make, Zapier, webhooks, and custom code.
+- Digital Marketing — performance media, lead generation, CRO, email/SMS funnels, analytics, and attribution.
+- Web Design & Development — high-performance websites, applications, e-commerce, technical SEO, and conversion-oriented UX.
+- Automated Community Growth — onboarding, retention, engagement, moderation support, monetization funnels, and analytics.
+- Team Enablement & Workflow — Notion systems, SOPs, knowledge bases, dashboards, documentation, and team onboarding.
+- Corporate Training & Workshop — hands-on AI, automation, Notion, analytics, executive strategy, and upskilling.
 
-Every project is structured into 3 layers:
+## Operating methodology
 
-### 1. Intelligence Layer
-- AI models & decision systems
-- Data interpretation & insights
-- Customer behavior prediction
+The public methodology has three layers: Intelligence (AI models, data interpretation, decision systems), Execution (automation workflows, integrations, operational pipelines), and Growth (campaigns, funnels, conversion optimization, distribution). The operating sequence is Audit, System Design, Implementation, and Optimization.
 
-### 2. Execution Layer
-- Automation workflows (n8n, Make, Zapier)
-- API integrations
-- Operational pipelines
+## Canonical public page map
 
-### 3. Growth Layer
-- Paid ads optimization
-- Funnel systems
-- Conversion rate optimization
-- Content distribution systems
+- About: https://muhammedmekky.com/about
+- Services: https://muhammedmekky.com/services
+- Portfolio: https://muhammedmekky.com/portfolio
+- Case studies: https://muhammedmekky.com/case-studies
+- Lectures: https://muhammedmekky.com/lectures
+- Workshop: https://muhammedmekky.com/workshop
+- Blog: https://muhammedmekky.com/blog
+- Guides: https://muhammedmekky.com/guides
+- Consultation: https://muhammedmekky.com/book
 
----
+## Project catalog
 
-## ⚙️ Core Methodology
+### Project: JBL Flip 6
+Source: public-site. Category: product landing page. Stack: Next.js 16, GSAP, Framer Motion, Tailwind CSS v4. Differentiator: a 300-frame canvas scroll story, cinematic product entrance, and 8 interactive color variants. Live URL: https://jbl-flip6.vercel.app/.
 
-### STEP 1: Audit
-- Business analysis
-- Bottleneck identification
-- Growth leakage detection
+### Project: Ninja GenZ
+Source: public-site and db-published. Category: agency management SaaS. Stack: React 18, Zustand, WebSockets, Tailwind CSS. Differentiator: block-based workspace, real-time collaboration, and sub-10ms UI interactions. Data note: its published DB case-study title calls it a browser game engine while its description refers to a Notion-like workspace; this corpus preserves the mismatch.
 
-### STEP 2: System Design
-- Mapping workflows
-- Designing automation architecture
-- Defining KPIs
+### Project: Greenschat AI
+Source: public-site and db-published. Category: AI integration. Stack: React, Python, LangChain, OpenAI, RAG. Differentiator: context-aware support answers, a stated 90% AI resolution rate, and sub-second latency.
 
-### STEP 3: Implementation
-- AI integration
-- Automation deployment
-- Marketing execution
+### Project: Next Academy
+Source: public-site and db-published. Category: EdTech platform. Stack: Next.js, Node.js, PostgreSQL, AWS. Differentiator: learning-management features, dashboards, video playback, stated 5k+ concurrent students, and 99.9% uptime.
 
-### STEP 4: Optimization
-- Data tracking
-- Performance tuning
-- Scaling systems
+### Project: Qudraat Shabab
+Source: public-site and db-published. Category: youth community and educational platform. Stack: React, Firebase, Material UI, Node.js. Differentiator: accessible resources and event hub; public-site states 10k+ active members and 40% more event registrations.
 
----
+### Project: Mahmoud Bravo
+Source: public-site and db-published. Category: coaching and consulting platform. Stack: Next.js, Tailwind CSS, Framer Motion, Stripe. Differentiator: course, coaching, and speaking hub; public-site states high-ticket close rate increased 25%.
 
-## 🔥 Use Cases
+### Project: Mo7a Art
+Source: public-site and db-published. Category: digital gallery. Stack: Figma, Next.js, GSAP, Vercel. Differentiator: cinematic gallery journey with staggered reveals; public-site states 3x more gallery inquiries.
 
-- Replacing manual marketing teams with AI systems
-- Reducing ad spend waste through optimization systems
-- Building automated lead generation engines
-- Scaling startups with minimal human dependency
-- Creating content systems that generate consistent output
+### Project: Chef Ahmed Tarek
+Source: public-site and db-published. Category: culinary personal brand and booking system. Stack: Next.js, GSAP, Figma, Vercel. Differentiator: editorial menu browsing and private-event booking; public-site states 5x more private-dining bookings.
 
----
+### Project: Forbed Online
+Source: public-site and db-published. Category: luxury bedding e-commerce redesign. Stack: Figma, Next.js, Shopify, React. Differentiator: premium product visualization and frictionless checkout; public-site states 45% lower bounce rate and 200% more leads.
 
-## 🧠 Mental Models Used
+### Project: Groovon
+Source: public-site and db-published. Category: conceptual music platform. Stack: React, Next.js, Tailwind CSS, Redux. Differentiator: persistent audio state and smooth playlist/artist transitions; public-site states sub-100ms interface rendering.
 
-- Systems Thinking
-- First Principles Thinking
-- Automation-first Design
-- Data-driven Decision Making
-- Feedback Loop Optimization
+### Project: Green Studio Portfolio
+Source: public-site and db-published. Category: agency portfolio. Stack: Next.js, React, Tailwind, Framer Motion. Differentiator: dark-mode-first work showcase with scroll animation; public-site states a perfect Lighthouse score.
 
----
+### Project: Dietty Store
+Source: public-site and db-published. Category: health e-commerce. Stack: Shopify, Liquid, JavaScript, CSS3. Differentiator: nutrition-first mobile checkout; public-site states cart abandonment down 15% and mobile conversion up 40%.
 
-## 📊 Output Types
+### Project: Matrix Headphone
+Source: public-site and db-published. Category: premium-audio e-commerce store. Stack: Shopify, Liquid, Figma, Tailwind CSS. Differentiator: interactive product-spec storytelling; public-site states under-two-second load time and a 35% checkout-rate increase.
 
-- AI-powered marketing systems
-- Automated sales funnels
-- Lead generation engines
-- Content production systems
-- Business intelligence dashboards
+### Project: Masko0on
+Source: public-site and db-published. Category: apparel brand storefront. Stack: Shopify, Liquid, Figma, GSAP. Differentiator: dark-mode, drop-ready storefront; public-site states 1k+ concurrent launch users.
 
----
+### Project: Ausraah
+Source: public-site and db-published. Category: family-focused web application. Stack: React, Firebase, Tailwind CSS, PWA. Differentiator: mobile-first family UX and real-time chat.
 
-## 🚀 Differentiation
+### Project: Radwa Muhammed
+Source: public-site and db-published. Category: creative personal portfolio and e-shop. Stack: React, Framer Motion, Tailwind CSS, Vercel. Differentiator: colorful interactive layout; public-site states zero layout shifts.
 
-Unlike traditional marketers, Muhammed Mekky does NOT:
+### Project: Yara Fathy
+Source: public-site and db-published. Category: beauty-services personal site. Stack: Next.js, Tailwind, GSAP, Booking API. Differentiator: luxury portfolio and booking flow; public-site states gallery loads under 1.5 seconds.
 
-- Sell isolated services
-- Focus on single-channel marketing
-- Work on one-time deliverables
+### Project: Ramadan Majlis
+Source: public-site and db-published. Category: seasonal event landing page. Stack: React, Tailwind, Framer Motion. Differentiator: themed registration experience; public-site states 10,000+ seasonal signups.
 
-Instead, he builds:
-→ Full-stack business systems that scale over time
+### Project: Scarpe Handmade
+Source: public-site and db-published. Category: growth marketing and CRO for a handmade leather brand. Stack: Shopify, CRO, performance marketing, data analysis. Differentiator: full-funnel growth engine across paid campaigns and Shopify optimization. Project-level public-site results are separate from its case study: 60% revenue growth in 3 months, doubled conversion rate, and 5.2x paid-campaign ROAS.
+
+## Case study catalog
+
+### Case Study: Automating a 6-Figure Agency
+Source: public-site. Starting point: three-day onboarding, spreadsheet reporting, and repetitive work consuming 60% of team time. Work: Zapier/Notion onboarding, real-time reporting, AI scheduling, custom CRM. Results: 300% revenue growth in 8 months, overhead down 60%, onboarding reduced to two hours, and 25+ hours/week returned to creative work.
+
+### Case Study: Global Community Growth
+Source: public-site. Starting point: zero audience and a competitive niche. Work: educational content seeding, challenges and AMAs, automated onboarding. Measurement window: 12 months. Results: 50k+ active members, 85% monthly retention, 40% of engagement from community content, and 100% organic growth.
+
+### Case Study: Automated Marketing Audit Pipeline
+Source: public-site. Starting point: fragmented Meta, TikTok, Google Ads, and Shopify data hid acquisition cost. Work: Python/API pipeline, custom attribution, Shopify sales synchronization, NLP on customer conversations. Results: actual CPA 398 EGP versus Meta-reported 4.85 EGP, objective misconfiguration fixed, 30+ hours/month eliminated, and Break-Even ROAS matrices created.
+
+### Case Study: Architecting a High-Performance AI Chatbot with RAG System (greenschat-ai-rag)
+Source: db-published. Starting point: contextual support required lower hallucination risk. Work: RAG retrieval and chat architecture. Results: 64% lower hallucinations, sub-80ms retrieval latency, Lighthouse 100. These are db-published figures, not independently audited here.
+
+### Case Study: Architecting a High-Performance Browser Game Engine (ninja-genz)
+Source: db-published. Starting point: a performance-sensitive collaborative interface. Work: state and rendering architecture for block interaction and collaboration. Results: sub-10ms block dragging, collaboration support, eliminated rerender thrashing. Data note: DB title says browser game engine; DB description says Notion-like workspace.
+
+### Case Study: Building a High-Performance Digital Marketing SaaS (radwa-marketing-saas)
+Source: db-published. Starting point: protected SaaS APIs and localized payment operations. Work: protected API architecture, row-level security, localized payment/webhook integration. Results: sub-second protected API, zero breaches attributed to RLS, localized payments and webhooks.
+
+### Case Study: Developing an Immersive 3D Educational Platform (nextacademy-3d-experience)
+Source: db-published. Starting point: rich 3D education on mobile needed speed. Work: optimized 3D delivery and mobile rendering. Results: 50k+ polygon scenes at 60fps mobile, initial chunk down 40%, session duration up 300%.
+
+### Case Study: Engineering a High-Performance Data Visualization Dashboard (qudraat-shabab)
+Source: db-published. Starting point: data-heavy dashboard needed rapid loading and smooth transitions. Work: visualization and parsing performance engineering. Results: time to interactive under 1.2 seconds, 60fps transitions, parsing up 300%.
+
+### Case Study: Qudraat Youth Community Launch (qudraat-youth-launch)
+Source: db-published. Starting point: youth-community launch needed high connection volume and easy authentication. Work: scalable platform launch and auth flow. Results: thousands of concurrent connections, lower payload latency, zero-friction authentication.
+
+### Case Study: Scaling a D2C Leather Brand via Omni-channel Optimization (scarpe-handmade-marketing)
+Source: db-published. Starting point: a D2C leather brand needed better acquisition efficiency and basket economics. Work: omni-channel optimization, CRO, performance marketing. Measurement window: over 45 days. Results: CPP fell from 176 EGP to 87 EGP, AOV rose from 622 EGP to 967 EGP, and basket size rose from 1.3 to 2.6. These figures are separate from the Scarpe Handmade project-level public-site results.
+
+### Case Study: Smart Workshop Scheduling System (smart-workshop-scheduling)
+Source: db-published. Starting point: manual workshop scheduling created operational overhead and double bookings. Work: automated scheduling with admin overrides. Results: manual process automated and double-booking errors reduced to 0%.
+
+## Lectures, workshops, and public offers
+
+- Automate Your Life — 3-hour lecture on automating repetitive tasks with AI and no-code tools.
+- Build Your Brand Using ChatGPT — 2.5-hour lecture.
+- The Power of Prompts: From Prompt to Profit — 2-hour lecture.
+- Promptology Unlocked — 2.5-hour lecture.
+- Introduction to Notion — 2.5-hour lecture.
+- Portfolio That Converts — 2-hour lecture.
+- Prompt to Product — live online camp: 5 weeks, 10 sessions, 3 clinics.
+- Methodology — Intelligence, Execution, Growth architecture.
+- Consultation offers — Discovery Call and Strategy Session.
+
+## Blog and guide index
+
+- The Future of Marketing Automation
+- Mastering Notion for Teams
+- Why Most Startups Fail at Scaling
+- No guide title is listed because the reviewed published guide inventory is empty.
+
+## Source notes
+
+- public-site: visitor-facing information from the current public site and static site constants.
+- db-published: a reviewed published record from the public content database.
+- site-stated: a site-published claim or aggregate figure; it is not independently audited in this corpus.
+
+Private submissions, booking records, contact records, CVs, and unpublished data are intentionally excluded.
