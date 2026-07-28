@@ -145,24 +145,72 @@ export const waitlistQuestions: WaitlistQuestion[] = [
 ];
 
 export const courseStats = [
-  { value: '7+', label: 'سنين خبرة' },
-  { value: '284+', label: 'مشروع مكتمل' },
-  { value: '263+', label: 'عميل' },
-  { value: '15+', label: 'دولة' },
-  { value: '2,400+', label: 'شخص اتأثر' },
-  { value: '87', label: 'مشروع في 2026' },
+  { value: '25', label: 'شخص حضروا الكامب السابق' },
+  { value: '2', label: 'مجموعتين اتعلموا وطبقوا معانا' },
+  { value: '213+', label: 'شخص حضروا محاضرة الـVibe Coding Live' },
 ];
 
 export const courseSessions = [
-  'AI: what it can do, and where it fails',
-  'Web, rendering, data, APIs and security',
-  'Customer problem, journey and product requirements',
-  'BRS, FRS, NFRS, user flows and acceptance criteria',
-  'UX/UI with Stitch and Figma',
-  'Stack decisions and system design',
-  'Project context, Git and AI team management',
-  'Testing, security and production review',
-  'Deploy, operate, price and get first customers',
+  {
+    stage: 'Foundation 01',
+    title: 'افهم الـAI قبل ما تعتمد عليه',
+    summary: 'هتعرف هو شاطر في إيه، بيفشل في إيه، وليه ممكن يبني حاجة شكلها صح وهي غلط من جوه.',
+    topics: ['AI vs Agent', 'Hallucinations', 'Prompting', 'Context Engineering'],
+  },
+  {
+    stage: 'Foundation 02',
+    title: 'افهم الويب اللي منتجك هيعيش عليه',
+    summary: 'من أول المتصفح والسيرفر لحد أنواع المواقع والفرق بين CSR وSSR وSSG وISR.',
+    topics: ['Frontend & Backend', 'Domains & Hosting', 'Rendering', 'Website Types'],
+  },
+  {
+    stage: 'Foundation 03',
+    title: 'البيانات والـAPIs والأمان',
+    summary: 'هتفهم قواعد البيانات وأنواعها، التطبيقات بتكلم بعضها إزاي، والمفاتيح والصلاحيات بتتحمى إزاي.',
+    topics: ['SQL & NoSQL', 'Vector DB', 'APIs & Webhooks', 'Auth & Secrets'],
+  },
+  {
+    stage: 'Product 04',
+    title: 'ابدأ من مشكلة العميل',
+    summary: 'هتحدد العميل والمشكلة والقيمة، وترسم Customer Journey وUser Flow قبل ما ترسم شاشة واحدة.',
+    topics: ['Niche', 'JTBD', 'Customer Journey', 'User Flows'],
+  },
+  {
+    stage: 'Product 05',
+    title: 'حوّل الفكرة لمتطلبات واضحة',
+    summary: 'هتكتب الوثائق اللي تمنع الفريق أو الـAI من التخمين، وتحدد النجاح وحالات الخطأ من البداية.',
+    topics: ['BRS & PRD', 'FRS & NFRS', 'User Stories', 'Acceptance Criteria'],
+  },
+  {
+    stage: 'Design 06',
+    title: 'صمّم التجربة قبل الكود',
+    summary: 'هتحوّل الرحلة لـwireframes، تستكشف الواجهة في Stitch، وتبني prototype وdesign system في Figma.',
+    topics: ['UX', 'Stitch', 'Figma', 'Design Systems'],
+  },
+  {
+    stage: 'Architecture 07',
+    title: 'اختار الـStack وصمّم النظام',
+    summary: 'هتختار التكنولوجيا حسب الهدف والتكلفة والتوسع، وترسم البيانات والـAPIs ومكونات النظام.',
+    topics: ['Stack Matrix', 'System Design', 'ERD', 'API Specification'],
+  },
+  {
+    stage: 'Execution 08',
+    title: 'جهّز المشروع وقُد فريق الـAI',
+    summary: 'هتجهز الـrepo والـcontext والمهام، وتوزع الشغل على agents أو مبرمجين وتراجع كل تسليم.',
+    topics: ['Git', 'AGENTS.md', 'Task Breakdown', 'AI Team Management'],
+  },
+  {
+    stage: 'Production 09',
+    title: 'اختبر، أمّن، وانشر',
+    summary: 'هتختبر الرحلات المهمة، تراجع الأمان والأداء، وتنشر المنتج مع monitoring وخطة رجوع.',
+    topics: ['Testing', 'Security', 'Vercel', 'Monitoring & Rollback'],
+  },
+  {
+    stage: 'Business 10',
+    title: 'حوّل المنتج لدخل',
+    summary: 'هتحدد طريقة التسعير، تبني عرض واضح، وتستخدم المشاريع للوصول لأول عميل أو فرصة شغل.',
+    topics: ['SaaS Pricing', 'Offer', 'First Customers', 'Portfolio & Freelance'],
+  },
 ];
 
 export const projectProof = [

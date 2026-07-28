@@ -1,8 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownLeft, ArrowLeft, Check, Globe2 } from 'lucide-react';
 import { courseSessions, courseStats, projectProof } from './promptToProductData';
 import styles from './PromptToProduct.module.css';
@@ -27,6 +28,41 @@ const documentationPacks = [
   { title: 'قبل ما تصمّم', text: 'User flows, wireframes وFigma handoff عشان كل شاشة لها سبب واضح.' },
   { title: 'قبل ما تسلّم', text: 'FRS, NFRS, stack decisions وsystem design عشان التنفيذ يتراجع ويتكرر.' },
 ];
+
+const relatedLectures = [
+  { title: 'Automate Your Life', href: '/lectures/automate-your-life' },
+  { title: 'From Prompt to Profit', href: '/lectures/power-of-prompts' },
+];
+
+type CurriculumSession = (typeof courseSessions)[number];
+
+function CurriculumCard({ session, index, reducedMotion }: { session: CurriculumSession; index: number; reducedMotion: boolean | null }) {
+  const stepRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: stepRef, offset: ['start 95%', 'start 45%'] });
+  const direction = index % 3;
+  const x = useTransform(scrollYProgress, [0, 1], [direction === 1 ? 180 : direction === 2 ? -180 : 0, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [direction === 0 ? 160 : 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [.35, 1]);
+
+  return (
+    <div className={styles.curriculumStep} ref={stepRef}>
+      <motion.article
+        className={styles.curriculumCard}
+        style={reducedMotion ? { zIndex: index + 1 } : { x, y, opacity, zIndex: index + 1 }}
+      >
+        <div className={styles.curriculumMeta}>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <small lang="en">{session.stage}</small>
+        </div>
+        <div className={styles.curriculumContent}>
+          <h3>{session.title}</h3>
+          <p>{session.summary}</p>
+          <ul>{session.topics.map((topic) => <li key={topic} lang="en">{topic}</li>)}</ul>
+        </div>
+      </motion.article>
+    </div>
+  );
+}
 
 export default function CourseLanding({ onJoinWaitlist }: Props) {
   const shouldReduceMotion = useReducedMotion();
@@ -67,7 +103,25 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
 
       <section className={styles.proofSection} aria-labelledby="proof-heading">
         <div className={styles.statsGrid}>{courseStats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
-        <h2 className={styles.proofLine} id="proof-heading">مش هنبني أمثلة مدرسية. <span lang="en">3</span> منتجات هتمشي فيها من المشكلة لحد النشر. <Globe2 size={20} /></h2>
+        <div className={styles.liveProof}>
+          <div className={styles.liveProofCopy}>
+            <p className={styles.sectionIndex} lang="en">LEARN WITH ME FIRST</p>
+            <h2 id="proof-heading">مش لازم تصدّق كلام الصفحة.<br /><em>شوفني بشرح الأول.</em></h2>
+            <p>الكورس ده مبني على اللي اتعلمناه من مجموعتين في كامب سابق، ومن أسئلة أكتر من 213 شخص حضروا معانا اللايف.</p>
+            <a className={styles.primaryCta} href="https://www.youtube.com/live/yZ9zv3C85Hg?si=QS5UodfllIomXCfl" target="_blank" rel="noreferrer">شوف اللايف على يوتيوب <ArrowLeft size={20} /></a>
+          </div>
+          <div className={styles.videoFrame}>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/yZ9zv3C85Hg?rel=0"
+              title="Vibe Coding live lecture"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        </div>
+        <div className={styles.relatedLectures}><span>ولو عايز تكمل مجانًا:</span>{relatedLectures.map((lecture) => <Link key={lecture.href} href={lecture.href}>{lecture.title} <ArrowLeft size={15} /></Link>)}</div>
+        <h3 className={styles.proofLine}>دي مش أفكار على ورق. دي منتجات حقيقية اتبنت واتنشرت. <Globe2 size={20} /></h3>
         <div className={styles.projectRail}>{projectProof.map((project, index) => <figure key={project.title} className={styles.projectFigure}><Image src={project.image} alt={project.title} width={1200} height={800} sizes="(max-width: 800px) 88vw, 40vw" /><figcaption lang="en"><span>0{index + 1}</span><strong>{project.title}</strong><small>{project.kind}</small><p>{project.description}</p></figcaption></figure>)}</div>
       </section>
 
@@ -90,11 +144,11 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
 
       <section className={styles.pathSection} aria-labelledby="path-heading">
         <div className={styles.pathIntro}>
-          <p className={styles.sectionIndex} lang="en">05 / THE LEARNING PATH</p>
-          <h2 id="path-heading">مش هنرميك في tool ونقولك ابنِ.<br />هتمشي <em>بالترتيب اللي يخليك فاهم.</em></h2>
-          <p>كل مرحلة بتبني على اللي قبلها: متختارش stack قبل ما تفهم الويب، ومتعملش UI قبل ما تفهم العميل، ومتطلبش كود قبل ما تحدد المطلوب.</p>
+          <p className={styles.sectionIndex} lang="en">05 / THE CURRICULUM</p>
+          <h2 id="path-heading">من أول “الـAI بيعمل إيه؟”<br />لحد <em>منتج منشور وعميل بيدفع.</em></h2>
+          <p>10 مراحل مترتبة على بعض. في كل واحدة هتفهم قرار هندسي جديد، تطبقه، وتضيف جزء حقيقي للمشاريع اللي هتخرج بيها.</p>
         </div>
-        <div className={styles.pathList}>{courseSessions.map((session, index) => <article key={session}><span>{String(index + 1).padStart(2, '0')}</span><strong lang="en">{session}</strong></article>)}</div>
+        <div className={styles.pathList}>{courseSessions.map((session, index) => <CurriculumCard key={session.stage} session={session} index={index} reducedMotion={shouldReduceMotion} />)}</div>
       </section>
 
       <section className={styles.docsSection} aria-labelledby="docs-heading">

@@ -12,6 +12,7 @@ const routeFiles = [
 const clientSource = readFileSync(routeFiles[1], 'utf8');
 const landingSource = readFileSync(routeFiles[2], 'utf8');
 const styleSource = readFileSync(routeFiles[3], 'utf8');
+const dataSource = readFileSync('src/app/prompt-to-product/promptToProductData.ts', 'utf8');
 const floatingCtaSource = readFileSync('src/components/FloatingCTA.tsx', 'utf8');
 const currentProjectsWidgetSource = readFileSync('src/components/CurrentProjectsWidget.tsx', 'utf8');
 const popupRendererSource = readFileSync('src/components/PopupRenderer.tsx', 'utf8');
@@ -52,8 +53,21 @@ test('publishes the complete prompt-to-product campaign route', () => {
   assert.match(landing, /courseStats\.map/);
   assert.match(landing, /projectProof\.map/);
   assert.match(landing, /courseSessions\.map/);
+  assert.match(landing, /05 \/ THE CURRICULUM/);
+  assert.match(landing, /youtube-nocookie\.com\/embed\/yZ9zv3C85Hg/);
+  assert.doesNotMatch(landing, /3 ساعات/);
   assert.match(styles, /:focus-visible/);
   assert.match(styles, /@media \(prefers-reduced-motion:reduce\)/);
+});
+
+test('backs the course with real teaching proof and a scroll-led curriculum', () => {
+  assert.match(dataSource, /value: '25'/);
+  assert.match(dataSource, /value: '213\+'/);
+  assert.equal((dataSource.match(/stage: '/g)?.length ?? 0), 10);
+  assert.match(landingSource, /useScroll/);
+  assert.match(landingSource, /index % 3/);
+  assert.match(styleSource, /\.curriculumCard\s*\{[^}]*position:\s*sticky/s);
+  assert.match(styleSource, /@media \(prefers-reduced-motion:reduce\)[\s\S]*\.curriculumCard\s*\{[^}]*position:\s*relative/s);
 });
 
 test('disables hero entrance transforms when reduced motion is preferred', () => {
