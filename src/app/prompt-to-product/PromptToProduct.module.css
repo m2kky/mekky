@@ -248,7 +248,7 @@
 
 .projectRail {
   display: grid;
-  grid-template-columns: 1.1fr .9fr 1.1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 

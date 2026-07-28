@@ -167,22 +167,28 @@ export const courseSessions = [
 
 export const projectProof = [
   {
-    title: 'AI Content Tool',
-    kind: 'AI Tool',
-    image: '/images/projects/mo7a-art.webp',
-    description: 'أداة صغيرة تحوّل brief العميل إلى أفكار محتوى وعناوين ونصوص جاهزة للمراجعة.',
+    title: 'Ninja GenZ',
+    kind: 'Agency Platform',
+    image: '/images/projects/ninja-genz.webp',
+    description: 'منصة لإدارة وكالات الإبداع والتسويق: Workspaces، تعاون لحظي، وتتبع شغل منظم في واجهة واحدة.',
   },
   {
-    title: 'ClientFlow',
-    kind: 'Basic SaaS',
-    image: '/images/projects/forbed-online.webp',
-    description: 'SaaS بسيط فيه تسجيل دخول وبيانات وDashboard لمشكلة عميل واضحة.',
+    title: 'Greenschat AI',
+    kind: 'RAG Product',
+    image: '/images/projects/greenschat.webp',
+    description: 'منتج AI Support يستخدم RAG عشان يرد بإجابات دقيقة من Knowledge Base خاصة بالبراند.',
   },
   {
-    title: 'Lead to Action',
-    kind: 'Automation Tool',
-    image: '/images/projects/dietty-store.webp',
-    description: 'Automation تستقبل Lead، تفهم احتياجه بالـAI، وتسجل وتبعت المتابعة المناسبة.',
+    title: 'Groovon',
+    kind: 'Music Experience',
+    image: '/images/projects/groovon.webp',
+    description: 'تجربة Music Streaming مركزة على UX سريع وحالة تشغيل متماسكة بين playlists والفنانين.',
+  },
+  {
+    title: 'Rammah',
+    kind: 'Coaching Platform',
+    image: '/images/projects/rammah.png',
+    description: 'منصة Coach مبنية كمنتج كامل، من الهوية والتجربة لحد deployment والبنية القابلة للتطوير.',
   },
 ];
 
