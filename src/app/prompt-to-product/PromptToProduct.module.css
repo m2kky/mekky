@@ -165,6 +165,8 @@
 .outputsSection,
 .methodSection,
 .curriculumSection,
+.pathSection,
+.docsSection,
 .offerSection {
   position: relative;
   padding: clamp(5rem, 12vw, 10rem) var(--container-padding);
@@ -234,7 +236,6 @@
 }
 
 .proofLine {
-  direction: ltr;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -348,6 +349,128 @@
   color: rgba(255, 252, 242, .7);
   font-size: clamp(1.15rem, 2vw, 1.7rem);
   line-height: 1.8;
+}
+
+.pathSection {
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(5, 5, 5, .06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 5, 5, .06) 1px, transparent 1px),
+    var(--paper);
+  background-size: 28px 28px;
+}
+
+.pathSection .sectionIndex {
+  color: var(--orange-on-paper);
+}
+
+.pathIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .62fr);
+  gap: clamp(2rem, 10vw, 10rem);
+  align-items: end;
+}
+
+.pathIntro h2,
+.docsIntro h2 {
+  grid-column: 1 / -1;
+  max-width: 16ch;
+  margin-top: 2.5rem;
+  font-size: clamp(2.2rem, 5.5vw, 6rem);
+  line-height: .96;
+  letter-spacing: -.06em;
+}
+
+.pathIntro h2 em,
+.docsIntro h2 em {
+  color: var(--orange-on-paper);
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+.pathIntro > p:last-child {
+  grid-column: 2;
+  line-height: 1.85;
+}
+
+.pathList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 4rem;
+  border-top: 1px solid var(--rule-dark);
+  border-inline-start: 1px solid var(--rule-dark);
+}
+
+.pathList article {
+  display: grid;
+  min-height: 154px;
+  grid-template-rows: auto 1fr;
+  gap: 2rem;
+  border-inline-end: 1px solid var(--rule-dark);
+  border-bottom: 1px solid var(--rule-dark);
+  padding: 1.25rem;
+}
+
+.pathList span,
+.docsList span {
+  color: var(--orange-on-paper);
+  font: 800 .76rem/1 var(--font-syne);
+}
+
+.pathList strong {
+  direction: ltr;
+  align-self: end;
+  font: 800 clamp(1rem, 1.7vw, 1.45rem)/1.08 var(--font-syne);
+  letter-spacing: -.035em;
+}
+
+.docsSection {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.docsIntro .sectionIndex {
+  color: var(--orange);
+}
+
+.docsIntro h2 em {
+  color: var(--orange);
+}
+
+.docsList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 4rem;
+  background: rgba(255, 252, 242, .3);
+}
+
+.docsList article {
+  display: grid;
+  gap: 2.5rem;
+  padding: 1.5rem;
+  background: var(--ink);
+}
+
+.docsList span {
+  color: var(--orange);
+}
+
+.docsList h3 {
+  font: 800 clamp(1.35rem, 2.5vw, 2.4rem)/1 var(--font-syne);
+  letter-spacing: -.05em;
+}
+
+.docsList p,
+.docsNote {
+  color: var(--muted-paper);
+  line-height: 1.8;
+}
+
+.docsNote {
+  max-width: 64ch;
+  margin-top: 2rem;
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
 }
 
 .sessionList div {
@@ -679,6 +802,7 @@
 
   .heroBottom,
   .gapColumns,
+  .pathIntro,
   .offerSection {
     grid-template-columns: 1fr;
   }
@@ -704,6 +828,20 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     overscroll-behavior-inline: contain;
+  }
+
+  .pathIntro > p:last-child {
+    grid-column: auto;
+  }
+
+  .pathList,
+  .docsList {
+    grid-template-columns: 1fr;
+  }
+
+  .pathList article {
+    min-height: 0;
+    gap: 1.5rem;
   }
 
   .projectFigure {
