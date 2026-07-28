@@ -154,36 +154,35 @@ export const courseStats = [
 ];
 
 export const courseSessions = [
-  'BRS & Business Thinking',
-  'PRD, FRS, NFRs & Acceptance Criteria',
-  'AI Build Workflow, Stack & Architecture',
-  'UI/UX & Design Systems',
-  'Portfolio Project',
-  'Conversion Landing Page',
-  'Backend, Database & Auth',
-  'Micro Tool — Build 01',
-  'Micro Tool — Build 02',
-  'Production Review & Demo Day',
+  'AI: what it can do, and where it fails',
+  'Web, rendering, data, APIs and security',
+  'Customer problem, journey and product requirements',
+  'BRS, FRS, NFRS, user flows and acceptance criteria',
+  'UX/UI with Stitch and Figma',
+  'Stack decisions and system design',
+  'Project context, Git and AI team management',
+  'Testing, security and production review',
+  'Deploy, operate, price and get first customers',
 ];
 
 export const projectProof = [
   {
-    title: 'Mo7a Art',
-    kind: 'Portfolio',
+    title: 'AI Content Tool',
+    kind: 'AI Tool',
     image: '/images/projects/mo7a-art.webp',
-    description: 'Personal brand translated into a focused portfolio experience.',
+    description: 'أداة صغيرة تحوّل brief العميل إلى أفكار محتوى وعناوين ونصوص جاهزة للمراجعة.',
   },
   {
-    title: 'Forbed Online',
-    kind: 'Conversion Experience',
+    title: 'ClientFlow',
+    kind: 'Basic SaaS',
     image: '/images/projects/forbed-online.webp',
-    description: 'A conversion-first journey that turns attention into a measurable action.',
+    description: 'SaaS بسيط فيه تسجيل دخول وبيانات وDashboard لمشكلة عميل واضحة.',
   },
   {
-    title: 'Automated Marketing Audit',
-    kind: 'Performance Tool',
+    title: 'Lead to Action',
+    kind: 'Automation Tool',
     image: '/images/projects/dietty-store.webp',
-    description: 'Connects Shopify orders with campaign spend, calculates blended acquisition cost and contribution-margin break-even ROAS, then prioritizes the performance leaks to fix first.',
+    description: 'Automation تستقبل Lead، تفهم احتياجه بالـAI، وتسجل وتبعت المتابعة المناسبة.',
   },
 ];
 

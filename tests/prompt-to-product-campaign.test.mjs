@@ -43,11 +43,11 @@ test('publishes the complete prompt-to-product campaign route', () => {
   const landing = readFileSync(routeFiles[2], 'utf8');
   const styles = readFileSync(routeFiles[3], 'utf8');
 
-  assert.match(page, /Prompt to Product — Live Vibe Coding Camp/);
+  assert.match(page, /AI Product Engineer/);
   assert.match(page, /canonical: '\/prompt-to-product'/);
   assert.match(client, /const startWaitlist = \(\) =>/);
   assert.match(client, /prefers-reduced-motion: reduce/);
-  assert.match(landing, /Media Buyers/);
+  assert.match(landing, /مبتدئين/);
   assert.match(landing, /import Link from 'next\/link'/);
   assert.match(landing, /courseStats\.map/);
   assert.match(landing, /projectProof\.map/);
