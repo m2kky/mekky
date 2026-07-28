@@ -55,6 +55,9 @@ test('publishes the complete prompt-to-product campaign route', () => {
   assert.match(landing, /courseSessions\.map/);
   assert.match(landing, /05 \/ THE CURRICULUM/);
   assert.match(landing, /youtube-nocookie\.com\/embed\/yZ9zv3C85Hg/);
+  assert.match(landing, /1SWrZsQLnVmMJAMziddPzlNlTBXXLIAsw/);
+  assert.match(landing, /1uh5T8nWn0cXjheG1q7AayGoiyStdxSjx/);
+  assert.doesNotMatch(landing, /مش لازم تصدّق كلام الصفحة/);
   assert.doesNotMatch(landing, /3 ساعات/);
   assert.match(styles, /:focus-visible/);
   assert.match(styles, /@media \(prefers-reduced-motion:reduce\)/);

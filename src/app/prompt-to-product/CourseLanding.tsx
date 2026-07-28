@@ -30,8 +30,18 @@ const documentationPacks = [
 ];
 
 const relatedLectures = [
-  { title: 'Automate Your Life', href: '/lectures/automate-your-life' },
-  { title: 'From Prompt to Profit', href: '/lectures/power-of-prompts' },
+  {
+    title: 'Automate Your Life',
+    href: '/lectures/automate-your-life',
+    videoId: '1SWrZsQLnVmMJAMziddPzlNlTBXXLIAsw',
+    description: 'ابدأ تفكر في الشغل كنظام، وابنِ أول workflow يوفّر عليك المهام المتكررة.',
+  },
+  {
+    title: 'From Prompt to Profit',
+    href: '/lectures/power-of-prompts',
+    videoId: '1uh5T8nWn0cXjheG1q7AayGoiyStdxSjx',
+    description: 'شوف إزاي الـprompt يتحول من إجابة حلوة لخدمة أو منتج له قيمة تجارية.',
+  },
 ];
 
 type CurriculumSession = (typeof courseSessions)[number];
@@ -105,9 +115,9 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
         <div className={styles.statsGrid}>{courseStats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
         <div className={styles.liveProof}>
           <div className={styles.liveProofCopy}>
-            <p className={styles.sectionIndex} lang="en">LEARN WITH ME FIRST</p>
-            <h2 id="proof-heading">مش لازم تصدّق كلام الصفحة.<br /><em>شوفني بشرح الأول.</em></h2>
-            <p>الكورس ده مبني على اللي اتعلمناه من مجموعتين في كامب سابق، ومن أسئلة أكتر من 213 شخص حضروا معانا اللايف.</p>
+            <p className={styles.sectionIndex} lang="en">BUILT FROM REAL CLASSROOMS</p>
+            <h2 id="proof-heading">الكورس ده اتبنى وسط ناس حقيقية.<br /><em>واتطوّر من أسئلتهم وتجاربهم.</em></h2>
+            <p>بدأنا بمجموعتين في كامب سابق، وبعدها أكتر من 213 شخص حضروا معانا اللايف. كل سؤال ومشكلة ظهرت هناك دخلت في تصميم المنهج الجديد.</p>
             <a className={styles.primaryCta} href="https://www.youtube.com/live/yZ9zv3C85Hg?si=QS5UodfllIomXCfl" target="_blank" rel="noreferrer">شوف اللايف على يوتيوب <ArrowLeft size={20} /></a>
           </div>
           <div className={styles.videoFrame}>
@@ -120,7 +130,33 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
             />
           </div>
         </div>
-        <div className={styles.relatedLectures}><span>ولو عايز تكمل مجانًا:</span>{relatedLectures.map((lecture) => <Link key={lecture.href} href={lecture.href}>{lecture.title} <ArrowLeft size={15} /></Link>)}</div>
+        <div className={styles.freeLibrary} aria-labelledby="free-library-heading">
+          <div className={styles.freeLibraryHeader}>
+            <p className={styles.sectionIndex} lang="en">FREE LEARNING LIBRARY</p>
+            <h3 id="free-library-heading">ولو عايز تكمل مجانًا،<br />ابدأ بالمحاضرتين دول.</h3>
+            <p>شغّل المحاضرة من هنا، أو افتح صفحتها لو عايز التفاصيل والموضوعات كاملة.</p>
+          </div>
+          <div className={styles.freeLecturesGrid}>
+            {relatedLectures.map((lecture) => (
+              <article className={styles.freeLectureCard} key={lecture.href}>
+                <div className={styles.freeLectureVideo}>
+                  <iframe
+                    src={`https://drive.google.com/file/d/${lecture.videoId}/preview`}
+                    title={lecture.title}
+                    loading="lazy"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                </div>
+                <div className={styles.freeLectureBody}>
+                  <h4 lang="en">{lecture.title}</h4>
+                  <p>{lecture.description}</p>
+                  <Link href={lecture.href}>افتح المحاضرة كاملة <ArrowLeft size={16} /></Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
         <h3 className={styles.proofLine}>دي مش أفكار على ورق. دي منتجات حقيقية اتبنت واتنشرت. <Globe2 size={20} /></h3>
         <div className={styles.projectRail}>{projectProof.map((project, index) => <figure key={project.title} className={styles.projectFigure}><Image src={project.image} alt={project.title} width={1200} height={800} sizes="(max-width: 800px) 88vw, 40vw" /><figcaption lang="en"><span>0{index + 1}</span><strong>{project.title}</strong><small>{project.kind}</small><p>{project.description}</p></figcaption></figure>)}</div>
       </section>
