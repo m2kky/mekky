@@ -53,7 +53,17 @@ test('publishes the complete prompt-to-product campaign route', () => {
   assert.match(landing, /courseStats\.map/);
   assert.match(landing, /projectProof\.map/);
   assert.match(landing, /courseSessions\.map/);
+  assert.match(landing, /detailedSessions\.map/);
   assert.match(landing, /05 \/ THE CURRICULUM/);
+  assert.match(landing, /VIBE CODING VS PRODUCT ENGINEERING/);
+  assert.match(landing, /UNIT OUTPUTS/);
+  assert.match(landing, /20 \/ LIVE SESSIONS/);
+  assert.match(landing, /60\+ DOCUMENTS/);
+  assert.match(landing, /YOUR WEEK/);
+  assert.match(landing, /Demo Day/);
+  assert.match(landing, /14,900/);
+  assert.match(landing, /<details/);
+  assert.match(landing, /<summary/);
   assert.match(landing, /youtube-nocookie\.com\/embed\/yZ9zv3C85Hg/);
   assert.match(landing, /1SWrZsQLnVmMJAMziddPzlNlTBXXLIAsw/);
   assert.match(landing, /1uh5T8nWn0cXjheG1q7AayGoiyStdxSjx/);
@@ -66,7 +76,8 @@ test('publishes the complete prompt-to-product campaign route', () => {
 test('backs the course with real teaching proof and a scroll-led curriculum', () => {
   assert.match(dataSource, /value: '25'/);
   assert.match(dataSource, /value: '213\+'/);
-  assert.equal((dataSource.match(/stage: '/g)?.length ?? 0), 10);
+  assert.equal((dataSource.match(/stage: '/g)?.length ?? 0), 8);
+  assert.match(dataSource, /export const detailedSessions/);
   assert.match(landingSource, /useScroll/);
   assert.match(landingSource, /index % 3/);
   assert.match(styleSource, /\.curriculumCard\s*\{[^}]*position:\s*sticky/s);

@@ -159,14 +159,41 @@
   color: rgba(255, 252, 242, .58);
 }
 
+.programFacts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 2.5rem;
+  border-block: 1px solid rgba(255, 252, 242, .22);
+}
+
+.programFacts div {
+  display: flex;
+  align-items: baseline;
+  gap: .7rem;
+  padding: 1rem 0;
+}
+
+.programFacts strong {
+  color: var(--orange);
+  font: 800 clamp(1.8rem, 3vw, 3.5rem)/1 var(--font-syne);
+}
+
+.programFacts span {
+  color: var(--muted-paper);
+  font-size: .85rem;
+}
+
 .gapSection,
 .proofSection,
 .audienceSection,
 .outputsSection,
-.methodSection,
-.curriculumSection,
 .pathSection,
 .docsSection,
+.comparisonSection,
+.unitOutputsSection,
+.syllabusSection,
+.weekSection,
+.productProofSection,
 .offerSection {
   position: relative;
   padding: clamp(5rem, 12vw, 10rem) var(--container-padding);
@@ -174,6 +201,7 @@
 
 .gapSection,
 .audienceSection,
+.syllabusSection,
 .offerSection {
   color: var(--ink);
   background: var(--paper);
@@ -181,6 +209,7 @@
 
 .gapSection .sectionIndex,
 .audienceSection .sectionIndex,
+.syllabusSection .sectionIndex,
 .offerSection .sectionIndex {
   color: var(--orange-on-paper);
 }
@@ -420,14 +449,12 @@
 }
 
 .audienceList,
-.outputsList,
-.sessionList {
+.outputsList {
   margin-top: 4rem;
 }
 
 .audienceList article,
-.outputsList article,
-.sessionList div {
+.outputsList article {
   display: grid;
   grid-template-columns: 64px minmax(180px, .8fr) minmax(0, 1.2fr);
   gap: 1rem;
@@ -446,9 +473,7 @@
   line-height: 1.75;
 }
 
-.outputsSection,
-.methodSection,
-.curriculumSection {
+.outputsSection {
   background: var(--ink);
 }
 
@@ -456,22 +481,104 @@
   border-color: rgba(255, 252, 242, .3);
 }
 
-.methodSection h2 {
-  direction: ltr;
-  max-width: 12ch;
+.outputsIntro {
   margin-top: 3rem;
-  color: var(--paper);
-  font: 800 clamp(2.4rem, 7vw, 7rem)/.88 var(--font-syne);
-  letter-spacing: -.06em;
-  overflow-wrap: anywhere;
 }
 
-.methodSection > p:last-child {
-  max-width: 54ch;
-  margin: 3rem 0 0 auto;
-  color: rgba(255, 252, 242, .7);
-  font-size: clamp(1.15rem, 2vw, 1.7rem);
+.outputsIntro h3 {
+  max-width: 16ch;
+  color: var(--paper);
+  font-size: clamp(2.2rem, 5vw, 5.5rem);
+  line-height: .98;
+  letter-spacing: -.06em;
+}
+
+.outputsIntro em {
+  color: var(--orange);
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+.outputsList small {
+  display: block;
+  max-width: 48ch;
+  margin-top: .7rem;
+  color: var(--orange);
+  font: 700 .72rem/1.4 var(--font-syne);
+}
+
+.comparisonSection {
+  color: var(--ink);
+  background: var(--orange);
+}
+
+.comparisonSection .sectionIndex {
+  color: var(--ink);
+}
+
+.comparisonIntro,
+.syllabusIntro,
+.weekIntro,
+.productProofIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, .65fr);
+  gap: clamp(2rem, 9vw, 9rem);
+  align-items: end;
+  margin-top: 3rem;
+}
+
+.comparisonIntro h2,
+.unitOutputsIntro h2,
+.syllabusIntro h2,
+.weekIntro h2,
+.productProofIntro h2 {
+  font-size: clamp(2.2rem, 5vw, 5.8rem);
+  line-height: .98;
+  letter-spacing: -.06em;
+}
+
+.comparisonIntro h2 em,
+.unitOutputsIntro h2 em,
+.syllabusIntro h2 em,
+.weekIntro h2 em,
+.productProofIntro h2 em {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+.comparisonIntro > p,
+.syllabusIntro > p,
+.weekIntro > p,
+.productProofIntro > p {
   line-height: 1.8;
+}
+
+.comparisonTable {
+  margin-top: 4rem;
+  border-top: 1px solid var(--ink);
+}
+
+.comparisonTable > div {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid var(--ink);
+}
+
+.comparisonTable span,
+.comparisonTable strong {
+  padding: 1.25rem;
+  font-size: clamp(1rem, 1.7vw, 1.45rem);
+}
+
+.comparisonTable strong {
+  border-left: 1px solid var(--ink);
+  background: var(--paper);
+}
+
+.comparisonHead {
+  font: 800 .75rem/1 var(--font-syne);
+  text-transform: uppercase;
 }
 
 .pathSection {
@@ -580,6 +687,16 @@
   text-transform: uppercase;
 }
 
+.curriculumMeta > div {
+  display: grid;
+  gap: .75rem;
+}
+
+.curriculumMeta b {
+  color: var(--orange-on-paper);
+  font-size: .85rem;
+}
+
 .curriculumContent {
   display: grid;
   align-content: end;
@@ -612,6 +729,165 @@
   border: 1px solid var(--rule-dark);
   padding: .55rem .7rem;
   font: 700 .72rem/1 var(--font-syne);
+}
+
+.curriculumOutput {
+  display: grid;
+  gap: .55rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-dark);
+}
+
+.curriculumOutput small {
+  color: rgba(5, 5, 5, .58);
+  font-size: .78rem;
+}
+
+.curriculumOutput strong {
+  max-width: 50ch;
+}
+
+.curriculumOutput span {
+  justify-self: start;
+  margin-top: .35rem;
+  padding: .55rem .7rem;
+  color: var(--paper);
+  background: var(--ink);
+  font: 700 .68rem/1 var(--font-syne);
+}
+
+.unitOutputsSection {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.unitOutputsIntro {
+  margin-top: 3rem;
+}
+
+.unitOutputsIntro h2 {
+  max-width: 18ch;
+}
+
+.unitOutputsIntro h2 em {
+  color: var(--orange);
+}
+
+.unitOutputsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 4rem;
+  background: rgba(255, 252, 242, .25);
+}
+
+.unitOutputsGrid article {
+  display: grid;
+  min-height: 230px;
+  align-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--ink);
+}
+
+.unitOutputsGrid span {
+  color: var(--orange);
+  font: 800 .76rem/1 var(--font-syne);
+}
+
+.unitOutputsGrid small {
+  color: var(--muted-paper);
+  font: 700 .7rem/1.3 var(--font-syne);
+  text-transform: uppercase;
+}
+
+.unitOutputsGrid p {
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.syllabusIntro h2 {
+  max-width: 15ch;
+}
+
+.syllabusIntro h2 em {
+  color: var(--orange-on-paper);
+}
+
+.sessionAccordion {
+  margin-top: 4rem;
+  border-top: 1px solid var(--ink);
+}
+
+.sessionAccordion details {
+  border-bottom: 1px solid var(--ink);
+}
+
+.sessionAccordion summary {
+  display: grid;
+  min-height: 92px;
+  grid-template-columns: 54px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.sessionAccordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.sessionAccordion summary > span {
+  color: var(--orange-on-paper);
+  font: 800 .76rem/1 var(--font-syne);
+}
+
+.sessionAccordion summary > div {
+  display: grid;
+  gap: .5rem;
+}
+
+.sessionAccordion summary small {
+  color: rgba(5, 5, 5, .55);
+  font: 700 .68rem/1 var(--font-syne);
+  text-transform: uppercase;
+}
+
+.sessionAccordion summary strong {
+  font-size: clamp(1.15rem, 2vw, 1.8rem);
+}
+
+.sessionAccordion summary svg {
+  transition: transform .25s ease;
+}
+
+.sessionAccordion details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.sessionDetails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 54px 1.5rem 0;
+  background: var(--rule-dark);
+}
+
+.sessionDetails div {
+  padding: 1.25rem;
+  background: #f4eee0;
+}
+
+.sessionDetails small {
+  color: var(--orange-on-paper);
+  font-weight: 800;
+}
+
+.sessionDetails p {
+  margin-top: .75rem;
+  line-height: 1.7;
 }
 
 .docsSection {
@@ -663,16 +939,67 @@
   font-size: clamp(1rem, 1.7vw, 1.35rem);
 }
 
-.sessionList div {
-  direction: ltr;
-  grid-template-columns: 64px 1fr;
-  color: var(--paper);
-  font-size: clamp(1rem, 2vw, 1.7rem);
+.weekSection {
+  color: var(--ink);
+  background: var(--orange);
 }
 
-.sessionList span {
+.weekSection .sectionIndex {
+  color: var(--ink);
+}
+
+.weekIntro h2 {
+  max-width: 16ch;
+}
+
+.weekGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 4rem;
+  border: 1px solid var(--ink);
+}
+
+.weekGrid article {
+  display: grid;
+  min-height: 280px;
+  align-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-left: 1px solid var(--ink);
+}
+
+.weekGrid article:last-child {
+  border-left: 0;
+}
+
+.weekGrid strong {
+  font: 800 clamp(3rem, 7vw, 7rem)/.8 var(--font-syne);
+  letter-spacing: -.07em;
+}
+
+.weekGrid h3 {
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+}
+
+.weekGrid p {
+  line-height: 1.65;
+}
+
+.productProofSection {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.productProofIntro h2 {
+  max-width: 16ch;
+}
+
+.productProofIntro h2 em {
   color: var(--orange);
-  font-family: var(--font-syne);
+}
+
+.productProofIntro > p {
+  color: var(--muted-paper);
 }
 
 .offerSection {
@@ -712,6 +1039,34 @@
 .offerCopy .primaryCta:hover {
   color: var(--ink);
   background: var(--orange);
+}
+
+.priceAnchor {
+  width: 100%;
+  margin-top: 2rem;
+  border-block: 1px solid var(--ink);
+  padding: 1.25rem 0;
+}
+
+.priceAnchor small {
+  display: block;
+  color: rgba(5, 5, 5, .58);
+}
+
+.priceAnchor b {
+  display: block;
+  margin-top: .5rem;
+  font: 800 clamp(2.3rem, 5vw, 5rem)/1 var(--font-syne);
+  letter-spacing: -.06em;
+}
+
+.priceAnchor p {
+  margin-top: .7rem;
+}
+
+.offerCopy > small {
+  margin-top: .7rem;
+  color: rgba(5, 5, 5, .58);
 }
 
 .waitlistAnchor {
@@ -995,8 +1350,16 @@
   .liveProof,
   .freeLibraryHeader,
   .pathIntro,
+  .comparisonIntro,
+  .syllabusIntro,
+  .weekIntro,
+  .productProofIntro,
   .offerSection {
     grid-template-columns: 1fr;
+  }
+
+  .programFacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .gapHeadline {
@@ -1028,6 +1391,20 @@
 
   .docsList {
     grid-template-columns: 1fr;
+  }
+
+  .unitOutputsGrid,
+  .weekGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .weekGrid article {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .sessionDetails {
+    grid-template-columns: 1fr;
+    margin-right: 0;
   }
 
   .freeLecturesGrid {
@@ -1088,6 +1465,29 @@
 
   .proofLine {
     align-items: flex-start;
+  }
+
+  .programFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .programFacts div {
+    justify-content: space-between;
+  }
+
+  .comparisonTable > div,
+  .unitOutputsGrid,
+  .weekGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparisonTable strong {
+    border-top: 1px solid var(--ink);
+    border-left: 0;
+  }
+
+  .sessionAccordion summary {
+    grid-template-columns: 36px 1fr auto;
   }
 
   .projectFigure figcaption {

@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   WAITLIST_ID,
+  courseSessions,
+  detailedSessions,
   normalizeWaitlistSubmission,
   validateWaitlistIdentity,
   waitlistQuestions,
@@ -25,6 +27,23 @@ const validPayload = {
 
 test('exports the fixed campaign assessment identifier', () => {
   assert.equal(WAITLIST_ID, 'prompt-to-product-2026');
+});
+
+test('publishes the ten-week curriculum contract', () => {
+  assert.equal(courseSessions.length, 8);
+  assert.equal(detailedSessions.length, 20);
+  assert.equal(courseSessions.reduce((total, unit) => total + unit.sessions, 0), 20);
+  assert.equal(courseSessions.every((unit) => unit.topics.length === 4 && unit.output), true);
+});
+
+test('tests the founding cohort price and payment preference', () => {
+  const budget = waitlistQuestions.find((question) => question.id === 'budget');
+  assert.deepEqual(
+    budget.options.map((option) => option.value),
+    ['pay-full', 'pay-three', 'longer-plan', 'over-budget', 'value-supported']
+  );
+  assert.match(budget.options[0].label, /10,500/);
+  assert.match(budget.options[1].label, /3,500/);
 });
 
 test('normalizes a complete waitlist submission', () => {
