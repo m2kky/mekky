@@ -72,6 +72,7 @@
 
 .eyebrow,
 .sectionIndex {
+  direction: ltr;
   color: var(--orange);
   font: 800 .74rem/1 var(--font-syne);
   letter-spacing: .08em;
@@ -190,9 +191,9 @@
 .pathSection,
 .docsSection,
 .comparisonSection,
-.unitOutputsSection,
 .syllabusSection,
 .weekSection,
+.freeLibrarySection,
 .productProofSection,
 .offerSection {
   position: relative;
@@ -309,10 +310,9 @@
   border: 0;
 }
 
-.freeLibrary {
-  margin-top: clamp(5rem, 10vw, 9rem);
-  padding-top: clamp(3rem, 6vw, 5rem);
-  border-top: 1px solid rgba(255, 252, 242, .22);
+.freeLibrarySection {
+  color: var(--paper);
+  background: var(--ink);
 }
 
 .freeLibraryHeader {
@@ -528,7 +528,6 @@
 }
 
 .comparisonIntro h2,
-.unitOutputsIntro h2,
 .syllabusIntro h2,
 .weekIntro h2,
 .productProofIntro h2 {
@@ -538,7 +537,6 @@
 }
 
 .comparisonIntro h2 em,
-.unitOutputsIntro h2 em,
 .syllabusIntro h2 em,
 .weekIntro h2 em,
 .productProofIntro h2 em {
@@ -755,56 +753,6 @@
   color: var(--paper);
   background: var(--ink);
   font: 700 .68rem/1 var(--font-syne);
-}
-
-.unitOutputsSection {
-  color: var(--paper);
-  background: var(--ink);
-}
-
-.unitOutputsIntro {
-  margin-top: 3rem;
-}
-
-.unitOutputsIntro h2 {
-  max-width: 18ch;
-}
-
-.unitOutputsIntro h2 em {
-  color: var(--orange);
-}
-
-.unitOutputsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  margin-top: 4rem;
-  background: rgba(255, 252, 242, .25);
-}
-
-.unitOutputsGrid article {
-  display: grid;
-  min-height: 230px;
-  align-content: space-between;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: var(--ink);
-}
-
-.unitOutputsGrid span {
-  color: var(--orange);
-  font: 800 .76rem/1 var(--font-syne);
-}
-
-.unitOutputsGrid small {
-  color: var(--muted-paper);
-  font: 700 .7rem/1.3 var(--font-syne);
-  text-transform: uppercase;
-}
-
-.unitOutputsGrid p {
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
-  line-height: 1.55;
 }
 
 .syllabusIntro h2 {
@@ -1393,7 +1341,6 @@
     grid-template-columns: 1fr;
   }
 
-  .unitOutputsGrid,
   .weekGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1476,7 +1423,6 @@
   }
 
   .comparisonTable > div,
-  .unitOutputsGrid,
   .weekGrid {
     grid-template-columns: 1fr;
   }

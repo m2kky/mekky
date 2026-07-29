@@ -116,7 +116,7 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
       <header className={styles.campaignHeader}>
         <Link href="/" className={styles.mekkyMark} aria-label="Muhammed Mekky home" lang="en">M/M</Link>
         <span lang="en">AI Product Engineer</span>
-        <button type="button" onClick={onJoinWaitlist} lang="en">Join the waitlist <ArrowLeft size={16} /></button>
+        <button type="button" onClick={onJoinWaitlist}>قدّم للدفعة التأسيسية <ArrowLeft size={16} /></button>
       </header>
 
       <section className={styles.hero} aria-labelledby="course-title">
@@ -130,7 +130,7 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
           <h2>عندك فكرة، وبتعرف تطلب من الـAI.<br />بس مش عارف <em>هو بيبني صح ولا لأ.</em></h2>
           <div>
             <p>خلال 10 أسابيع هتفهم المنتج والنظام، تكتب المطلوب، تختار التكنولوجيا، وتقود فريق AI أو مبرمجين لحد النشر.</p>
-            <button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>شوف لو المسار مناسب ليك <ArrowDownLeft size={20} /></button>
+            <button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>قدّم للدفعة التأسيسية <ArrowDownLeft size={20} /></button>
             <small>دقيقتين فقط · للدفعة التأسيسية</small>
           </div>
         </motion.div>
@@ -165,33 +165,6 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
-          </div>
-        </div>
-        <div className={styles.freeLibrary} aria-labelledby="free-library-heading">
-          <div className={styles.freeLibraryHeader}>
-            <p className={styles.sectionIndex} lang="en">FREE LEARNING LIBRARY</p>
-            <h3 id="free-library-heading">ولو عايز تكمل مجانًا،<br />ابدأ بالمحاضرتين دول.</h3>
-            <p>شغّل المحاضرة من هنا، أو افتح صفحتها لو عايز التفاصيل والموضوعات كاملة.</p>
-          </div>
-          <div className={styles.freeLecturesGrid}>
-            {relatedLectures.map((lecture) => (
-              <article className={styles.freeLectureCard} key={lecture.href}>
-                <div className={styles.freeLectureVideo}>
-                  <iframe
-                    src={`https://drive.google.com/file/d/${lecture.videoId}/preview`}
-                    title={lecture.title}
-                    loading="lazy"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                </div>
-                <div className={styles.freeLectureBody}>
-                  <h4 lang="en">{lecture.title}</h4>
-                  <p>{lecture.description}</p>
-                  <Link href={lecture.href}>افتح المحاضرة كاملة <ArrowLeft size={16} /></Link>
-                </div>
-              </article>
-            ))}
           </div>
         </div>
       </section>
@@ -231,25 +204,9 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
         <div className={styles.pathList}>{courseSessions.map((session, index) => <CurriculumCard key={session.stage} session={session} index={index} reducedMotion={shouldReduceMotion} />)}</div>
       </section>
 
-      <section className={styles.unitOutputsSection} aria-labelledby="unit-outputs-heading">
-        <p className={styles.sectionIndex} lang="en">06 / UNIT OUTPUTS</p>
-        <div className={styles.unitOutputsIntro}>
-          <h2 id="unit-outputs-heading">مش هتخلص وحدة وتاخد علامة صح.<br /><em>هتخلصها ومعاك حاجة تستخدمها.</em></h2>
-        </div>
-        <div className={styles.unitOutputsGrid}>
-          {courseSessions.map((unit, index) => (
-            <article key={unit.stage}>
-              <span>0{index + 1}</span>
-              <small lang="en">{unit.stage}</small>
-              <p>{unit.output}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className={styles.syllabusSection} aria-labelledby="syllabus-heading">
         <div className={styles.syllabusIntro}>
-          <p className={styles.sectionIndex} lang="en">07 / 20 / LIVE SESSIONS</p>
+          <p className={styles.sectionIndex} lang="en">06 / 20 LIVE SESSIONS</p>
           <h2 id="syllabus-heading">عايز تدخل في التفاصيل؟<br /><em>افتح أي سيشن وشوف هتطلع منها بإيه.</em></h2>
           <p>مش لازم تقرأهم كلهم دلوقتي. التفاصيل موجودة عشان تعرف إن كل ساعة في البرنامج لها هدف وتسليم واضح.</p>
         </div>
@@ -269,12 +226,12 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
             </details>
           ))}
         </div>
-        <button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>شوف لو الـ20 سيشن مناسبين ليك <ArrowLeft size={20} /></button>
+        <button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>قدّم للدفعة التأسيسية <ArrowLeft size={20} /></button>
       </section>
 
       <section className={styles.docsSection} aria-labelledby="docs-heading">
         <div className={styles.docsIntro}>
-          <p className={styles.sectionIndex} lang="en">08 / 60+ DOCUMENTS</p>
+          <p className={styles.sectionIndex} lang="en">07 / 60+ DOCUMENTS</p>
           <h2 id="docs-heading">60+ وثيقة وقالب تحت إيدك.<br /><em>بس هتستخدم اللي مشروعك محتاجه.</em></h2>
         </div>
         <div className={styles.docsList}>{documentationPacks.map((pack, index) => <article key={pack.title}><span>0{index + 1}</span><h3>{pack.title}</h3><p>{pack.text}</p></article>)}</div>
@@ -282,13 +239,41 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
       </section>
 
       <section className={styles.weekSection} aria-labelledby="week-heading">
-        <p className={styles.sectionIndex} lang="en">09 / YOUR WEEK</p>
+        <p className={styles.sectionIndex} lang="en">08 / YOUR WEEK</p>
         <div className={styles.weekIntro}>
           <h2 id="week-heading">مش هتتفرج وتقول فهمت.<br /><em>كل أسبوع فيه فهم، بناء، ومراجعة.</em></h2>
           <p>إيقاع ثابت يخليك تتحرك من غير ما الكورس يبلع حياتك أو تسيب المشروع يتراكم لآخر أسبوع.</p>
         </div>
         <div className={styles.weekGrid}>
           {weeklyRhythm.map((item) => <article key={item.title}><strong>{item.value}</strong><h3>{item.title}</h3><p>{item.text}</p></article>)}
+        </div>
+      </section>
+
+      <section className={styles.freeLibrarySection} aria-labelledby="free-library-heading">
+        <div className={styles.freeLibraryHeader}>
+          <p className={styles.sectionIndex} lang="en">09 / FREE LEARNING LIBRARY</p>
+          <h3 id="free-library-heading">عايز تجرّب طريقة الشرح الأول؟<br />ابدأ بالمحاضرتين دول مجانًا.</h3>
+          <p>شغّل المحاضرة من هنا، أو افتح صفحتها لو عايز التفاصيل والموضوعات كاملة.</p>
+        </div>
+        <div className={styles.freeLecturesGrid}>
+          {relatedLectures.map((lecture) => (
+            <article className={styles.freeLectureCard} key={lecture.href}>
+              <div className={styles.freeLectureVideo}>
+                <iframe
+                  src={`https://drive.google.com/file/d/${lecture.videoId}/preview`}
+                  title={lecture.title}
+                  loading="lazy"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+              <div className={styles.freeLectureBody}>
+                <h4 lang="en">{lecture.title}</h4>
+                <p>{lecture.description}</p>
+                <Link href={lecture.href}>افتح المحاضرة كاملة <ArrowLeft size={16} /></Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -308,7 +293,11 @@ export default function CourseLanding({ onJoinWaitlist }: Props) {
           <strong>قدّم للدفعة التأسيسية</strong>
           <p>10 أسابيع تنتهي بـ3 منتجات، Documentation وPortfolio يشرح قراراتك، وPricing Strategy وخطة لأول عميل.</p>
           {['20 Live sessions', 'Recordings & project files', 'Feedback & checkpoints', '60+ document library', 'Demo Day'].map((item) => <span key={item} lang="en"><Check size={16} /> {item}</span>)}
-          <div className={styles.priceAnchor}><small>السعر الرسمي بعد الدفعة التأسيسية</small><b>14,900 جنيه</b><p>المقبولين في الـFounding Cohort ليهم سعر تأسيسي وخيارات دفع خاصة.</p></div>
+          <div className={styles.priceAnchor}>
+            <small>سعر الدفعة التأسيسية</small>
+            <b>10,500 جنيه</b>
+            <p>دفعة واحدة أو 3 دفعات × 3,500 جنيه. السعر المستهدف بعد أول دفعة هو 14,900 جنيه.</p>
+          </div>
           <button className={styles.primaryCta} type="button" onClick={onJoinWaitlist}>قدّم للدفعة التأسيسية <ArrowLeft size={20} /></button>
           <small>التقديم بياخد دقيقتين ومفيش دفع دلوقتي.</small>
         </div>

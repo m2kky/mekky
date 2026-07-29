@@ -56,12 +56,14 @@ test('publishes the complete prompt-to-product campaign route', () => {
   assert.match(landing, /detailedSessions\.map/);
   assert.match(landing, /05 \/ THE CURRICULUM/);
   assert.match(landing, /VIBE CODING VS PRODUCT ENGINEERING/);
-  assert.match(landing, /UNIT OUTPUTS/);
-  assert.match(landing, /20 \/ LIVE SESSIONS/);
+  assert.doesNotMatch(landing, /UNIT OUTPUTS/);
+  assert.match(landing, /20 LIVE SESSIONS/);
   assert.match(landing, /60\+ DOCUMENTS/);
   assert.match(landing, /YOUR WEEK/);
   assert.match(landing, /Demo Day/);
   assert.match(landing, /14,900/);
+  assert.match(landing, /10,500/);
+  assert.match(landing, /3 دفعات × 3,500/);
   assert.match(landing, /<details/);
   assert.match(landing, /<summary/);
   assert.match(landing, /youtube-nocookie\.com\/embed\/yZ9zv3C85Hg/);
@@ -69,7 +71,14 @@ test('publishes the complete prompt-to-product campaign route', () => {
   assert.match(landing, /1uh5T8nWn0cXjheG1q7AayGoiyStdxSjx/);
   assert.doesNotMatch(landing, /مش لازم تصدّق كلام الصفحة/);
   assert.doesNotMatch(landing, /3 ساعات/);
+  assert.doesNotMatch(landing, /شوف لو المسار مناسب ليك/);
+  assert.doesNotMatch(landing, /Join the waitlist/);
+  assert.ok(
+    landing.indexOf('FREE LEARNING LIBRARY') > landing.indexOf('YOUR WEEK'),
+    'expected the free library after the core sales narrative'
+  );
   assert.match(styles, /:focus-visible/);
+  assert.match(styles, /\.sectionIndex\s*\{[^}]*direction:\s*ltr/s);
   assert.match(styles, /@media \(prefers-reduced-motion:reduce\)/);
 });
 
