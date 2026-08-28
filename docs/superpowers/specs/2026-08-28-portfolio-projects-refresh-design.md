@@ -13,12 +13,12 @@ Reuse the current `PROJECTS.items` data model and existing `/portfolio/[slug]` d
 - Add `Ahmed Rammah` and `Coach Hossam Ibrahim` as the first two portfolio items so the newest shipped work appears first.
 - Keep the existing Mahmoud Bravo slug and update its copy, stack, results, images, and live URL to the V2 project.
 - Use concise, evidence-based project copy derived from each source repository. Do not invent business metrics.
-- Use `https://rammah.vercel.app` for Rammah if it is reachable during verification.
-- Omit Coach Hossam's live URL while its available Vercel deployments are failing. The detail page still renders without a Live Preview button.
+- Use the official `https://ahmedrammah.com/` site for Rammah's Live Preview and screenshots.
+- Use the official `https://hossamibrahim.net/` site for Coach Hossam's Live Preview and screenshots.
 
 ## Images
 
-Capture each project from its local frontend at desktop and mobile viewport sizes. Produce the three files expected by the current portfolio:
+Capture each project from its official live site at desktop and mobile viewport sizes. Wait for Rammah's loading screen to finish before capture. Produce the three files expected by the current portfolio:
 
 - `/images/projects/<slug>.webp`
 - `/images/projects/<slug>-desktop.webp`
@@ -34,6 +34,6 @@ Update `ProjectClient` to consume the camelCase fields already used by `PROJECTS
 
 - Confirm both new cards appear first on `/portfolio` and Bravo still resolves at its existing slug.
 - Confirm all three detail pages render their copy, tools, results, and responsive mockups.
-- Confirm Rammah's Live Preview works when reachable and Coach shows no broken preview link.
+- Confirm both official Live Preview links work.
 - Run targeted lint/type checks and a production build or the closest available project checks.
 - Preserve all unrelated working-tree changes and untracked files.

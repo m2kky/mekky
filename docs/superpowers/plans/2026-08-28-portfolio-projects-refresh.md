@@ -14,7 +14,8 @@
 - Preserve unrelated working-tree changes and untracked files.
 - Put Rammah and Coach Hossam first; preserve Mahmoud Bravo's existing slug.
 - Do not invent business metrics.
-- Use `https://rammah.vercel.app` only if reachable; omit Coach Hossam's live URL while deployments fail.
+- Use the official `https://ahmedrammah.com/` and `https://hossamibrahim.net/` sites for links and screenshots.
+- Wait for Rammah's loading screen to finish before capturing images.
 
 ---
 
@@ -69,11 +70,11 @@ Use evidence-based copy and these stacks:
 ```ts
 // Ahmed Rammah
 tools: ['Next.js 16', 'Express', 'PostgreSQL', 'Drizzle ORM']
-liveUrl: 'https://rammah.vercel.app'
+liveUrl: 'https://ahmedrammah.com/'
 
 // Coach Hossam Ibrahim
 tools: ['Next.js', 'Fastify', 'PostgreSQL', 'Kashier']
-// No liveUrl until a deployment succeeds.
+liveUrl: 'https://hossamibrahim.net/'
 ```
 
 Describe delivered capabilities rather than unsupported conversion numbers: bilingual public experience, CMS/admin operations, booking/payment workflows, calendar/email integrations, and responsive editorial UI.
@@ -107,20 +108,12 @@ Use `project.longDescription` and `project.liveUrl` in the hero, mockup, and bod
 - Modify: `public/images/projects/mahmoud-bravo-mobile.webp`
 
 **Interfaces:**
-- Consumes: Home pages from `D:\projects\rammah\rammah-next`, `D:\coash_hossam_ibrahim\apps\web`, and `D:\bravo\site`.
+- Consumes: Official home pages at `https://ahmedrammah.com/`, `https://hossamibrahim.net/`, and `https://www.mahmoudbravo.com/`.
 - Produces: Existing portfolio image naming contract for cover, desktop mockup, and mobile mockup.
 
-- [ ] **Step 1: Start each local frontend on a free port**
+- [ ] **Step 1: Capture with installed Puppeteer and Chrome**
 
-Run the existing `npm run dev` command in each frontend directory with an explicit port. Do not edit the source repositories.
-
-- [ ] **Step 2: Capture with installed Puppeteer and Chrome**
-
-Use Chrome at `C:\Program Files\Google\Chrome\Application\chrome.exe`. Capture the loaded home page at `1440x1000` and `390x844`, save WebP at quality 88, and reuse the desktop capture as the card cover. Wait for fonts/images and any intro animation to settle before capture.
-
-- [ ] **Step 3: Stop only the servers started for capture**
-
-Track their process IDs and terminate those exact processes after screenshots are written.
+Use Chrome at `C:\Program Files\Google\Chrome\Application\chrome.exe`. Capture the loaded official home page at `1440x1000` and `390x844`, save WebP at quality 88, and reuse the desktop capture as the card cover. Wait for fonts/images and the Rammah intro/loading animation to settle before capture.
 
 ### Task 4: Verify and commit
 
@@ -148,7 +141,7 @@ Expected: all commands exit 0.
 
 - [ ] **Step 2: Run browser smoke checks**
 
-Start the Mekky app and verify `/portfolio`, `/portfolio/ahmed-rammah`, `/portfolio/coach-hossam-ibrahim`, and `/portfolio/mahmoud-bravo`. Confirm cards, responsive images, descriptions, stacks, results, Rammah/Bravo preview links, and Coach's missing preview link.
+Start the Mekky app and verify `/portfolio`, `/portfolio/ahmed-rammah`, `/portfolio/coach-hossam-ibrahim`, and `/portfolio/mahmoud-bravo`. Confirm cards, responsive images, descriptions, stacks, results, and all three official preview links.
 
 - [ ] **Step 3: Commit only intentional files**
 

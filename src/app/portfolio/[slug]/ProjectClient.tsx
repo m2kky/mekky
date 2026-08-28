@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SITE } from '@/lib/constants';
@@ -19,12 +20,12 @@ interface ProjectData {
     slug: string;
     category: string;
     description: string;
-    long_description: string;
+    longDescription: string;
     image: string;
     color: string;
     tools: string[];
     results: string[];
-    live_url?: string;
+    liveUrl?: string;
 }
 
 export default function ProjectClient({ project }: { project: ProjectData }) {
@@ -60,7 +61,7 @@ export default function ProjectClient({ project }: { project: ProjectData }) {
                         <div className={styles.heroOverlay} />
                     </div>
                     <div className={styles.heroContent}>
-                        <a href="/portfolio" className={styles.backLink} data-reveal>← Back to Portfolio</a>
+                        <Link href="/portfolio" className={styles.backLink} data-reveal>← Back to Portfolio</Link>
                         <span className={styles.category} data-reveal>{project.category}</span>
                         <h1 className={styles.title} data-reveal>{project.title}</h1>
                         <div className={styles.meta} data-reveal>
@@ -68,9 +69,9 @@ export default function ProjectClient({ project }: { project: ProjectData }) {
                                 <span key={i} className={styles.metaItem}>{tool}</span>
                             ))}
                         </div>
-                        {project.live_url && (
+                        {project.liveUrl && (
                             <a
-                                href={project.live_url}
+                                href={project.liveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={styles.liveLink}
@@ -85,13 +86,13 @@ export default function ProjectClient({ project }: { project: ProjectData }) {
                 <MockupSection
                     desktopSrc={`/images/projects/${project.slug}-desktop.webp`}
                     mobileSrc={`/images/projects/${project.slug}-mobile.webp`}
-                    liveUrl={project.live_url}
+                    liveUrl={project.liveUrl}
                 />
 
                 {/* Body */}
                 <div className={styles.body}>
                     <div className={styles.bodyInner} ref={bodyRef}>
-                        <p className={styles.bodyText}>{project.long_description}</p>
+                        <p className={styles.bodyText}>{project.longDescription}</p>
 
                         {/* Tools */}
                         <div className={styles.sectionBlock}>

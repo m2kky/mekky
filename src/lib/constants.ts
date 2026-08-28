@@ -138,6 +138,32 @@ export const PROJECTS = {
     title: 'FEATURED PROJECTS',
     items: [
         {
+            title: 'Ahmed Rammah',
+            slug: 'ahmed-rammah',
+            category: 'Coaching & Psychology Platform',
+            description:
+                'A bilingual coaching platform that combines editorial storytelling, structured services, booking, and business operations.',
+            longDescription: 'Ahmed Rammah is a full-stack coaching and psychology platform built around his Decode methodology. The public experience presents his work through bold editorial storytelling, while the operational layer connects bilingual content, service management, capacity-aware booking, payments, and administration in one coherent product.',
+            image: '/images/projects/ahmed-rammah.webp',
+            color: '#0C4651',
+            tools: ['Next.js 16', 'Express', 'PostgreSQL', 'Drizzle ORM'],
+            results: ['Bilingual editorial public experience', 'CMS-managed services and content', 'Capacity-aware booking and payment workflows'],
+            liveUrl: 'https://ahmedrammah.com/',
+        },
+        {
+            title: 'Coach Hossam Ibrahim',
+            slug: 'coach-hossam-ibrahim',
+            category: 'Executive Coaching Platform',
+            description:
+                'An Arabic-first leadership and training platform with bilingual content, booking, commerce, and a custom admin workspace.',
+            longDescription: 'Coach Hossam Ibrahim is a bilingual platform for executive leadership consulting, professional training, and digital content. It brings together an Arabic-first public experience, consultation booking, paid sessions, content publishing, calendar coordination, transactional email, and a custom operational dashboard.',
+            image: '/images/projects/coach-hossam-ibrahim.webp',
+            color: '#8D1F24',
+            tools: ['Next.js', 'Fastify', 'PostgreSQL', 'Kashier'],
+            results: ['Arabic-first responsive experience', 'Integrated booking and payment journeys', 'Custom CMS and admin operations'],
+            liveUrl: 'https://hossamibrahim.net/',
+        },
+        {
             title: 'JBL Flip 6',
             slug: 'jbl-flip-6',
             category: 'Product Landing Page',
@@ -205,14 +231,14 @@ export const PROJECTS = {
         {
             title: 'Mahmoud Bravo',
             slug: 'mahmoud-bravo',
-            category: 'Coaching & Consulting',
+            category: 'Corporate Training Platform',
             description:
-                'A bold, modern personal brand platform for business coaching and thought leadership.',
-            longDescription: 'The Mahmoud Bravo platform acts as a central hub for his courses, coaching services, and speaking engagements. The design uses strong contrast and authoritative typography to reflect his expertise in the market.',
+                'A cinematic personal-brand platform for an international corporate trainer, rebuilt as an immersive editorial experience.',
+            longDescription: 'Mahmoud Bravo V2 turns a corporate training profile into a cinematic digital story. The experience combines a choreographed video entrance, bold editorial typography, scroll-led storytelling, and responsive motion to present Bravo\'s programs, background, and impact with the energy of a premium campaign site.',
             image: '/images/projects/mahmoud-bravo.webp',
             color: '#E63946',
-            tools: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Stripe'],
-            results: ['Seamless course enrollment flow', 'Modernized brand identity', 'High-ticket client close rate up 25%'],
+            tools: ['Next.js 16', 'GSAP', 'TypeScript', 'Vercel'],
+            results: ['Cinematic multi-format video intro', 'Scroll-driven editorial brand story', 'Responsive motion across desktop and mobile'],
             liveUrl: 'https://www.mahmoudbravo.com/',
         },
         {
