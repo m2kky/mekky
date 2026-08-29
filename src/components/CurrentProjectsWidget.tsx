@@ -29,6 +29,7 @@ export default function CurrentProjectsWidget() {
         pathname?.startsWith('/login') ||
         pathname?.startsWith('/assessment') ||
         pathname?.startsWith('/prompt-to-product') ||
+        pathname?.startsWith('/speeddesigning') ||
         pathname?.startsWith('/coash-hossam-ibrahim') ||
         pathname?.startsWith('/rammah-project');
 

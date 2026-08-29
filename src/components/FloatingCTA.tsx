@@ -13,7 +13,8 @@ export default function FloatingCTA() {
 
     const isFocusedFlow =
         pathname?.startsWith('/assessment') ||
-        pathname?.startsWith('/prompt-to-product');
+        pathname?.startsWith('/prompt-to-product') ||
+        pathname?.startsWith('/speeddesigning');
 
     useEffect(() => {
         if (isFocusedFlow) return;

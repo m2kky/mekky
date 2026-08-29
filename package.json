@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:speeddesigning": "node --test tests/speed-designing.test.mjs",
     "test:portfolio": "node --test tests/portfolio-projects.test.mjs",
     "test:waitlist": "node --test tests/prompt-to-product-domain.test.mjs tests/prompt-to-product-api-contract.test.mjs tests/prompt-to-product-rate-limit.test.mjs tests/prompt-to-product-wizard-state.test.mjs tests/prompt-to-product-wizard.test.mjs tests/prompt-to-product-campaign.test.mjs",
     "test:llms": "node --test tests/llms-content.test.mjs"

@@ -104,6 +104,7 @@ export default function PopupRenderer() {
     const isFocusedFlow =
         pathname?.startsWith('/assessment') ||
         pathname?.startsWith('/prompt-to-product') ||
+        pathname?.startsWith('/speeddesigning') ||
         pathname?.startsWith('/rammah-project');
 
     // ─── Fetch Popups ───────────────────────────
