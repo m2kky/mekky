@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import WorkingSystemIntro from './WorkingSystemIntro';
 import styles from './EhsanExperience.module.css';
 
 const INTRO_KEY = 'speed-designing-ehsan-intro-seen-v1';
@@ -99,6 +100,7 @@ function FieldNote({ note }: { note: (typeof fieldNotes)[number] }) {
 export default function EhsanExperience() {
   const rootRef = useRef<HTMLElement>(null);
   const [introVisible, setIntroVisible] = useState(false);
+  const finishIntro = useCallback(() => setIntroVisible(false), []);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -110,10 +112,8 @@ export default function EhsanExperience() {
     }
 
     const open = window.setTimeout(() => setIntroVisible(true), 0);
-    const close = window.setTimeout(() => setIntroVisible(false), 1800);
     return () => {
       window.clearTimeout(open);
-      window.clearTimeout(close);
     };
   }, []);
 
@@ -220,14 +220,7 @@ export default function EhsanExperience() {
     <main ref={rootRef} className={styles.page}>
       <a href="#method" className={styles.skipLink}>Skip to the working system</a>
 
-      {introVisible ? (
-        <div className={styles.intro} aria-label="Muhammed Mekky Studio intro">
-          <p>MUHAMMED MEKKY STUDIO</p>
-          <strong>PRESENTS</strong>
-          <span>SPEED DESIGNING — EPISODE 01</span>
-          <button type="button" onClick={() => setIntroVisible(false)}>Skip intro</button>
-        </div>
-      ) : null}
+      {introVisible ? <WorkingSystemIntro onComplete={finishIntro} /> : null}
 
       <header className={styles.navbar}>
         <Link href="/speeddesigning" className={styles.seriesLink}>MM / SD <span>EP. 01</span></Link>
@@ -358,16 +351,21 @@ export default function EhsanExperience() {
         <p className={styles.loop} aria-hidden="true">KNOW → UNDERSTAND → BUILD → USE</p>
         <div data-reveal>
           <span>THE WORK BEGINS WHEN THE INFORMATION STARTS MOVING.</span>
-          <h2 id="closing-title">EHSAN<br />EL SAYED</h2>
+          <h2 id="closing-title"><span>EHSAN</span>{' '}<span>EL SAYED</span></h2>
         </div>
         <div className={styles.closingLinks}>
           <a href="https://www.youtube.com/@ehsan__sayed" target="_blank" rel="noreferrer">Follow Life, Work &amp; Growth <Arrow diagonal /></a>
           <Link href="/speeddesigning/ehsan-elsayed/blueprint">Open the Blueprint <Arrow /></Link>
         </div>
         <footer>
-          <p>This website is an independent speculative concept created by Muhammed Mekky Studio as part of the Speed Designing series. It is not affiliated with, endorsed by, or officially connected to Ehsan El Sayed or her representatives.</p>
-          <Link href="/">An independent speculative experience by Muhammed Mekky. <Arrow diagonal /></Link>
-          <span>EPISODE 01 / 2026</span>
+          <div className={styles.footerMeta}>
+            <p>This website is an independent speculative concept created by Muhammed Mekky Studio as part of the Speed Designing series. It is not affiliated with, endorsed by, or officially connected to Ehsan El Sayed or her representatives.</p>
+            <span>EPISODE 01 / 2026</span>
+          </div>
+          <div className={styles.footerSignature}>
+            <span>FROM EVIDENCE TO EXPERIENCE.</span>
+            <Link href="/">An independent speculative experience by Muhammed Mekky. <Arrow diagonal /></Link>
+          </div>
         </footer>
       </section>
     </main>
