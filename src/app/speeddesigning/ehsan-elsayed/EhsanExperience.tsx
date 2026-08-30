@@ -132,12 +132,12 @@ export default function EhsanExperience() {
       (context) => {
         const { desktop, reduceMotion } = context.conditions as { desktop: boolean; reduceMotion: boolean };
         if (reduceMotion) {
-          gsap.set('[data-reveal], [data-parallax], .heroCore, .notesTrack, .mapProgress', { clearProps: 'all' });
+          gsap.set('[data-reveal], [data-parallax], .equation, .notesTrack, .mapProgress', { clearProps: 'all' });
           return;
         }
 
         gsap.fromTo(
-          '.heroCore',
+          '.equation',
           { scale: 1.12, transformOrigin: 'left 48%' },
           {
             scale: 1,
