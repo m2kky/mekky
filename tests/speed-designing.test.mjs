@@ -78,20 +78,23 @@ test('choreographs the Ehsan Working System intro safely', () => {
 
   const workingIntro = read(introPath);
   const experience = read(`${routeRoot}/EhsanExperience.tsx`);
-  for (const word of ['KNOW', 'APPLY', 'BUILD', 'KNOWING', 'USING']) {
+  for (const word of ['KNOW', 'APPLY', 'BUILD']) {
     assert.match(workingIntro, new RegExp(`>${word}<`));
+  }
+  for (const word of ['KNOWING', 'USING']) {
+    assert.match(experience, new RegExp(`>${word}<`));
   }
   assert.match(workingIntro, />STUDIO PRESENTS</);
   assert.match(workingIntro, /Skip intro/);
   assert.match(workingIntro, /prefers-reduced-motion:\s*reduce/);
   assert.match(workingIntro, /const INTRO_SAFETY_MS = 9500/);
-  assert.match(workingIntro, /window\.setTimeout\(finish, INTRO_SAFETY_MS\)/);
+  assert.match(workingIntro, /window\.setTimeout\(\(\) => finish\('safety'\), INTRO_SAFETY_MS\)/);
   for (const position of ['1.15', '2.45', '3.75', '5.25', '6.25']) {
-    assert.match(workingIntro, new RegExp(`, ${position.replace('.', '\\.')}`));
+    assert.match(workingIntro, new RegExp(`\\b${position.replace('.', '\\.')},?`));
   }
   assert.match(workingIntro, /classList\.add\(['"]ehsan-intro-locked['"]\)/);
   assert.match(workingIntro, /classList\.remove\(['"]ehsan-intro-locked['"]\)/);
-  assert.match(experience, /<WorkingSystemIntro onComplete=\{finishIntro\}\s*\/>/);
+  assert.match(experience, /<WorkingSystemIntro equationRef=\{equationRef\} routeRef=\{routeRef\} onComplete=\{finishIntro\}\s*\/>/);
 });
 
 test('brands and stages Ehsan on every motion-enabled route mount', () => {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import WorkingSystemIntro from './WorkingSystemIntro';
+import WorkingSystemIntro, { type IntroCompletionReason } from './WorkingSystemIntro';
 import styles from './EhsanExperience.module.css';
 
 const INTRO_KEY = 'speed-designing-ehsan-intro-seen-v1';
@@ -46,6 +46,8 @@ const proofPoints = [
   ['APPLIED EDUCATION', 'Complex subjects become questions, frameworks, and work people can actually try.'],
   ['SYSTEM BUILDING', 'Tools are connected to workflows instead of treated as the answer by themselves.'],
 ] as const;
+
+type HeroEntryMode = 'full' | 'surroundings';
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>;
@@ -99,9 +101,13 @@ function FieldNote({ note }: { note: (typeof fieldNotes)[number] }) {
 
 export default function EhsanExperience() {
   const rootRef = useRef<HTMLElement>(null);
+  const equationRef = useRef<HTMLHeadingElement>(null);
+  const routeRef = useRef<HTMLDivElement>(null);
   const [introVisible, setIntroVisible] = useState(true);
   const [pageReady, setPageReady] = useState(false);
-  const finishIntro = useCallback(() => {
+  const [heroEntryMode, setHeroEntryMode] = useState<HeroEntryMode>('full');
+  const finishIntro = useCallback((reason: IntroCompletionReason) => {
+    setHeroEntryMode(reason === 'handoff' ? 'surroundings' : 'full');
     setIntroVisible(false);
     setPageReady(true);
   }, []);
@@ -132,14 +138,24 @@ export default function EhsanExperience() {
       const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
       timeline
         .fromTo('[data-entry-brand]', { autoAlpha: 0, y: -18 }, { autoAlpha: 1, y: 0, duration: 0.38 }, 0)
-        .fromTo('[data-entry-eyebrow]', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.42 }, 0.08)
-        .fromTo('[data-entry-word]', { autoAlpha: 0, yPercent: 115 }, { autoAlpha: 1, yPercent: 0, duration: 0.72, stagger: 0.1, ease: 'expo.out' }, 0.2)
-        .fromTo('[data-entry-symbol]', { autoAlpha: 0, scale: 0.45 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.52)
-        .fromTo('[data-entry-route]', { autoAlpha: 0, scale: 0.86 }, { autoAlpha: 1, scale: 1, duration: 0.6 }, 0.58)
-        .fromTo('[data-entry-identity]', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.65, stagger: 0.09 }, 0.7);
+        .fromTo('[data-entry-eyebrow]', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.42 }, 0.08);
+
+      if (heroEntryMode === 'full') {
+        timeline
+          .fromTo('[data-entry-word]', { autoAlpha: 0, yPercent: 115 }, { autoAlpha: 1, yPercent: 0, duration: 0.72, stagger: 0.1, ease: 'expo.out' }, 0.2)
+          .fromTo('[data-entry-symbol]', { autoAlpha: 0, scale: 0.45 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.52)
+          .fromTo('[data-entry-route]', { autoAlpha: 0, scale: 0.86 }, { autoAlpha: 1, scale: 1, duration: 0.6 }, 0.58);
+      }
+
+      timeline.fromTo(
+        '[data-entry-identity]',
+        { autoAlpha: 0, y: 26 },
+        { autoAlpha: 1, y: 0, duration: 0.65, stagger: 0.09 },
+        heroEntryMode === 'full' ? 0.7 : 0.12,
+      );
     }, root);
     return () => context.revert();
-  }, [pageReady]);
+  }, [heroEntryMode, pageReady]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -309,10 +325,14 @@ export default function EhsanExperience() {
   }, []);
 
   return (
-    <main ref={rootRef} className={styles.page}>
+    <main
+      ref={rootRef}
+      className={styles.page}
+      data-intro-active={introVisible ? 'true' : 'false'}
+    >
       <a href="#method" className={styles.skipLink}>Skip to the working system</a>
 
-      {introVisible ? <WorkingSystemIntro onComplete={finishIntro} /> : null}
+      {introVisible ? <WorkingSystemIntro equationRef={equationRef} routeRef={routeRef} onComplete={finishIntro} /> : null}
 
       <header className={styles.navbar}>
         <Link href="/speeddesigning" className={styles.seriesLink} aria-label="Speed Designing — Episode 01" data-entry-brand>
@@ -335,12 +355,12 @@ export default function EhsanExperience() {
             <span>THE GAP ISN&apos;T KNOWLEDGE.</span>
             <span>CAIRO / 2026</span>
           </div>
-          <h1 id="ehsan-title" className={`${styles.equation} equation`}>
+          <h1 ref={equationRef} id="ehsan-title" className={`${styles.equation} equation`}>
             <span data-entry-word>KNOWING</span>
             <b data-entry-symbol>≠</b>
             <span className={styles.using} data-entry-word>USING</span>
           </h1>
-          <div className={styles.heroRoute} data-entry-route aria-hidden="true"><i /><i /><i /></div>
+          <div ref={routeRef} className={styles.heroRoute} data-entry-route aria-hidden="true"><i /><i /><i /></div>
           <div className={styles.heroIdentity}>
             <div data-entry-identity>
               <p>The difference is a working system.</p>

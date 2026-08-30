@@ -1,36 +1,49 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, type RefObject } from 'react';
 import gsap from 'gsap';
 import styles from './EhsanExperience.module.css';
 
+export type IntroCompletionReason = 'handoff' | 'skip' | 'reduced-motion' | 'safety';
+
 type WorkingSystemIntroProps = {
-  onComplete: () => void;
+  equationRef: RefObject<HTMLHeadingElement | null>;
+  routeRef: RefObject<HTMLDivElement | null>;
+  onComplete: (reason: IntroCompletionReason) => void;
 };
 
 const INTRO_SAFETY_MS = 9500;
 
-export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroProps) {
+export default function WorkingSystemIntro({ equationRef, routeRef, onComplete }: WorkingSystemIntroProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const completeRef = useRef(false);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
-  const finish = useCallback(() => {
+  const finish = useCallback((reason: IntroCompletionReason) => {
     if (completeRef.current) return;
     completeRef.current = true;
+    if (reason !== 'handoff') timelineRef.current?.kill();
+
+    const equation = equationRef.current;
+    const route = routeRef.current;
+    if (equation) gsap.set(equation, { clearProps: 'transform,opacity,visibility,willChange,color' });
+    if (route) gsap.set(route, { clearProps: 'transform,opacity,visibility,willChange' });
     document.documentElement.classList.remove('ehsan-intro-locked');
-    onComplete();
-  }, [onComplete]);
+    onComplete(reason);
+  }, [equationRef, onComplete, routeRef]);
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const equation = equationRef.current;
+    const route = routeRef.current;
+    if (!root || !equation || !route) return;
 
     completeRef.current = false;
     document.documentElement.classList.add('ehsan-intro-locked');
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      finish();
+      finish('reduced-motion');
       return;
     }
 
@@ -41,12 +54,37 @@ export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroPro
     const start = () => {
       if (cancelled || started) return;
       started = true;
+
+      const rect = equation.getBoundingClientRect();
+      const mobile = window.innerWidth < 768;
+      const availableWidth = window.innerWidth - (mobile ? 32 : 96);
+      const scaleCap = window.innerWidth < 768 ? 0.92 : 0.68;
+      const scale = Math.min(availableWidth / rect.width, scaleCap);
+      const opticalY = window.innerHeight * (mobile ? -0.04 : -0.02);
+      const introTransform = {
+        x: window.innerWidth / 2 - (rect.left + rect.width / 2),
+        y: window.innerHeight / 2 + opticalY - (rect.top + rect.height / 2),
+        scale,
+      };
+
       context = gsap.context(() => {
         const words = gsap.utils.toArray<HTMLElement>('[data-intro-word]');
         gsap.set('[data-intro-words]', { yPercent: 34 });
-        const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        gsap.set(equation, {
+          ...introTransform,
+          autoAlpha: 0,
+          transformOrigin: 'center center',
+          willChange: 'transform,opacity',
+        });
+        gsap.set(route, {
+          autoAlpha: 0,
+          scale: 0.86,
+          transformOrigin: 'center center',
+          willChange: 'transform,opacity',
+        });
 
-        timeline
+        timelineRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        timelineRef.current
           .fromTo('[data-intro-brand]', { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.9 }, 0.15)
           .fromTo('[data-intro-accent]', { scaleX: 0 }, { scaleX: 1, duration: 0.65, ease: 'power3.inOut' }, 0.45)
           .fromTo(words[0], { autoAlpha: 0, yPercent: 125, scale: 0.94 }, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.65, ease: 'expo.out' }, 1.15)
@@ -57,25 +95,49 @@ export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroPro
           .to('[data-intro-words]', { yPercent: -34, duration: 1.2, ease: 'power3.inOut' }, 3.75)
           .to('[data-intro-brand]', { autoAlpha: 0, duration: 0.45 }, 5.05)
           .to('[data-intro-words]', { autoAlpha: 0, yPercent: -50, duration: 0.55 }, 5.05)
-          .fromTo('[data-intro-thesis]', { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.75 }, 5.25)
+          .fromTo(
+            equation,
+            { autoAlpha: 0, y: introTransform.y + 34 },
+            { autoAlpha: 1, y: introTransform.y, duration: 0.75 },
+            5.25,
+          )
           .fromTo('[data-intro-route]', { scaleX: 0 }, { scaleX: 1, duration: 0.7 }, 5.65)
-          .fromTo('[data-intro-curtain]', { scaleY: 0 }, { scaleY: 1, duration: 0.72, ease: 'expo.inOut' }, 6.25)
-          .to(root, { clipPath: 'inset(0 0 100% 0)', duration: 0.68, ease: 'expo.inOut', onComplete: finish }, 6.55);
+          .fromTo('[data-intro-curtain]', { scaleY: 0 }, { scaleY: 1, duration: 0.48, ease: 'power3.inOut' }, 6.25)
+          .to(root, { clipPath: 'inset(0 0 100% 0)', duration: 1.28, ease: 'expo.inOut' }, 6.48)
+          .to(
+            equation,
+            { x: 0, y: 0, scale: 1, color: 'var(--ink)', duration: 1.3, ease: 'expo.inOut' },
+            6.42,
+          )
+          .fromTo(
+            route,
+            { autoAlpha: 0, scale: 0.86 },
+            { autoAlpha: 1, scale: 1, duration: 0.6, ease: 'power3.out' },
+            7.12,
+          )
+          .call(() => finish('handoff'), [], 7.8);
       }, root);
     };
 
+    const finishForResize = () => finish('safety');
     const fontFallback = window.setTimeout(start, 350);
     document.fonts.ready.then(start).catch(start);
-    const safety = window.setTimeout(finish, INTRO_SAFETY_MS);
+    const safety = window.setTimeout(() => finish('safety'), INTRO_SAFETY_MS);
+    window.addEventListener('resize', finishForResize, { once: true });
 
     return () => {
       cancelled = true;
       window.clearTimeout(fontFallback);
       window.clearTimeout(safety);
+      window.removeEventListener('resize', finishForResize);
+      timelineRef.current?.kill();
+      timelineRef.current = null;
       context?.revert();
+      gsap.set(equation, { clearProps: 'transform,opacity,visibility,willChange,color' });
+      gsap.set(route, { clearProps: 'transform,opacity,visibility,willChange' });
       document.documentElement.classList.remove('ehsan-intro-locked');
     };
-  }, [finish]);
+  }, [equationRef, finish, routeRef]);
 
   return (
     <div ref={rootRef} className={styles.intro} aria-label="Muhammed Mekky Studio intro">
@@ -96,12 +158,9 @@ export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroPro
         <strong data-intro-word>APPLY</strong>
         <strong data-intro-word>BUILD</strong>
       </div>
-      <p className={styles.introThesis} data-intro-thesis>
-        <strong>KNOWING</strong><b>≠</b><strong>USING</strong>
-      </p>
       <span className={styles.introRoute} data-intro-route aria-hidden="true" />
       <span className={styles.introCurtain} data-intro-curtain aria-hidden="true" />
-      <button type="button" onClick={finish}>Skip intro</button>
+      <button type="button" onClick={() => finish('skip')}>Skip intro</button>
     </div>
   );
 }
