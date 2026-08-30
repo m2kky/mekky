@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WorkingSystemIntro from './WorkingSystemIntro';
@@ -99,23 +99,47 @@ function FieldNote({ note }: { note: (typeof fieldNotes)[number] }) {
 
 export default function EhsanExperience() {
   const rootRef = useRef<HTMLElement>(null);
-  const [introVisible, setIntroVisible] = useState(false);
-  const finishIntro = useCallback(() => setIntroVisible(false), []);
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try {
-      if (reducedMotion || window.sessionStorage.getItem(INTRO_KEY)) return;
-      window.sessionStorage.setItem(INTRO_KEY, 'true');
-    } catch {
-      if (reducedMotion) return;
-    }
-
-    const open = window.setTimeout(() => setIntroVisible(true), 0);
-    return () => {
-      window.clearTimeout(open);
-    };
+  const [introVisible, setIntroVisible] = useState(true);
+  const [pageReady, setPageReady] = useState(false);
+  const finishIntro = useCallback(() => {
+    setIntroVisible(false);
+    setPageReady(true);
   }, []);
+
+  useLayoutEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let shouldShowIntro = !reducedMotion;
+    if (shouldShowIntro) {
+      try {
+        if (window.sessionStorage.getItem(INTRO_KEY)) shouldShowIntro = false;
+        else window.sessionStorage.setItem(INTRO_KEY, 'true');
+      } catch {
+        shouldShowIntro = true;
+      }
+    }
+    if (!shouldShowIntro) {
+      queueMicrotask(() => {
+        setIntroVisible(false);
+        setPageReady(true);
+      });
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root || !pageReady || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const context = gsap.context(() => {
+      const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      timeline
+        .fromTo('[data-entry-brand]', { autoAlpha: 0, y: -18 }, { autoAlpha: 1, y: 0, duration: 0.38 }, 0)
+        .fromTo('[data-entry-eyebrow]', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.42 }, 0.08)
+        .fromTo('[data-entry-word]', { autoAlpha: 0, yPercent: 115 }, { autoAlpha: 1, yPercent: 0, duration: 0.72, stagger: 0.1, ease: 'expo.out' }, 0.2)
+        .fromTo('[data-entry-symbol]', { autoAlpha: 0, scale: 0.45 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.52)
+        .fromTo('[data-entry-route]', { autoAlpha: 0, scale: 0.86 }, { autoAlpha: 1, scale: 1, duration: 0.6 }, 0.58)
+        .fromTo('[data-entry-identity]', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.65, stagger: 0.09 }, 0.7);
+    }, root);
+    return () => context.revert();
+  }, [pageReady]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -127,25 +151,28 @@ export default function EhsanExperience() {
     media.add(
       {
         desktop: '(min-width: 1100px)',
+        wideMotion: '(min-width: 768px) and (prefers-reduced-motion: no-preference)',
         motion: '(prefers-reduced-motion: no-preference)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { desktop, reduceMotion } = context.conditions as { desktop: boolean; reduceMotion: boolean };
+        const { desktop, wideMotion, reduceMotion } = context.conditions as {
+          desktop: boolean;
+          wideMotion: boolean;
+          reduceMotion: boolean;
+        };
         if (reduceMotion) {
           gsap.set('[data-reveal], [data-parallax], .equation, .notesTrack, .mapProgress', { clearProps: 'all' });
           return;
         }
 
-        gsap.fromTo(
-          '.equation',
-          { scale: 1.12, transformOrigin: 'left 48%' },
-          {
+        if (wideMotion) {
+          gsap.fromTo('.equation', { scale: 1.06, transformOrigin: 'left 48%' }, {
             scale: 1,
             ease: 'none',
             scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
-          },
-        );
+          });
+        }
 
         gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
           gsap.fromTo(
@@ -243,22 +270,22 @@ export default function EhsanExperience() {
 
       <section className={`${styles.hero} hero`} aria-labelledby="ehsan-title">
         <div className={`${styles.heroCore} heroCore`}>
-          <div className={styles.heroTopline}>
+          <div className={styles.heroTopline} data-entry-eyebrow>
             <span>THE GAP ISN&apos;T KNOWLEDGE.</span>
             <span>CAIRO / 2026</span>
           </div>
           <h1 id="ehsan-title" className={`${styles.equation} equation`}>
-            <span>KNOWING</span>
-            <b>≠</b>
-            <span className={styles.using}>USING</span>
+            <span data-entry-word>KNOWING</span>
+            <b data-entry-symbol>≠</b>
+            <span className={styles.using} data-entry-word>USING</span>
           </h1>
-          <div className={styles.heroRoute} aria-hidden="true"><i /><i /><i /></div>
+          <div className={styles.heroRoute} data-entry-route aria-hidden="true"><i /><i /><i /></div>
           <div className={styles.heroIdentity}>
-            <div>
+            <div data-entry-identity>
               <p>The difference is a working system.</p>
               <h2>EHSAN<br />EL SAYED</h2>
             </div>
-            <div className={styles.heroStatement}>
+            <div className={styles.heroStatement} data-entry-identity>
               <p>Sales. Business Development. Practical AI. Applied until it works.</p>
               <small>An operator-teacher connecting commercial judgment, technical fluency, and real-world learning.</small>
               <div className={styles.heroActions}>

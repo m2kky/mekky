@@ -258,6 +258,7 @@
   font: 780 clamp(5rem, 14vw, 13rem)/0.74 var(--ehsan-display), sans-serif;
   letter-spacing: -0.075em;
 }
+.equation > span { overflow: hidden; }
 .equation b {
   grid-row: 1 / span 2;
   grid-column: 2;
@@ -547,8 +548,8 @@
   .hero { min-height: 48rem; padding-top: 8rem; }
   .hero::before { background-size: 25% 100%, 100% 6rem; }
   .heroTopline span:last-child { display: none; }
-  .equation { font-size: clamp(4.2rem, 21.5vw, 6.4rem); }
-  .heroRoute { top: 29%; right: 2%; width: 26vw; }
+  .equation { max-width: 100%; font-size: clamp(4rem, 20.5vw, 5.7rem); letter-spacing: -0.08em; }
+  .heroRoute { top: 30%; right: 0; width: 22vw; }
   .heroIdentity { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 4rem; }
   .heroIdentity h2 { font-size: clamp(3.4rem, 16vw, 5.3rem); }
   .heroCircle { right: -20vw; bottom: 7rem; }
