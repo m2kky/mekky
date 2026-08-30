@@ -79,9 +79,14 @@ test('choreographs the Ehsan Working System intro safely', () => {
   for (const word of ['KNOW', 'APPLY', 'BUILD', 'KNOWING', 'USING']) {
     assert.match(workingIntro, new RegExp(`>${word}<`));
   }
+  assert.match(workingIntro, />MUHAMMED MEKKY STUDIO PRESENTS</);
   assert.match(workingIntro, /Skip intro/);
   assert.match(workingIntro, /prefers-reduced-motion:\s*reduce/);
-  assert.match(workingIntro, /window\.setTimeout\([^,]+,\s*4200\)/s);
+  assert.match(workingIntro, /const INTRO_SAFETY_MS = 9500/);
+  assert.match(workingIntro, /window\.setTimeout\(finish, INTRO_SAFETY_MS\)/);
+  for (const position of ['1.15', '2.45', '3.75', '5.25', '6.25']) {
+    assert.match(workingIntro, new RegExp(`, ${position.replace('.', '\\.')}`));
+  }
   assert.match(workingIntro, /classList\.add\(['"]ehsan-intro-locked['"]\)/);
   assert.match(workingIntro, /classList\.remove\(['"]ehsan-intro-locked['"]\)/);
   assert.match(experience, /<WorkingSystemIntro onComplete=\{finishIntro\}\s*\/>/);
@@ -99,6 +104,18 @@ test('gives Ehsan a one-line desktop closing and coherent interaction hooks', ()
   assert.match(experienceCss, /\.primaryAction:hover/);
   assert.match(experienceCss, /\.teamPath:focus-within/);
   assert.match(experienceCss, /\.closingLinks a:focus-visible/);
+});
+
+test('keeps Ehsan Field Notes horizontal on every motion-enabled viewport', () => {
+  const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${routeRoot}/EhsanExperience.tsx`);
+  const experienceCss = read(`${routeRoot}/EhsanExperience.module.css`);
+
+  assert.match(experience, /if \(!reduceMotion\)[\s\S]*root\.querySelector<HTMLElement>\(['"]\.notesTrack['"]\)/);
+  assert.match(experience, /trigger:\s*['"]\.fieldNotes['"][\s\S]*pin:\s*true[\s\S]*scrub:\s*0\.8/);
+  assert.doesNotMatch(experience, /if \(desktop\)[\s\S]*const notesTrack/);
+  assert.match(experienceCss, /@media \(max-width:\s*1099px\)[\s\S]*\.notesTrack\s*\{[^}]*display:\s*flex/);
+  assert.match(experienceCss, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*\.notesTrack\s*\{[^}]*display:\s*block/);
 });
 
 test('makes Ehsan discoverable through the registry and sitemap', async () => {
