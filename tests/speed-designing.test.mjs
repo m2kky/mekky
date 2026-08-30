@@ -254,3 +254,19 @@ test('uses one accessible signature navigation across the Ehsan microsite', () =
   assert.match(nav, /ehsan-menu-locked/);
   assert.match(experience, /<EhsanNav active="home" animateEntry \/>/);
 });
+
+test('publishes the Ehsan Method and Worldview About route', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed/about';
+  for (const path of [`${root}/page.tsx`, `${root}/EhsanAboutExperience.tsx`, `${root}/About.module.css`]) assert.ok(existsSync(path));
+  const page = read(`${root}/page.tsx`);
+  const experience = read(`${root}/EhsanAboutExperience.tsx`);
+  const css = read(`${root}/About.module.css`);
+  assert.match(page, /About Ehsan El Sayed — A Working Model \| Speed Designing/);
+  assert.match(page, /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed\/about['"]/);
+  for (const phrase of ['NOT A BIO.', 'A WORKING MODEL.', 'OBSERVE', 'TRANSLATE', 'APPLY', 'BUILD', 'Make knowledge usable.', 'START A DEMO INQUIRY']) assert.match(experience, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(experience, /<EhsanNav active="about" \/>/);
+  assert.match(experience, /ScrollTrigger/);
+  assert.doesNotMatch(experience, /<Image/);
+  assert.match(css, /@media \(max-width:\s*479px\)/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
+});
