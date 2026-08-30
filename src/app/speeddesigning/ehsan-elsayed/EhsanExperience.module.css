@@ -362,7 +362,7 @@
 .closingLinks a span { font-size: 1.4rem; }
 .closing footer { position: relative; z-index: 2; display: grid; grid-template-columns: 7fr 4fr 1fr; gap: 2rem; align-items: end; margin-top: clamp(5rem, 12vh, 10rem); padding-top: 1.5rem; border-top: 2px solid var(--ink); font-size: 0.76rem; }
 .closing footer p { max-width: 75ch; }
-.closing footer a { font-weight: 650; }
+.closing footer a { display: inline-flex; min-height: 44px; align-items: center; font-weight: 650; }
 .closing footer > span { text-align: right; font: 600 0.7rem/1.2 var(--ehsan-mono), monospace; }
 
 @media (max-width: 1099px) {
@@ -389,7 +389,7 @@
   .page { --gutter: 1rem; --section-space: 6rem; }
   .navbar { align-items: flex-start; padding-top: 0.8rem; padding-bottom: 0.8rem; }
   .navbar nav { gap: 0.2rem; align-items: flex-end; flex-direction: column; }
-  .navbar nav a { min-height: 28px; }
+  .navbar nav a { min-height: 44px; }
   .navbar nav a:nth-child(2),
   .navbar nav a:nth-child(3) { display: none; }
   .hero { min-height: 48rem; padding-top: 8rem; }

@@ -41,6 +41,7 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   }
 
   const experience = read(experiencePath);
+  const experienceCss = read(`${routeRoot}/EhsanExperience.module.css`);
   for (const required of [
     'KNOWING', 'USING', 'The difference is a working system.',
     'ehn2Ox8YA7U', 'cngUW3Vv28k', 'BPppanxswGY',
@@ -55,6 +56,8 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   assert.match(experience, /transformOrigin:\s*['"]left 48%['"]/, 'hero zoom must anchor to the left grid edge');
   assert.doesNotMatch(experience, /gsap\.fromTo\(\s*['"]\.heroCore['"]/, 'dynamic zoom must not scale the CTA and supporting copy out of frame');
   assert.match(experience, /gsap\.fromTo\(\s*['"]\.equation['"]/, 'dynamic zoom should be isolated to the headline equation');
+  assert.doesNotMatch(experienceCss, /\.navbar nav a\s*\{[^}]*min-height:\s*28px/s, 'mobile navigation targets must not shrink below 44px');
+  assert.match(experienceCss, /\.closing footer a\s*\{[^}]*min-height:\s*44px/s, 'creator credit must remain a 44px touch target');
   assert.match(read(blueprintPath), /The Working System/);
   assert.match(read(blueprintPath), /Open the experience/);
   assert.match(read(`${routeRoot}/layout.tsx`), /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed['"]/);
