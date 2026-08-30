@@ -80,12 +80,18 @@ export default function EhsanRouteFrame({ children }: { children: ReactNode }) {
 
     const firstFrame = window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
-        if (next.hash) document.querySelector(next.hash)?.scrollIntoView({ behavior: 'auto' });
         gsap.to(overlay, {
           yPercent: -100,
           duration: 0.35,
           ease: 'power3.inOut',
-          onComplete: finish,
+          onComplete: () => {
+            finish();
+            if (next.hash) {
+              window.requestAnimationFrame(() => {
+                document.querySelector(next.hash)?.scrollIntoView({ behavior: 'auto' });
+              });
+            }
+          },
         });
       });
     });

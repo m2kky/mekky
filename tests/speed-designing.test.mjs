@@ -233,6 +233,7 @@ test('transitions safely between Ehsan microsite routes', () => {
   assert.match(frame, /clearProps:\s*['"]transform,visibility['"]/);
   assert.match(frame, /ehsan-route-locked/);
   assert.match(frame, /data-ehsan-route-overlay/);
+  assert.match(frame, /onComplete:\s*\(\) => \{[\s\S]*finish\(\)[\s\S]*next\.hash[\s\S]*scrollIntoView/);
   assert.match(link, /event\.button !== 0/);
   assert.match(link, /event\.metaKey \|\| event\.ctrlKey \|\| event\.shiftKey \|\| event\.altKey/);
 });
