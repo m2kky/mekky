@@ -1,6 +1,18 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Blueprint.module.css';
+
+export const metadata: Metadata = {
+  title: 'Ehsan El Sayed — The Working System Blueprint | Speed Designing',
+  description: 'The evidence, positioning, visual system, motion rules, and rejected directions behind the speculative Ehsan El Sayed experience.',
+  alternates: { canonical: '/speeddesigning/ehsan-elsayed/blueprint' },
+  openGraph: {
+    url: '/speeddesigning/ehsan-elsayed/blueprint',
+    title: 'Ehsan El Sayed — The Working System Blueprint',
+    description: 'See how research became positioning, structure, type, color, and motion in Speed Designing Episode 01.',
+  },
+};
 
 const decisions = [
   ['PERSON FIRST', 'Ehsan is the center; Sales Techies is one expression of the method.', 'An unofficial company-first site.'],

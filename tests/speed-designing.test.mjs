@@ -42,6 +42,7 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
 
   const experience = read(experiencePath);
   const experienceCss = read(`${routeRoot}/EhsanExperience.module.css`);
+  const blueprint = read(blueprintPath);
   const blueprintCss = read(`${routeRoot}/blueprint/Blueprint.module.css`);
   for (const required of [
     'KNOWING', 'USING', 'The difference is a working system.',
@@ -61,8 +62,10 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   assert.doesNotMatch(experienceCss, /\.navbar nav a\s*\{[^}]*min-height:\s*28px/s, 'mobile navigation targets must not shrink below 44px');
   assert.match(experienceCss, /\.closing footer a\s*\{[^}]*min-height:\s*44px/s, 'creator credit must remain a 44px touch target');
   assert.match(blueprintCss, /\.footer a\s*\{[^}]*min-height:\s*44px/s, 'Blueprint creator credit must remain a 44px touch target');
-  assert.match(read(blueprintPath), /The Working System/);
-  assert.match(read(blueprintPath), /Open the experience/);
+  assert.match(blueprint, /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed\/blueprint['"]/, 'Blueprint must expose its own canonical route');
+  assert.match(blueprint, /Blueprint \| Speed Designing/, 'Blueprint must expose a distinct document title');
+  assert.match(blueprint, /The Working System/);
+  assert.match(blueprint, /Open the experience/);
   assert.match(read(`${routeRoot}/layout.tsx`), /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed['"]/);
 });
 
