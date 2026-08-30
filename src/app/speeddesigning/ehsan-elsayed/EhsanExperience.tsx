@@ -245,7 +245,7 @@ export default function EhsanExperience() {
             <span>THE GAP ISN&apos;T KNOWLEDGE.</span>
             <span>CAIRO / 2026</span>
           </div>
-          <h1 id="ehsan-title" className={styles.equation}>
+          <h1 id="ehsan-title" className={`${styles.equation} equation`}>
             <span>KNOWING</span>
             <b>≠</b>
             <span className={styles.using}>USING</span>
