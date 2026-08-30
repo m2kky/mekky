@@ -69,6 +69,38 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   assert.match(read(`${routeRoot}/layout.tsx`), /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed['"]/);
 });
 
+test('choreographs the Ehsan Working System intro safely', () => {
+  const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
+  const introPath = `${routeRoot}/WorkingSystemIntro.tsx`;
+  assert.ok(existsSync(introPath), `${introPath} must exist`);
+
+  const workingIntro = read(introPath);
+  const experience = read(`${routeRoot}/EhsanExperience.tsx`);
+  for (const word of ['KNOW', 'APPLY', 'BUILD', 'KNOWING', 'USING']) {
+    assert.match(workingIntro, new RegExp(`>${word}<`));
+  }
+  assert.match(workingIntro, /Skip intro/);
+  assert.match(workingIntro, /prefers-reduced-motion:\s*reduce/);
+  assert.match(workingIntro, /window\.setTimeout\([^,]+,\s*4200\)/s);
+  assert.match(workingIntro, /classList\.add\(['"]ehsan-intro-locked['"]\)/);
+  assert.match(workingIntro, /classList\.remove\(['"]ehsan-intro-locked['"]\)/);
+  assert.match(experience, /<WorkingSystemIntro onComplete=\{finishIntro\}\s*\/>/);
+});
+
+test('gives Ehsan a one-line desktop closing and coherent interaction hooks', () => {
+  const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${routeRoot}/EhsanExperience.tsx`);
+  const experienceCss = read(`${routeRoot}/EhsanExperience.module.css`);
+
+  assert.match(experience, /<span>EHSAN<\/span>\s*\{['"]\s['"]\}\s*<span>EL SAYED<\/span>/);
+  assert.match(experience, /className=\{styles\.footerMeta\}/);
+  assert.match(experience, /className=\{styles\.footerSignature\}/);
+  assert.match(experienceCss, /@media \(min-width:\s*481px\)[\s\S]*\.closing h2\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(experienceCss, /\.primaryAction:hover/);
+  assert.match(experienceCss, /\.teamPath:focus-within/);
+  assert.match(experienceCss, /\.closingLinks a:focus-visible/);
+});
+
 test('makes Ehsan discoverable through the registry and sitemap', async () => {
   const registry = await import(`${pathToFileURL(`${process.cwd()}/${registryPath}`).href}?episode=${Date.now()}`);
   const project = registry.speedDesigningProjects[0];
