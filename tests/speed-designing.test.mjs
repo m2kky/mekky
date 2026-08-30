@@ -270,3 +270,24 @@ test('publishes the Ehsan Method and Worldview About route', () => {
   assert.match(css, /@media \(max-width:\s*479px\)/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
 });
+
+test('publishes a non-sending three-step Ehsan Contact demo', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed/contact';
+  for (const path of [`${root}/page.tsx`, `${root}/ContactWizard.tsx`, `${root}/EhsanContactExperience.tsx`, `${root}/Contact.module.css`]) assert.ok(existsSync(path));
+  const page = read(`${root}/page.tsx`);
+  const wizard = read(`${root}/ContactWizard.tsx`);
+  const experience = read(`${root}/EhsanContactExperience.tsx`);
+  const css = read(`${root}/Contact.module.css`);
+  assert.match(page, /Contact Demo — Ehsan El Sayed \| Speed Designing/);
+  assert.match(page, /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed\/contact['"]/);
+  assert.match(experience, /START WITH/);
+  assert.match(experience, /THE PROBLEM\./);
+  assert.match(experience, /nothing is sent to Ehsan El Sayed/i);
+  assert.match(wizard, /COMPLETE THE DEMO/);
+  assert.match(wizard, /Nothing was sent\./);
+  assert.match(wizard, /maxLength=\{600\}/);
+  assert.match(wizard, /preventDefault\(\)/);
+  assert.doesNotMatch(wizard, /fetch\(|axios|localStorage|sessionStorage|action=/);
+  assert.match(css, /@media \(max-width:\s*1023px\)/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
+});

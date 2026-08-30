@@ -1,0 +1,347 @@
+.page {
+  --gutter: clamp(1rem, 3.4vw, 4rem);
+  min-height: 100vh;
+  overflow: clip;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--ehsan-body), sans-serif;
+}
+
+.main {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+}
+
+.thesis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11rem var(--gutter) 4rem;
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(rgb(243 239 230 / 8%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(243 239 230 / 8%) 1px, transparent 1px);
+  background-size: 100% 7rem, 25% 100%;
+  color: var(--canvas);
+}
+
+.thesis > div > p:first-child,
+.stepMeta,
+.wizard legend > span,
+.field > span,
+.timing > legend,
+.privacy {
+  font: 600 0.72rem / 1.45 var(--ehsan-mono), monospace;
+  letter-spacing: 0.08em;
+}
+
+.thesis h1 {
+  margin: 1.5rem 0;
+  font: 780 clamp(4.5rem, 8vw, 9rem) / 0.76 var(--ehsan-display), sans-serif;
+  letter-spacing: -0.08em;
+}
+
+.thesis h1 span {
+  display: block;
+  color: var(--blue);
+}
+
+.thesis > div > p:last-child {
+  max-width: 40ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.5;
+}
+
+.notice {
+  padding: 1rem;
+  border: 2px solid var(--coral);
+  font: 600 0.72rem / 1.45 var(--ehsan-mono), monospace;
+}
+
+.notice strong {
+  color: var(--coral);
+}
+
+.wizard {
+  padding: 10rem var(--gutter) 4rem;
+  background: var(--canvas);
+}
+
+.stepMeta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress {
+  height: 5px;
+  margin: 1rem 0 3rem;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--blue);
+  transform-origin: left;
+  transition: transform 280ms ease;
+}
+
+.wizard fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wizard legend {
+  width: 100%;
+}
+
+.wizard legend h2 {
+  max-width: 12ch;
+  margin-top: 1rem;
+  font: 760 clamp(2.8rem, 5.5vw, 5.5rem) / 0.88 var(--ehsan-display), sans-serif;
+  letter-spacing: -0.06em;
+}
+
+.prompt {
+  max-width: 48ch;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.choice {
+  position: relative;
+  display: grid;
+  align-content: space-between;
+  gap: 0.75rem;
+  min-height: 88px;
+  padding: 1rem;
+  border: 1px solid #8f8a81;
+  background: var(--paper);
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.choice:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.choice:has(input:checked) {
+  border: 2px solid var(--blue);
+  background: #e9eeff;
+}
+
+.choice input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--blue);
+}
+
+.choice span {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.field input,
+.field textarea {
+  min-height: 48px;
+  padding: 0.75rem;
+  border: 1px solid #8f8a81;
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.field small {
+  justify-self: end;
+  color: #625e56;
+}
+
+.error {
+  margin-top: 0.5rem;
+  color: #a82414;
+  font-weight: 600;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin: 1.5rem 0;
+  background: var(--border);
+}
+
+.summary p {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+  background: var(--paper);
+}
+
+.summary span {
+  font: 600 0.68rem / 1 var(--ehsan-mono), monospace;
+  color: #625e56;
+}
+
+.timing {
+  margin-top: 2rem !important;
+}
+
+.timing .choices {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.timing .choice {
+  min-height: 76px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.actions button,
+.complete button,
+.complete a {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  color: var(--canvas);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.actions button:hover,
+.actions button:focus-visible,
+.complete button:hover,
+.complete button:focus-visible,
+.complete a:hover,
+.complete a:focus-visible {
+  background: var(--coral);
+  color: var(--ink);
+  transform: translateY(-3px);
+}
+
+.actions .back {
+  background: transparent;
+  color: var(--ink);
+}
+
+.privacy {
+  margin-top: 1.25rem;
+  color: #625e56;
+}
+
+.complete {
+  min-height: 32rem;
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--coral);
+}
+
+.complete h2 {
+  font: 780 clamp(4rem, 8vw, 8rem) / 0.78 var(--ehsan-display), sans-serif;
+  letter-spacing: -0.08em;
+}
+
+.complete strong {
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+}
+
+.complete button,
+.complete a {
+  width: fit-content;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1023px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .thesis {
+    min-height: 38rem;
+  }
+
+  .wizard {
+    padding-top: 5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .thesis h1 {
+    font-size: clamp(4rem, 18vw, 6.3rem);
+  }
+
+  .choices,
+  .timing .choices,
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .actions > span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before,
+  .page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .page [data-contact-entry] {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
