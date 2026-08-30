@@ -183,10 +183,11 @@ export default function EhsanExperience() {
         }
 
         if (wideMotion) {
-          gsap.fromTo('.equation', { scale: 1.06, transformOrigin: 'left 48%' }, {
-            scale: 1,
+          gsap.fromTo('.equation', { scale: 1, transformOrigin: 'left 48%' }, {
+            scale: 1.06,
+            immediateRender: false,
             ease: 'none',
-            scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
+            scrollTrigger: { trigger: '.hero', start: 'top top-=1', end: 'bottom top', scrub: 0.8 },
           });
         }
 
