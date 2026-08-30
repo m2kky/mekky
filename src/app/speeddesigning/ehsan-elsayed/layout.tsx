@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Alexandria, Bricolage_Grotesque, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google';
+import EhsanRouteFrame from './EhsanRouteFrame';
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -56,5 +57,9 @@ export const metadata: Metadata = {
 };
 
 export default function EhsanLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${display.variable} ${body.variable} ${mono.variable} ${arabic.variable}`}>{children}</div>;
+  return (
+    <div className={`${display.variable} ${body.variable} ${mono.variable} ${arabic.variable}`}>
+      <EhsanRouteFrame>{children}</EhsanRouteFrame>
+    </div>
+  );
 }

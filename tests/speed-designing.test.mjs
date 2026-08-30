@@ -216,3 +216,23 @@ test('adds discoverability and suppresses global interruptions', () => {
   }
   assert.match(read('package.json'), /"test:speeddesigning"/);
 });
+
+test('transitions safely between Ehsan microsite routes', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed';
+  const framePath = `${root}/EhsanRouteFrame.tsx`;
+  const linkPath = `${root}/EhsanTransitionLink.tsx`;
+  assert.ok(existsSync(framePath));
+  assert.ok(existsSync(linkPath));
+  const frame = read(framePath);
+  const link = read(linkPath);
+  const layout = read(`${root}/layout.tsx`);
+  assert.match(layout, /<EhsanRouteFrame>\{children\}<\/EhsanRouteFrame>/);
+  assert.match(frame, /prefers-reduced-motion:\s*reduce/);
+  assert.match(frame, /const TRANSITION_SAFETY_MS = 1800/);
+  assert.match(frame, /router\.push\(next\.href\)/);
+  assert.match(frame, /clearProps:\s*['"]transform,visibility['"]/);
+  assert.match(frame, /ehsan-route-locked/);
+  assert.match(frame, /data-ehsan-route-overlay/);
+  assert.match(link, /event\.button !== 0/);
+  assert.match(link, /event\.metaKey \|\| event\.ctrlKey \|\| event\.shiftKey \|\| event\.altKey/);
+});
