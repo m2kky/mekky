@@ -116,6 +116,29 @@ test('brands and stages Ehsan on every motion-enabled route mount', () => {
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*\.loopTrack\s*\{[^}]*transform:\s*none/);
 });
 
+test('hands the real Ehsan hero equation out of the intro without a cut', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${root}/EhsanExperience.tsx`);
+  const intro = read(`${root}/WorkingSystemIntro.tsx`);
+  const css = read(`${root}/EhsanExperience.module.css`);
+
+  assert.doesNotMatch(intro, /<strong>KNOWING<\/strong><b>≠<\/b><strong>USING<\/strong>/);
+  assert.match(intro, /export type IntroCompletionReason = 'handoff' \| 'skip' \| 'reduced-motion' \| 'safety'/);
+  assert.match(intro, /equationRef: RefObject<HTMLHeadingElement \| null>/);
+  assert.match(intro, /routeRef: RefObject<HTMLDivElement \| null>/);
+  assert.match(intro, /getBoundingClientRect\(\)/);
+  assert.match(intro, /const scaleCap = window\.innerWidth < 768 \? 0\.92 : 0\.68/);
+  assert.match(intro, /clearProps: 'transform,opacity,visibility,willChange,color'/);
+  assert.match(intro, /window\.addEventListener\('resize', finishForResize/);
+  assert.match(experience, /const equationRef = useRef<HTMLHeadingElement>\(null\)/);
+  assert.match(experience, /const routeRef = useRef<HTMLDivElement>\(null\)/);
+  assert.match(experience, /<WorkingSystemIntro equationRef=\{equationRef\} routeRef=\{routeRef\} onComplete=\{finishIntro\}/);
+  assert.match(experience, /ref=\{equationRef\}/);
+  assert.match(experience, /ref=\{routeRef\}/);
+  assert.match(experience, /reason === 'handoff' \? 'surroundings' : 'full'/);
+  assert.match(css, /\.page\[data-intro-active='true'\] \.hero/);
+});
+
 test('gives Ehsan a one-line desktop closing and coherent interaction hooks', () => {
   const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
   const experience = read(`${routeRoot}/EhsanExperience.tsx`);
