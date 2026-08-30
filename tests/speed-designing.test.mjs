@@ -111,6 +111,7 @@ test('keeps Ehsan Field Notes horizontal on every motion-enabled viewport', () =
   const experience = read(`${routeRoot}/EhsanExperience.tsx`);
   const experienceCss = read(`${routeRoot}/EhsanExperience.module.css`);
 
+  assert.match(experience, /motion:\s*['"]\(prefers-reduced-motion:\s*no-preference\)['"]/);
   assert.match(experience, /if \(!reduceMotion\)[\s\S]*root\.querySelector<HTMLElement>\(['"]\.notesTrack['"]\)/);
   assert.match(experience, /trigger:\s*['"]\.fieldNotes['"][\s\S]*pin:\s*true[\s\S]*scrub:\s*0\.8/);
   assert.doesNotMatch(experience, /if \(desktop\)[\s\S]*const notesTrack/);

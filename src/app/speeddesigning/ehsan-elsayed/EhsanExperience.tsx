@@ -127,6 +127,7 @@ export default function EhsanExperience() {
     media.add(
       {
         desktop: '(min-width: 1100px)',
+        motion: '(prefers-reduced-motion: no-preference)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
