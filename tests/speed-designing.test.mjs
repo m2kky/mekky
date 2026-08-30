@@ -54,7 +54,9 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   assert.match(experience, /ScrollTrigger/);
   assert.match(experience, /pin:\s*true/g);
   assert.match(experience, /dir="rtl"/);
-  assert.match(experience, /scale:\s*1\.1[0-2]/, 'hero zoom must stay restrained enough to preserve the first word');
+  assert.match(experience, /wideMotion:\s*['"]\(min-width:\s*768px\) and \(prefers-reduced-motion:\s*no-preference\)['"]/);
+  assert.match(experience, /if \(wideMotion\)[\s\S]*scale:\s*1\.06/);
+  assert.doesNotMatch(experience, /\{\s*scale:\s*1\.12/);
   assert.match(experience, /transformOrigin:\s*['"]left 48%['"]/, 'hero zoom must anchor to the left grid edge');
   assert.doesNotMatch(experience, /gsap\.fromTo\(\s*['"]\.heroCore['"]/, 'dynamic zoom must not scale the CTA and supporting copy out of frame');
   assert.match(experience, /gsap\.fromTo\(\s*['"]\.equation['"]/, 'dynamic zoom should be isolated to the headline equation');
@@ -90,6 +92,28 @@ test('choreographs the Ehsan Working System intro safely', () => {
   assert.match(workingIntro, /classList\.add\(['"]ehsan-intro-locked['"]\)/);
   assert.match(workingIntro, /classList\.remove\(['"]ehsan-intro-locked['"]\)/);
   assert.match(experience, /<WorkingSystemIntro onComplete=\{finishIntro\}\s*\/>/);
+});
+
+test('brands and stages Ehsan on every motion-enabled route mount', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${root}/EhsanExperience.tsx`);
+  const intro = read(`${root}/WorkingSystemIntro.tsx`);
+  const css = read(`${root}/EhsanExperience.module.css`);
+
+  assert.ok(existsSync('public/speeddesigning/brand/monogram.webp'));
+  assert.ok(existsSync('public/speeddesigning/brand/compact.webp'));
+  assert.match(experience, /\/speeddesigning\/brand\/monogram\.webp/);
+  assert.match(intro, /\/speeddesigning\/brand\/compact\.webp/);
+  assert.match(experience, /const \[pageReady, setPageReady\] = useState\(false\)/);
+  assert.match(experience, /data-entry-brand/);
+  assert.match(experience, /data-entry-word/);
+  assert.match(experience, /data-entry-identity/);
+  assert.match(experience, /gsap\.timeline\(\{ defaults: \{ ease: ['"]power3\.out['"] \} \}\)/);
+  assert.match(experience, /containerAnimation:\s*notesTween/);
+  assert.match(experience, /data-note-part/);
+  assert.match(experience, /data-loop-track/);
+  assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*\.equation\s*\{[^}]*font-size:\s*clamp\(4rem,\s*20\.5vw,\s*5\.7rem\)/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*\.loopTrack\s*\{[^}]*transform:\s*none/);
 });
 
 test('gives Ehsan a one-line desktop closing and coherent interaction hooks', () => {
