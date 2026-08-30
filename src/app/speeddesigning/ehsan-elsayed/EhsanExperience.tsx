@@ -227,7 +227,12 @@ export default function EhsanExperience() {
       {introVisible ? <WorkingSystemIntro onComplete={finishIntro} /> : null}
 
       <header className={styles.navbar}>
-        <Link href="/speeddesigning" className={styles.seriesLink}>MM / SD <span>EP. 01</span></Link>
+        <Link href="/speeddesigning" className={styles.seriesLink} aria-label="Speed Designing — Episode 01" data-entry-brand>
+          <span className={styles.brandTile} aria-hidden="true">
+            <Image src="/speeddesigning/brand/monogram.webp" alt="" fill sizes="44px" priority />
+          </span>
+          <span className={styles.brandLabel}>SD / <b>01</b></span>
+        </Link>
         <nav aria-label="Ehsan concept navigation">
           <a href="#method">Method</a>
           <a href="#field-notes">Field Notes</a>

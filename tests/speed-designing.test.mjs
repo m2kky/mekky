@@ -81,7 +81,7 @@ test('choreographs the Ehsan Working System intro safely', () => {
   for (const word of ['KNOW', 'APPLY', 'BUILD', 'KNOWING', 'USING']) {
     assert.match(workingIntro, new RegExp(`>${word}<`));
   }
-  assert.match(workingIntro, />MUHAMMED MEKKY STUDIO PRESENTS</);
+  assert.match(workingIntro, />STUDIO PRESENTS</);
   assert.match(workingIntro, /Skip intro/);
   assert.match(workingIntro, /prefers-reduced-motion:\s*reduce/);
   assert.match(workingIntro, /const INTRO_SAFETY_MS = 9500/);

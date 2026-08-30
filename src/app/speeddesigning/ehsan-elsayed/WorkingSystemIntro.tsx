@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useCallback, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styles from './EhsanExperience.module.css';
@@ -46,14 +47,15 @@ export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroPro
         const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
         timeline
-          .fromTo('[data-intro-studio]', { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.9 }, 0.15)
+          .fromTo('[data-intro-brand]', { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.9 }, 0.15)
+          .fromTo('[data-intro-accent]', { scaleX: 0 }, { scaleX: 1, duration: 0.65, ease: 'power3.inOut' }, 0.45)
           .fromTo(words[0], { autoAlpha: 0, yPercent: 125, scale: 0.94 }, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.65, ease: 'expo.out' }, 1.15)
-          .to('[data-intro-studio]', { y: () => -window.innerHeight * 0.43, duration: 1.15, ease: 'power3.inOut' }, 1.15)
+          .to('[data-intro-brand]', { y: () => -window.innerHeight * 0.41, duration: 1.15, ease: 'power3.inOut' }, 1.15)
           .fromTo(words[1], { autoAlpha: 0, yPercent: 125, scale: 0.94 }, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.65, ease: 'expo.out' }, 2.45)
           .to('[data-intro-words]', { yPercent: 0, duration: 1.2, ease: 'power3.inOut' }, 2.45)
           .fromTo(words[2], { autoAlpha: 0, yPercent: 125, scale: 0.94 }, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.65, ease: 'expo.out' }, 3.75)
           .to('[data-intro-words]', { yPercent: -34, duration: 1.2, ease: 'power3.inOut' }, 3.75)
-          .to('[data-intro-studio]', { autoAlpha: 0, duration: 0.45 }, 5.05)
+          .to('[data-intro-brand]', { autoAlpha: 0, duration: 0.45 }, 5.05)
           .to('[data-intro-words]', { autoAlpha: 0, yPercent: -50, duration: 0.55 }, 5.05)
           .fromTo('[data-intro-thesis]', { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.75 }, 5.25)
           .fromTo('[data-intro-route]', { scaleX: 0 }, { scaleX: 1, duration: 0.7 }, 5.65)
@@ -77,7 +79,18 @@ export default function WorkingSystemIntro({ onComplete }: WorkingSystemIntroPro
 
   return (
     <div ref={rootRef} className={styles.intro} aria-label="Muhammed Mekky Studio intro">
-      <p className={styles.introStudio} data-intro-studio>MUHAMMED MEKKY STUDIO PRESENTS</p>
+      <div className={styles.introBrand} data-intro-brand>
+        <Image
+          src="/speeddesigning/brand/compact.webp"
+          alt="Muhammed Mekky Studio"
+          width={900}
+          height={261}
+          sizes="(max-width: 480px) 72vw, 34rem"
+          priority
+        />
+        <span data-intro-accent aria-hidden="true" />
+        <p data-intro-studio>STUDIO PRESENTS</p>
+      </div>
       <div className={styles.introWords} data-intro-words aria-hidden="true">
         <strong data-intro-word>KNOW</strong>
         <strong data-intro-word>APPLY</strong>

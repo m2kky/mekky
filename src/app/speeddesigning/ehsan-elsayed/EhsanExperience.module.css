@@ -70,18 +70,20 @@
   background-size: 100% 25%, 16.666% 100%;
   content: '';
 }
-.introStudio {
+.introBrand {
   position: absolute;
   z-index: 3;
   top: 50%;
   left: 50%;
-  color: rgb(243 239 230 / 68%);
-  font: 600 0.68rem/1.2 var(--ehsan-mono), monospace;
-  letter-spacing: 0.12em;
-  text-align: center;
-  white-space: nowrap;
+  display: grid;
+  width: min(34rem, 72vw);
+  justify-items: center;
+  gap: 0.55rem;
   transform: translate(-50%, -50%);
 }
+.introBrand img { width: 100%; height: auto; }
+.introBrand > span { width: min(15rem, 48vw); height: 2px; background: var(--coral); transform-origin: left center; }
+.introBrand p { color: rgb(243 239 230 / 68%); font: 600 0.68rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.18em; }
 .introWords {
   position: absolute;
   z-index: 2;
@@ -188,8 +190,21 @@
   align-items: center;
   min-height: 44px;
 }
-.seriesLink { gap: 1rem; }
-.seriesLink span { color: var(--coral-dark); }
+.seriesLink { gap: 0.75rem; }
+.brandTile {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 0 var(--coral);
+  transition: box-shadow 220ms ease, transform 220ms cubic-bezier(.2,.7,.2,1);
+}
+.brandTile img { object-fit: contain; transform: scale(1.15); }
+.brandLabel { white-space: nowrap; }
+.brandLabel b { color: var(--coral-dark); font-weight: 650; }
+.seriesLink:hover .brandTile,
+.seriesLink:focus-visible .brandTile { box-shadow: inset 0 0 0 3px var(--coral); transform: translateY(-2px); }
 .navbar nav { gap: clamp(0.8rem, 2vw, 2rem); }
 .navbar nav a { position: relative; transition: color 180ms ease, transform 180ms ease; }
 .navbar nav a::after {
@@ -570,7 +585,7 @@
 }
 
 @media (max-width: 480px) {
-  .introStudio { width: calc(100vw - 2rem); white-space: normal; }
+  .introBrand { width: min(76vw, 19rem); }
   .introWords { left: 1rem; width: calc(100vw - 2rem); font-size: clamp(3.5rem, 19vw, 5rem); }
   .introThesis { display: grid; width: auto; justify-items: center; }
   .closing h2 span { display: block; }
