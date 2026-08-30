@@ -55,8 +55,7 @@
   z-index: 990;
   inset: 0;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  align-items: center;
+  place-items: center;
   padding: clamp(1.2rem, 3.4vw, 4rem);
   background: var(--ink);
   color: var(--canvas);
@@ -72,20 +71,33 @@
   content: '';
 }
 .introStudio {
-  align-self: start;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
   color: rgb(243 239 230 / 68%);
   font: 600 0.68rem/1.2 var(--ehsan-mono), monospace;
   letter-spacing: 0.12em;
+  text-align: center;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
 }
 .introWords {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.1em;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 4vw;
+  display: grid;
+  width: 92vw;
+  justify-items: center;
+  gap: 0.05em;
   overflow: hidden;
-  font: 760 clamp(3.9rem, 13vw, 13rem)/0.76 var(--ehsan-display), sans-serif;
+  font: 760 clamp(3.9rem, 11vw, 11rem)/0.78 var(--ehsan-display), sans-serif;
   letter-spacing: -0.075em;
+  transform: translateY(-50%);
+  will-change: transform, opacity;
 }
+.introWords strong { will-change: transform, opacity; }
 .introWords strong:nth-child(2) { color: var(--blue); }
 .introWords strong:nth-child(3) { color: var(--coral); }
 .introThesis {
@@ -555,7 +567,8 @@
 }
 
 @media (max-width: 480px) {
-  .introWords { display: grid; justify-content: start; }
+  .introStudio { width: calc(100vw - 2rem); white-space: normal; }
+  .introWords { left: 1rem; width: calc(100vw - 2rem); font-size: clamp(3.5rem, 19vw, 5rem); }
   .introThesis { display: grid; width: auto; justify-items: center; }
   .closing h2 span { display: block; }
 }
