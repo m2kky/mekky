@@ -444,8 +444,9 @@
 .closing h2 { margin-top: 1rem; font: 780 clamp(4.8rem, 12.2vw, 12.2rem)/0.8 var(--ehsan-display), sans-serif; letter-spacing: -0.085em; }
 .closingLinks { display: flex; position: relative; z-index: 2; flex-wrap: wrap; gap: 1rem; margin-top: clamp(4rem, 9vh, 8rem); }
 .closingLinks a { display: flex; min-height: 52px; align-items: center; gap: 2rem; justify-content: space-between; padding: 0.8rem 1rem; border: 2px solid var(--ink); background-position: left; background-repeat: no-repeat; background-size: 0 100%; font-weight: 650; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 180ms ease; }
-.closingLinks a:first-child { min-width: min(100%, 22rem); background-color: var(--ink); background-image: linear-gradient(var(--blue), var(--blue)); color: var(--canvas); }
-.closingLinks a:last-child { background-image: linear-gradient(var(--ink), var(--ink)); }
+.closingYouTube { min-width: min(100%, 22rem); background-color: var(--ink); background-image: linear-gradient(var(--blue), var(--blue)); color: var(--canvas); }
+.closingContact { background-image: linear-gradient(var(--coral), var(--coral)); }
+.closingBlueprint { background-image: linear-gradient(var(--ink), var(--ink)); }
 .closingLinks a span { font-size: 1.4rem; transition: transform 220ms ease; }
 .closingLinks a:hover,
 .closingLinks a:focus-visible { background-size: 100% 100%; color: var(--canvas); }
@@ -458,6 +459,10 @@
 .footerSignature { position: relative; display: grid; grid-template-columns: 4fr 8fr; gap: 2rem; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgb(17 19 24 / 42%); }
 .footerSignature::before { position: absolute; top: -2px; left: 0; width: 22%; height: 3px; background: var(--blue); content: ''; }
 .footerSignature > span { font: 600 0.68rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.1em; }
+.footerRoutes { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+.footerRoutes a { display: inline-flex; min-height: 44px; align-items: center; }
+.footerRoutes a:hover,
+.footerRoutes a:focus-visible { color: var(--blue); }
 .closing footer a { display: inline-flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 1rem; font-weight: 650; }
 .closing footer a span { transition: transform 220ms ease; }
 .closing footer a:hover span,

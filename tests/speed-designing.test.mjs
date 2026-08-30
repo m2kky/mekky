@@ -291,3 +291,14 @@ test('publishes a non-sending three-step Ehsan Contact demo', () => {
   assert.match(css, /@media \(max-width:\s*1023px\)/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
 });
+
+test('connects the Ehsan homepage and sitemap to About and Contact', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${root}/EhsanExperience.tsx`);
+  const sitemap = read('src/app/sitemap.ts');
+  for (const phrase of ['About Ehsan', 'Start a demo inquiry', 'Start a conversation']) assert.match(experience, new RegExp(phrase, 'i'));
+  assert.match(experience, /\/speeddesigning\/ehsan-elsayed\/about/);
+  assert.match(experience, /\/speeddesigning\/ehsan-elsayed\/contact/);
+  assert.match(sitemap, /speeddesigning\/ehsan-elsayed\/about/);
+  assert.match(sitemap, /speeddesigning\/ehsan-elsayed\/contact/);
+});

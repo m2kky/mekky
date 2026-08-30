@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WorkingSystemIntro, { type IntroCompletionReason } from './WorkingSystemIntro';
 import EhsanNav from './EhsanNav';
+import EhsanTransitionLink from './EhsanTransitionLink';
 import styles from './EhsanExperience.module.css';
 
 const INTRO_KEY = 'speed-designing-ehsan-intro-seen-v1';
@@ -361,6 +362,7 @@ export default function EhsanExperience() {
               <div className={styles.heroActions}>
                 <a href="#method" className={styles.primaryAction}>See how I work <Arrow /></a>
                 <a href="#field-notes" className={styles.textAction}>Start with a field note ↓</a>
+                <EhsanTransitionLink href="/speeddesigning/ehsan-elsayed/about" label="ABOUT" className={styles.textAction}>About Ehsan <Arrow /></EhsanTransitionLink>
               </div>
             </div>
           </div>
@@ -432,7 +434,7 @@ export default function EhsanExperience() {
             <span>FOR REVENUE LEADERS &amp; TEAMS / PRIMARY</span>
             <h3>Make AI useful where revenue work actually happens.</h3>
             <p>Start with the workflow, the commercial problem, and the behavior that needs to change—then build the system around them.</p>
-            <a href="#method">Trace the team method <Arrow /></a>
+            <EhsanTransitionLink href="/speeddesigning/ehsan-elsayed/contact" label="CONTACT">Start a demo inquiry <Arrow /></EhsanTransitionLink>
           </article>
           <article className={styles.capabilityPath} data-reveal="card">
             <span>FOR REVENUE PROFESSIONALS</span>
@@ -465,8 +467,9 @@ export default function EhsanExperience() {
           <h2 id="closing-title"><span>EHSAN</span>{' '}<span>EL SAYED</span></h2>
         </div>
         <div className={styles.closingLinks} data-reveal="group">
-          <a href="https://www.youtube.com/@ehsan__sayed" target="_blank" rel="noreferrer">Follow Life, Work &amp; Growth <Arrow diagonal /></a>
-          <Link href="/speeddesigning/ehsan-elsayed/blueprint">Open the Blueprint <Arrow /></Link>
+          <a className={styles.closingYouTube} href="https://www.youtube.com/@ehsan__sayed" target="_blank" rel="noreferrer">Follow Life, Work &amp; Growth <Arrow diagonal /></a>
+          <EhsanTransitionLink href="/speeddesigning/ehsan-elsayed/contact" label="CONTACT" className={styles.closingContact}>Start a conversation <Arrow /></EhsanTransitionLink>
+          <Link className={styles.closingBlueprint} href="/speeddesigning/ehsan-elsayed/blueprint">Open the Blueprint <Arrow /></Link>
         </div>
         <footer data-reveal="group">
           <div className={styles.footerMeta}>
@@ -475,7 +478,14 @@ export default function EhsanExperience() {
           </div>
           <div className={styles.footerSignature}>
             <span>FROM EVIDENCE TO EXPERIENCE.</span>
-            <Link href="/">An independent speculative experience by Muhammed Mekky. <Arrow diagonal /></Link>
+            <div>
+              <Link href="/">An independent speculative experience by Muhammed Mekky. <Arrow diagonal /></Link>
+              <nav className={styles.footerRoutes} aria-label="Ehsan microsite pages">
+                <EhsanTransitionLink href="/speeddesigning/ehsan-elsayed/about" label="ABOUT">About</EhsanTransitionLink>
+                <EhsanTransitionLink href="/speeddesigning/ehsan-elsayed/contact" label="CONTACT">Contact demo</EhsanTransitionLink>
+                <Link href="/speeddesigning/ehsan-elsayed/blueprint">Blueprint</Link>
+              </nav>
+            </div>
           </div>
         </footer>
       </section>

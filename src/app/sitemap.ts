@@ -34,6 +34,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${SITE.url}/speeddesigning/ehsan-elsayed/about`,
+            lastModified: new Date('2026-08-30'),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        },
+        {
+            url: `${SITE.url}/speeddesigning/ehsan-elsayed/contact`,
+            lastModified: new Date('2026-08-30'),
+            changeFrequency: 'monthly',
+            priority: 0.6,
+        },
+        {
             url: `${SITE.url}/speeddesigning/ehsan-elsayed/blueprint`,
             lastModified: new Date('2026-08-30'),
             changeFrequency: 'monthly',

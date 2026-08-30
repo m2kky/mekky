@@ -121,6 +121,7 @@ export default function ContactWizard() {
                   name="context"
                   value={value}
                   checked={state.context === value}
+                  aria-label={value === 'team' ? 'Team or organization' : value === 'program' ? 'Learning program' : 'Individual'}
                   onChange={() => dispatch({ type: 'set-context', value })}
                 />
                 <strong>{label}</strong>
@@ -153,6 +154,7 @@ export default function ContactWizard() {
                   name="problem"
                   value={value}
                   checked={state.problem === value}
+                  aria-label={value === 'ai-adoption' ? 'AI adoption in real work' : value === 'revenue-clarity' ? 'Revenue clarity' : value === 'team-capability' ? 'Team capability' : 'Something else'}
                   onChange={() => dispatch({ type: 'set-problem', value })}
                 />
                 <strong>{label}</strong>
@@ -165,6 +167,7 @@ export default function ContactWizard() {
             <textarea
               value={state.note}
               maxLength={600}
+              aria-label="Short note"
               aria-invalid={Boolean(errors.note)}
               aria-describedby={errors.note ? 'note-error note-count' : 'note-count'}
               onChange={(event) => dispatch({ type: 'set-note', value: event.target.value })}
@@ -236,6 +239,7 @@ export default function ContactWizard() {
                     name="timing"
                     value={value}
                     checked={state.timing === value}
+                    aria-label={value === 'exploring' ? 'Exploring' : value === 'quarter' ? 'This quarter' : 'Later'}
                     onChange={() => dispatch({ type: 'set-timing', value })}
                   />
                   <strong>{label}</strong>
