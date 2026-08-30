@@ -160,6 +160,25 @@ export default function EhsanExperience() {
           );
         });
 
+        if (!reduceMotion) {
+          const notesTrack = root.querySelector<HTMLElement>('.notesTrack');
+          if (notesTrack) {
+            gsap.to(notesTrack, {
+              x: () => -Math.max(0, notesTrack.scrollWidth - window.innerWidth),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '.fieldNotes',
+                start: 'top top',
+                end: () => `+=${Math.max(notesTrack.scrollWidth - window.innerWidth, window.innerWidth * 1.5)}`,
+                pin: true,
+                scrub: 0.8,
+                invalidateOnRefresh: true,
+                anticipatePin: 1,
+              },
+            });
+          }
+        }
+
         if (desktop) {
           gsap.fromTo(
             '.mapProgress',
@@ -177,22 +196,6 @@ export default function EhsanExperience() {
               },
             },
           );
-
-          const notesTrack = root.querySelector<HTMLElement>('.notesTrack');
-          if (notesTrack) {
-            gsap.to(notesTrack, {
-              x: () => -(notesTrack.scrollWidth - window.innerWidth),
-              ease: 'none',
-              scrollTrigger: {
-                trigger: '.fieldNotes',
-                start: 'top top',
-                end: () => `+=${Math.max(notesTrack.scrollWidth - window.innerWidth, window.innerWidth * 1.5)}`,
-                pin: true,
-                scrub: 0.8,
-                invalidateOnRefresh: true,
-              },
-            });
-          }
 
           gsap.to('[data-parallax="circle"]', {
             y: -90,

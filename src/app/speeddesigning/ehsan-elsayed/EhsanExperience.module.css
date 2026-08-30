@@ -513,9 +513,9 @@
   .mapRail { display: none; }
   .mapNode:nth-child(2) { border-right: 0; }
   .mapNode:nth-child(-n+2) { border-bottom: 1px solid rgb(243 239 230 / 34%); }
-  .notesTrack { display: block; width: auto; padding: var(--section-space) var(--gutter); }
-  .notesIntro { min-height: 42rem; padding: 0 0 5rem; border: 0; }
-  .noteCard { width: 100%; padding: 4rem 0; border-right: 0; border-top: 1px solid var(--border); }
+  .notesTrack { display: flex; width: max-content; min-height: 100svh; padding: 0; }
+  .notesIntro { flex-basis: 72vw; min-height: 100svh; padding: 5rem 4vw 3rem var(--gutter); border-right: 1px solid var(--border); }
+  .noteCard { width: auto; flex-basis: 84vw; padding: clamp(3rem, 6vh, 5rem) clamp(1.25rem, 3vw, 2.5rem); border-top: 0; border-right: 1px solid var(--border); }
   .proofNetwork { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
   .proofPoint[data-index] { grid-column: auto; grid-row: auto; min-height: 16rem; }
   .proofCenter { grid-column: 1 / 3; grid-row: 1; min-height: 15rem; }
@@ -543,7 +543,10 @@
   .mapNode { min-height: auto; padding: 1.25rem; border-right: 0; border-bottom: 1px solid rgb(243 239 230 / 34%); }
   .mapNode:nth-child(-n+2) { border-bottom: 1px solid rgb(243 239 230 / 34%); }
   .mapNode h3 { margin-top: 3rem; }
-  .notesIntro { min-height: 33rem; }
+  .notesIntro { flex-basis: 92vw; min-height: 100svh; padding: 5.5rem 1rem 2.5rem; }
+  .noteCard { flex-basis: 88vw; padding: 3.5rem 1rem 2rem; }
+  .noteCard h3 { margin-top: 1rem; font-size: clamp(1.5rem, 6vw, 2.25rem); }
+  .watchAction { margin-top: 0.75rem; }
   .noteMeta { grid-template-columns: 1fr auto; }
   .noteMeta span:nth-child(2) { grid-row: 2; grid-column: 1 / 3; text-align: left; }
   .noteQuestion { font-size: clamp(1.5rem, 7.5vw, 2.2rem); }
@@ -575,6 +578,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
+  .fieldNotes { min-height: auto; }
+  .notesTrack { display: block; width: auto; min-height: auto; padding: var(--section-space) var(--gutter); }
+  .notesIntro { min-height: 33rem; padding: 0 0 5rem; border: 0; }
+  .noteCard { width: 100%; padding: 4rem 0; border-top: 1px solid var(--border); border-right: 0; }
   .page *,
   .page *::before,
   .page *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
