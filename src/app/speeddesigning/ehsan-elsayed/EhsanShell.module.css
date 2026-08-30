@@ -9,6 +9,137 @@
   min-height: 100vh;
 }
 
+.nav {
+  position: absolute;
+  z-index: 40;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76px;
+  padding: 0.75rem var(--gutter, clamp(1rem, 3.4vw, 4rem));
+  border-top: 7px solid var(--coral);
+  border-bottom: 1px solid rgb(17 19 24 / 18%);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.signature {
+  position: relative;
+  display: block;
+  width: 120px;
+  height: 44px;
+  overflow: hidden;
+  background: var(--ink);
+  transition: transform 220ms cubic-bezier(.2, .7, .2, 1), box-shadow 220ms ease;
+}
+
+.signature img {
+  object-fit: contain;
+  padding: 0.25rem 0.4rem;
+}
+
+.signature:hover,
+.signature:focus-visible {
+  box-shadow: inset 0 0 0 3px var(--coral);
+  transform: translateY(-2px);
+}
+
+.episode,
+.navLink,
+.menuButton,
+.mobileMenu button {
+  min-height: 44px;
+  font: 600 0.7rem / 1 var(--ehsan-mono), monospace;
+  letter-spacing: 0.08em;
+}
+
+.episode,
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.episode b,
+.navLink [aria-current='page'] {
+  color: var(--coral-dark);
+}
+
+.navLink::after {
+  position: absolute;
+  right: 0;
+  bottom: 0.45rem;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.navLink:hover::after,
+.navLink:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.6rem);
+}
+
+.menuButton,
+.mobileMenu {
+  display: none;
+}
+
+.subpageFooter {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  padding: 2rem var(--gutter);
+  border-top: 2px solid currentColor;
+  font-family: var(--ehsan-body), sans-serif;
+}
+
+.subpageFooter p {
+  max-width: 72ch;
+  margin: 0 0 1.5rem;
+  line-height: 1.55;
+}
+
+.subpageFooter span,
+.subpageFooter nav {
+  font: 500 0.72rem / 1.5 var(--ehsan-mono), monospace;
+  letter-spacing: 0.06em;
+}
+
+.subpageFooter nav {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+}
+
+.subpageFooter nav a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  border-bottom: 1px solid currentColor;
+  transition: color 180ms ease, padding-left 180ms ease;
+}
+
+.subpageFooter nav a:hover,
+.subpageFooter nav a:focus-visible {
+  padding-left: 0.5rem;
+  color: var(--coral-dark);
+}
+
 .routeOverlay {
   position: fixed;
   z-index: 1200;
@@ -30,8 +161,86 @@
   overflow: hidden;
 }
 
+:global(html.ehsan-menu-locked),
+:global(html.ehsan-menu-locked body) {
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  .signature {
+    width: 96px;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.9rem;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .mobileMenu {
+    position: fixed;
+    z-index: 1210;
+    inset: 0;
+    display: grid;
+    align-content: start;
+    visibility: hidden;
+    padding: 1rem;
+    background: var(--ink);
+    color: var(--canvas);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease, visibility 240ms ease;
+  }
+
+  .mobileMenu[data-open='true'] {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobileMenu button {
+    justify-self: end;
+    padding: 0 1rem;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+  }
+
+  .mobileMenu nav {
+    display: grid;
+    margin-top: 8vh;
+  }
+
+  .mobileMenu a {
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    border-bottom: 1px solid rgb(243 239 230 / 25%);
+    font: 700 clamp(2rem, 10vw, 4.5rem) / 1 var(--ehsan-display), sans-serif;
+  }
+
+  .subpageFooter {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .routeOverlay {
     display: none;
+  }
+
+  .mobileMenu,
+  .navLink {
+    transition: none !important;
   }
 }

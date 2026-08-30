@@ -6,6 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WorkingSystemIntro, { type IntroCompletionReason } from './WorkingSystemIntro';
+import EhsanNav from './EhsanNav';
 import styles from './EhsanExperience.module.css';
 
 const INTRO_KEY = 'speed-designing-ehsan-intro-seen-v1';
@@ -335,20 +336,7 @@ export default function EhsanExperience() {
 
       {introVisible ? <WorkingSystemIntro equationRef={equationRef} routeRef={routeRef} onComplete={finishIntro} /> : null}
 
-      <header className={styles.navbar}>
-        <Link href="/speeddesigning" className={styles.seriesLink} aria-label="Speed Designing — Episode 01" data-entry-brand>
-          <span className={styles.brandTile} aria-hidden="true">
-            <Image src="/speeddesigning/brand/monogram.webp" alt="" fill sizes="44px" priority />
-          </span>
-          <span className={styles.brandLabel}>SD / <b>01</b></span>
-        </Link>
-        <nav aria-label="Ehsan concept navigation">
-          <a href="#method">Method</a>
-          <a href="#field-notes">Field Notes</a>
-          <a href="#paths">Choose a path</a>
-          <Link href="/speeddesigning/ehsan-elsayed/blueprint">Blueprint</Link>
-        </nav>
-      </header>
+      <EhsanNav active="home" animateEntry />
 
       <section className={`${styles.hero} hero`} aria-labelledby="ehsan-title">
         <div className={`${styles.heroCore} heroCore`}>

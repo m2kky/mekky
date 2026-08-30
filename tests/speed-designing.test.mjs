@@ -103,9 +103,9 @@ test('brands and stages Ehsan on every motion-enabled route mount', () => {
   const intro = read(`${root}/WorkingSystemIntro.tsx`);
   const css = read(`${root}/EhsanExperience.module.css`);
 
-  assert.ok(existsSync('public/speeddesigning/brand/monogram.webp'));
+  assert.ok(existsSync('public/speeddesigning/brand/signature.webp'));
   assert.ok(existsSync('public/speeddesigning/brand/compact.webp'));
-  assert.match(experience, /\/speeddesigning\/brand\/monogram\.webp/);
+  assert.match(experience, /<EhsanNav active="home" animateEntry \/>/);
   assert.match(intro, /\/speeddesigning\/brand\/compact\.webp/);
   assert.match(experience, /const \[pageReady, setPageReady\] = useState\(false\)/);
   assert.match(experience, /data-entry-brand/);
@@ -235,4 +235,22 @@ test('transitions safely between Ehsan microsite routes', () => {
   assert.match(frame, /data-ehsan-route-overlay/);
   assert.match(link, /event\.button !== 0/);
   assert.match(link, /event\.metaKey \|\| event\.ctrlKey \|\| event\.shiftKey \|\| event\.altKey/);
+});
+
+test('uses one accessible signature navigation across the Ehsan microsite', () => {
+  const root = 'src/app/speeddesigning/ehsan-elsayed';
+  const navPath = `${root}/EhsanNav.tsx`;
+  assert.ok(existsSync(navPath));
+  const nav = read(navPath);
+  const experience = read(`${root}/EhsanExperience.tsx`);
+  assert.match(nav, /\/speeddesigning\/brand\/signature\.webp/);
+  assert.doesNotMatch(nav, /monogram\.webp/);
+  for (const destination of ['/about', '#method', '#field-notes', '/contact', '/blueprint']) {
+    assert.match(nav, new RegExp(destination.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.match(nav, /aria-expanded=\{menuOpen\}/);
+  assert.match(nav, /event\.key === 'Escape'/);
+  assert.match(nav, /event\.key !== 'Tab'/);
+  assert.match(nav, /ehsan-menu-locked/);
+  assert.match(experience, /<EhsanNav active="home" animateEntry \/>/);
 });

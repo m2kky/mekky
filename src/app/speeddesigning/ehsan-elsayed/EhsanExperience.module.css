@@ -171,63 +171,6 @@
 .intro button:hover,
 .intro button:focus-visible { background: var(--canvas); color: var(--ink); }
 
-.navbar {
-  position: absolute;
-  z-index: 20;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 1.25rem var(--gutter);
-  border-bottom: 1px solid rgb(17 19 24 / 20%);
-  font: 600 0.72rem/1 var(--ehsan-mono), monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.seriesLink,
-.navbar nav,
-.navbar nav a {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-}
-.seriesLink { gap: 0.75rem; }
-.brandTile {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  overflow: hidden;
-  background: var(--ink);
-  box-shadow: inset 0 0 0 0 var(--coral);
-  transition: box-shadow 220ms ease, transform 220ms cubic-bezier(.2,.7,.2,1);
-}
-.brandTile img { object-fit: contain; transform: scale(1.15); }
-.brandLabel { white-space: nowrap; }
-.brandLabel b { color: var(--coral-dark); font-weight: 650; }
-.seriesLink:hover .brandTile,
-.seriesLink:focus-visible .brandTile { box-shadow: inset 0 0 0 3px var(--coral); transform: translateY(-2px); }
-.navbar nav { gap: clamp(0.8rem, 2vw, 2rem); }
-.navbar nav a { position: relative; transition: color 180ms ease, transform 180ms ease; }
-.navbar nav a::after {
-  position: absolute;
-  right: 0;
-  bottom: 0.45rem;
-  left: 0;
-  height: 2px;
-  background: currentColor;
-  content: '';
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms ease;
-}
-.navbar nav a:hover::after,
-.navbar nav a:focus-visible::after { transform: scaleX(1); }
-.navbar nav a:hover,
-.navbar nav a:focus-visible { color: var(--blue); transform: translateY(-2px); }
-
 .hero {
   position: relative;
   min-height: 100svh;
@@ -546,11 +489,6 @@
 
 @media (max-width: 767px) {
   .page { --gutter: 1rem; --section-space: 6rem; }
-  .navbar { align-items: flex-start; padding-top: 0.8rem; padding-bottom: 0.8rem; }
-  .navbar nav { gap: 0.2rem; align-items: flex-end; flex-direction: column; }
-  .navbar nav a { min-height: 44px; }
-  .navbar nav a:nth-child(2),
-  .navbar nav a:nth-child(3) { display: none; }
   .hero { min-height: 48rem; padding-top: 8rem; }
   .hero::before { background-size: 25% 100%, 100% 6rem; }
   .heroTopline span:last-child { display: none; }
@@ -616,7 +554,6 @@
   .noteQuestion,
   .primaryAction span,
   .textAction,
-  .navbar nav a,
   .teamPath,
   .capabilityPath,
   .teamPath h3,
