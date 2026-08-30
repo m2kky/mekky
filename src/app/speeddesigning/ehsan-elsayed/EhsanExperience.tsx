@@ -138,7 +138,7 @@ export default function EhsanExperience() {
 
         gsap.fromTo(
           '.heroCore',
-          { scale: 1.22, transformOrigin: '50% 48%' },
+          { scale: 1.12, transformOrigin: 'left 48%' },
           {
             scale: 1,
             ease: 'none',

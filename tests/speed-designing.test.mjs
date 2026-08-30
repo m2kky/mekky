@@ -51,6 +51,8 @@ test('publishes Ehsan episode one with its website and Blueprint contracts', () 
   assert.match(experience, /ScrollTrigger/);
   assert.match(experience, /pin:\s*true/g);
   assert.match(experience, /dir="rtl"/);
+  assert.match(experience, /scale:\s*1\.1[0-2]/, 'hero zoom must stay restrained enough to preserve the first word');
+  assert.match(experience, /transformOrigin:\s*['"]left 48%['"]/, 'hero zoom must anchor to the left grid edge');
   assert.match(read(blueprintPath), /The Working System/);
   assert.match(read(blueprintPath), /Open the experience/);
   assert.match(read(`${routeRoot}/layout.tsx`), /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed['"]/);
