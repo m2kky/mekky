@@ -72,7 +72,7 @@
 .preview img { width: 100%; height: auto; border: 1px solid var(--ink); }
 .footer { display: grid; grid-template-columns: 8fr 4fr; gap: 3rem; padding: 2rem var(--gutter); background: var(--coral); font-size: 0.78rem; }
 .footer p { max-width: 75ch; }
-.footer a { font-weight: 650; }
+.footer a { display: inline-flex; min-height: 44px; align-items: center; font-weight: 650; }
 @media (max-width: 767px) {
   .nav { align-items: flex-start; padding-top: 0.8rem; padding-bottom: 0.8rem; }
   .hero { min-height: 44rem; }
