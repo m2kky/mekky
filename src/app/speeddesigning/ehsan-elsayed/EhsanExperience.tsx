@@ -64,7 +64,7 @@ function FieldNote({ note }: { note: (typeof fieldNotes)[number] }) {
         className={styles.noteLink}
         aria-label={`${note.question} — watch on YouTube (opens in a new tab)`}
       >
-        <div className={styles.noteMedia}>
+        <div className={styles.noteMedia} data-note-part>
           {failed ? (
             <p className={styles.imageFallback}>Thumbnail unavailable. The full field note is still available on YouTube.</p>
           ) : (
@@ -81,17 +81,17 @@ function FieldNote({ note }: { note: (typeof fieldNotes)[number] }) {
           <span className={styles.playMark} aria-hidden="true">PLAY</span>
           <p className={styles.noteQuestion}>{note.question}</p>
         </div>
-        <div className={styles.noteMeta}>
+        <div className={styles.noteMeta} data-note-part>
           <span>FIELD NOTE / {note.id}</span>
           <span>{note.category}</span>
           <span>{note.runtime}</span>
         </div>
         {note.arabic ? (
-          <h3 className={styles.arabicTitle} dir="rtl" lang="ar">{note.title}</h3>
+          <h3 className={styles.arabicTitle} dir="rtl" lang="ar" data-note-part>{note.title}</h3>
         ) : (
-          <h3 dir="ltr" lang="en">{note.title}</h3>
+          <h3 dir="ltr" lang="en" data-note-part>{note.title}</h3>
         )}
-        <span className={styles.watchAction}>Watch the field note <Arrow diagonal /></span>
+        <span className={styles.watchAction} data-note-part>Watch the field note <Arrow diagonal /></span>
       </a>
     </article>
   );
@@ -175,15 +175,37 @@ export default function EhsanExperience() {
         }
 
         gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
+          const kind = element.dataset.reveal;
+          if (kind === 'mark') {
+            gsap.fromTo(
+              element,
+              { rotation: -10, scale: 0.92, autoAlpha: 0 },
+              {
+                rotation: -4,
+                scale: 1,
+                autoAlpha: 1,
+                duration: 0.9,
+                ease: 'power3.out',
+                clearProps: 'transform,visibility,opacity',
+                scrollTrigger: { trigger: element, start: 'top 84%', once: true },
+              },
+            );
+            return;
+          }
+
+          const isCard = kind === 'card';
+          const targets = kind === 'section' || kind === 'group' ? Array.from(element.children) : [element];
           gsap.fromTo(
-            element,
-            { y: 36, autoAlpha: 0 },
+            targets,
+            { y: isCard ? 28 : 36, scale: isCard ? 0.985 : 1, autoAlpha: 0 },
             {
               y: 0,
+              scale: 1,
               autoAlpha: 1,
-              duration: 0.75,
+              duration: isCard ? 0.82 : 0.72,
+              stagger: kind === 'section' ? 0.09 : kind === 'group' ? 0.07 : 0,
               ease: 'power3.out',
-              scrollTrigger: { trigger: element, start: 'top 86%', once: true },
+              scrollTrigger: { trigger: element, start: 'top 84%', once: true },
             },
           );
         });
@@ -191,7 +213,7 @@ export default function EhsanExperience() {
         if (!reduceMotion) {
           const notesTrack = root.querySelector<HTMLElement>('.notesTrack');
           if (notesTrack) {
-            gsap.to(notesTrack, {
+            const notesTween = gsap.to(notesTrack, {
               x: () => -Math.max(0, notesTrack.scrollWidth - window.innerWidth),
               ease: 'none',
               scrollTrigger: {
@@ -204,8 +226,47 @@ export default function EhsanExperience() {
                 anticipatePin: 1,
               },
             });
+
+            gsap.utils.toArray<HTMLElement>('[data-note]').forEach((card) => {
+              const parts = card.querySelectorAll<HTMLElement>('[data-note-part]');
+              gsap.fromTo(
+                parts,
+                { y: 30, scale: 0.985, autoAlpha: 0 },
+                {
+                  y: 0,
+                  scale: 1,
+                  autoAlpha: 1,
+                  duration: 0.72,
+                  stagger: 0.08,
+                  ease: 'power3.out',
+                  scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: notesTween,
+                    start: 'left 84%',
+                    once: true,
+                  },
+                },
+              );
+            });
           }
         }
+
+        const loopTween = gsap.to('[data-loop-track]', {
+          xPercent: -50,
+          duration: 18,
+          repeat: -1,
+          ease: 'none',
+          paused: true,
+        });
+        ScrollTrigger.create({
+          trigger: '.closing',
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => loopTween.play(),
+          onEnterBack: () => loopTween.play(),
+          onLeave: () => loopTween.pause(),
+          onLeaveBack: () => loopTween.pause(),
+        });
 
         if (desktop) {
           gsap.fromTo(
@@ -300,7 +361,7 @@ export default function EhsanExperience() {
 
       <section id="method" className={`${styles.method} method`} aria-labelledby="method-title">
         <div className={`${styles.methodInner} methodInner`}>
-          <div className={styles.sectionLead} data-reveal>
+          <div className={styles.sectionLead} data-reveal="section">
             <p>01 / THE METHOD</p>
             <h2 id="method-title">Turn the tool into<br />a way of working.</h2>
             <span>Information only becomes valuable when it survives contact with a real problem.</span>
@@ -313,7 +374,7 @@ export default function EhsanExperience() {
               ['03', 'BUILD THE SYSTEM', 'Connect judgment, process, and technology.'],
               ['04', 'USE IT AT WORK', 'Test it in the room where outcomes matter.'],
             ].map(([number, title, copy]) => (
-              <article key={number} className={styles.mapNode} data-reveal>
+              <article key={number} className={styles.mapNode} data-reveal="card">
                 <span>{number}</span><h3>{title}</h3><p>{copy}</p>
               </article>
             ))}
@@ -324,7 +385,7 @@ export default function EhsanExperience() {
 
       <section id="field-notes" className={`${styles.fieldNotes} fieldNotes`} aria-labelledby="notes-title">
         <div className={styles.notesTrack + ' notesTrack'}>
-          <header className={styles.notesIntro}>
+          <header className={styles.notesIntro} data-reveal="section">
             <p>02 / IN PUBLIC</p>
             <h2 id="notes-title">Three problems.<br />One instinct:<br /><em>make it usable.</em></h2>
             <span>Public teaching is where the method becomes visible.</span>
@@ -334,15 +395,15 @@ export default function EhsanExperience() {
       </section>
 
       <section className={`${styles.proof} proof`} aria-labelledby="proof-title">
-        <div className={styles.proofHeader} data-reveal>
+        <div className={styles.proofHeader} data-reveal="section">
           <p>03 / THE CONNECTIONS</p>
           <h2 id="proof-title">Not separate interests.<br />A connected operating edge.</h2>
         </div>
         <div className={styles.proofNetwork}>
           <div className={styles.proofLine} aria-hidden="true" />
-          <div className={styles.proofCenter} data-reveal><span>OPERATOR</span><b>↔</b><span>TEACHER</span></div>
+          <div className={styles.proofCenter} data-reveal="card"><span>OPERATOR</span><b>↔</b><span>TEACHER</span></div>
           {proofPoints.map(([label, copy], index) => (
-            <article key={label} className={styles.proofPoint} data-index={index + 1} data-reveal>
+            <article key={label} className={styles.proofPoint} data-index={index + 1} data-reveal="card">
               <span>0{index + 1}</span><h3>{label}</h3><p>{copy}</p>
             </article>
           ))}
@@ -353,18 +414,18 @@ export default function EhsanExperience() {
       </section>
 
       <section id="paths" className={styles.paths} aria-labelledby="paths-title">
-        <header data-reveal>
+        <header data-reveal="section">
           <p>04 / CHOOSE THE PROBLEM</p>
           <h2 id="paths-title">Same method.<br />Different starting point.</h2>
         </header>
         <div className={styles.pathGrid}>
-          <article className={styles.teamPath} data-reveal>
+          <article className={styles.teamPath} data-reveal="card">
             <span>FOR REVENUE LEADERS &amp; TEAMS / PRIMARY</span>
             <h3>Make AI useful where revenue work actually happens.</h3>
             <p>Start with the workflow, the commercial problem, and the behavior that needs to change—then build the system around them.</p>
             <a href="#method">Trace the team method <Arrow /></a>
           </article>
-          <article className={styles.capabilityPath} data-reveal>
+          <article className={styles.capabilityPath} data-reveal="card">
             <span>FOR REVENUE PROFESSIONALS</span>
             <h3>Build proof, not just familiarity.</h3>
             <p>Choose one useful problem, apply a practical framework, and let real work become the evidence.</p>
@@ -374,8 +435,8 @@ export default function EhsanExperience() {
       </section>
 
       <section className={styles.salesTechies} aria-labelledby="sales-techies-title">
-        <div className={styles.salesMark} aria-hidden="true">ST</div>
-        <div data-reveal>
+        <div className={styles.salesMark} aria-hidden="true" data-reveal="mark">ST</div>
+        <div data-reveal="section">
           <p>05 / BUILT FROM THE METHOD</p>
           <h2 id="sales-techies-title">Sales Techies is one expression of the system.</h2>
           <p>It brings Sales, Business Development, AI, and applied education into the same practical conversation. Here, it appears as evidence of Ehsan&apos;s build-and-teach method—not as a replacement for her personal identity.</p>
@@ -383,17 +444,22 @@ export default function EhsanExperience() {
         </div>
       </section>
 
-      <section className={styles.closing} aria-labelledby="closing-title">
-        <p className={styles.loop} aria-hidden="true">KNOW → UNDERSTAND → BUILD → USE</p>
-        <div data-reveal>
+      <section className={`${styles.closing} closing`} aria-labelledby="closing-title">
+        <div className={styles.loop} aria-hidden="true">
+          <div className={styles.loopTrack} data-loop-track>
+            <span>KNOW → UNDERSTAND → BUILD → USE</span>
+            <span>KNOW → UNDERSTAND → BUILD → USE</span>
+          </div>
+        </div>
+        <div data-reveal="section">
           <span>THE WORK BEGINS WHEN THE INFORMATION STARTS MOVING.</span>
           <h2 id="closing-title"><span>EHSAN</span>{' '}<span>EL SAYED</span></h2>
         </div>
-        <div className={styles.closingLinks}>
+        <div className={styles.closingLinks} data-reveal="group">
           <a href="https://www.youtube.com/@ehsan__sayed" target="_blank" rel="noreferrer">Follow Life, Work &amp; Growth <Arrow diagonal /></a>
           <Link href="/speeddesigning/ehsan-elsayed/blueprint">Open the Blueprint <Arrow /></Link>
         </div>
-        <footer>
+        <footer data-reveal="group">
           <div className={styles.footerMeta}>
             <p>This website is an independent speculative concept created by Muhammed Mekky Studio as part of the Speed Designing series. It is not affiliated with, endorsed by, or officially connected to Ehsan El Sayed or her representatives.</p>
             <span>EPISODE 01 / 2026</span>

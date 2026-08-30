@@ -489,9 +489,11 @@
 .salesTechies small { display: block; max-width: 62ch; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid rgb(243 239 230 / 24%); color: rgb(243 239 230 / 55%); }
 
 .closing { position: relative; min-height: 100svh; padding: var(--section-space) var(--gutter) 2rem; background: var(--coral); color: var(--ink); overflow: hidden; }
-.loop { position: absolute; top: 1.5rem; left: 0; white-space: nowrap; color: rgb(17 19 24 / 12%); font: 750 clamp(4rem, 11vw, 12rem)/0.8 var(--ehsan-display), sans-serif; letter-spacing: -0.06em; }
-.closing > div:not(.closingLinks) { position: relative; z-index: 2; margin-top: clamp(4rem, 9vh, 9rem); }
-.closing > div > span { font: 600 0.75rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.1em; }
+.loop { position: absolute; top: 1.5rem; left: 0; width: 100%; overflow: hidden; color: rgb(17 19 24 / 12%); font: 750 clamp(4rem, 11vw, 12rem)/0.8 var(--ehsan-display), sans-serif; letter-spacing: -0.06em; }
+.loopTrack { display: flex; width: max-content; will-change: transform; }
+.loopTrack span { flex: none; padding-right: 0.35em; white-space: nowrap; }
+.closing > [data-reveal='section'] { position: relative; z-index: 2; margin-top: clamp(4rem, 9vh, 9rem); }
+.closing > [data-reveal='section'] > span { font: 600 0.75rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.1em; }
 .closing h2 { margin-top: 1rem; font: 780 clamp(4.8rem, 12.2vw, 12.2rem)/0.8 var(--ehsan-display), sans-serif; letter-spacing: -0.085em; }
 .closingLinks { display: flex; position: relative; z-index: 2; flex-wrap: wrap; gap: 1rem; margin-top: clamp(4rem, 9vh, 8rem); }
 .closingLinks a { display: flex; min-height: 52px; align-items: center; gap: 2rem; justify-content: space-between; padding: 0.8rem 1rem; border: 2px solid var(--ink); background-position: left; background-repeat: no-repeat; background-size: 0 100%; font-weight: 650; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 180ms ease; }
@@ -598,6 +600,10 @@
   .notesTrack { display: block; width: auto; min-height: auto; padding: var(--section-space) var(--gutter); }
   .notesIntro { min-height: 33rem; padding: 0 0 5rem; border: 0; }
   .noteCard { width: 100%; padding: 4rem 0; border-top: 1px solid var(--border); border-right: 0; }
+  .loop { position: relative; top: auto; overflow: visible; font-size: clamp(2.4rem, 10vw, 4rem); }
+  .loopTrack { display: block; width: auto; transform: none !important; will-change: auto; }
+  .loopTrack span { white-space: normal; }
+  .loopTrack span:last-child { display: none; }
   .page *,
   .page *::before,
   .page *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
