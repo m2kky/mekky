@@ -193,6 +193,25 @@ export default function EhsanExperience() {
           });
         }
 
+        if (desktop) {
+          gsap.fromTo(
+            '.mapProgress',
+            { scaleY: 0, transformOrigin: 'top center' },
+            {
+              scaleY: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '.method',
+                start: 'top top',
+                end: '+=125%',
+                pin: true,
+                scrub: 0.7,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        }
+
         gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
           const kind = element.dataset.reveal;
           if (kind === 'mark') {
@@ -232,13 +251,14 @@ export default function EhsanExperience() {
         if (!reduceMotion) {
           const notesTrack = root.querySelector<HTMLElement>('.notesTrack');
           if (notesTrack) {
+            const getNotesTravel = () => Math.max(0, notesTrack.scrollWidth - window.innerWidth);
             const notesTween = gsap.to(notesTrack, {
-              x: () => -Math.max(0, notesTrack.scrollWidth - window.innerWidth),
+              x: () => -getNotesTravel(),
               ease: 'none',
               scrollTrigger: {
                 trigger: '.fieldNotes',
                 start: 'top top',
-                end: () => `+=${Math.max(notesTrack.scrollWidth - window.innerWidth, window.innerWidth * 1.5)}`,
+                end: () => `+=${getNotesTravel()}`,
                 pin: true,
                 scrub: 0.8,
                 invalidateOnRefresh: true,
@@ -288,23 +308,6 @@ export default function EhsanExperience() {
         });
 
         if (desktop) {
-          gsap.fromTo(
-            '.mapProgress',
-            { scaleY: 0, transformOrigin: 'top center' },
-            {
-              scaleY: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: '.method',
-                start: 'top top',
-                end: '+=125%',
-                pin: true,
-                scrub: 0.7,
-                invalidateOnRefresh: true,
-              },
-            },
-          );
-
           gsap.to('[data-parallax="circle"]', {
             y: -90,
             rotation: 24,

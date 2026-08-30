@@ -59,6 +59,8 @@
   position: relative;
   z-index: 2;
   color: var(--canvas);
+  visibility: hidden;
+  opacity: 0;
 }
 
 .page[data-intro-active='true'] .equation .using { color: var(--blue); }
@@ -90,6 +92,11 @@
   background-image: linear-gradient(rgb(243 239 230 / 9%) 1px, transparent 1px), linear-gradient(90deg, rgb(243 239 230 / 9%) 1px, transparent 1px);
   background-size: 100% 25%, 16.666% 100%;
   content: '';
+}
+.introBrand,
+.introWords strong {
+  visibility: hidden;
+  opacity: 0;
 }
 .introBrand {
   position: absolute;

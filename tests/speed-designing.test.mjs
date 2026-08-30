@@ -164,9 +164,40 @@ test('keeps Ehsan Field Notes horizontal on every motion-enabled viewport', () =
   assert.match(experience, /motion:\s*['"]\(prefers-reduced-motion:\s*no-preference\)['"]/);
   assert.match(experience, /if \(!reduceMotion\)[\s\S]*root\.querySelector<HTMLElement>\(['"]\.notesTrack['"]\)/);
   assert.match(experience, /trigger:\s*['"]\.fieldNotes['"][\s\S]*pin:\s*true[\s\S]*scrub:\s*0\.8/);
-  assert.doesNotMatch(experience, /if \(desktop\)[\s\S]*const notesTrack/);
   assert.match(experienceCss, /@media \(max-width:\s*1099px\)[\s\S]*\.notesTrack\s*\{[^}]*display:\s*flex/);
   assert.match(experienceCss, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*\.notesTrack\s*\{[^}]*display:\s*block/);
+});
+
+test('keeps the Ehsan pinned sections in document order with one-to-one horizontal travel', () => {
+  const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
+  const experience = read(`${routeRoot}/EhsanExperience.tsx`);
+  const methodTrigger = experience.indexOf("trigger: '.method'");
+  const notesTrigger = experience.indexOf("trigger: '.fieldNotes'");
+  const revealTriggers = experience.indexOf("gsap.utils.toArray<HTMLElement>('[data-reveal]')");
+
+  assert.ok(methodTrigger >= 0, 'the Method pin must exist');
+  assert.ok(notesTrigger >= 0, 'the Field Notes pin must exist');
+  assert.ok(methodTrigger < revealTriggers, 'the upstream Method pin must be measured before downstream reveal triggers');
+  assert.ok(methodTrigger < notesTrigger, 'upstream Method pin must be created before the downstream Field Notes pin');
+  assert.match(experience, /const getNotesTravel = \(\) => Math\.max\(0, notesTrack\.scrollWidth - window\.innerWidth\)/);
+  assert.match(experience, /x:\s*\(\) => -getNotesTravel\(\)/);
+  assert.match(experience, /end:\s*\(\) => `\+=\$\{getNotesTravel\(\)\}`/);
+  assert.doesNotMatch(experience, /window\.innerWidth \* 1\.5/, 'pin duration must not outlive the horizontal track travel');
+});
+
+test('masks the Ehsan homepage before the intro timeline takes control', () => {
+  const css = read('src/app/speeddesigning/ehsan-elsayed/EhsanExperience.module.css');
+
+  assert.match(
+    css,
+    /\.page\[data-intro-active='true'\] \.equation\s*\{[^}]*visibility:\s*hidden;[^}]*opacity:\s*0;/s,
+    'the shared hero equation must not flash before GSAP stages it',
+  );
+  assert.match(
+    css,
+    /\.introBrand,\s*\.introWords strong\s*\{[^}]*visibility:\s*hidden;[^}]*opacity:\s*0;/s,
+    'intro choreography must be hidden before its first frame is initialized',
+  );
 });
 
 test('makes Ehsan discoverable through the registry and sitemap', async () => {
