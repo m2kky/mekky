@@ -20,7 +20,24 @@ export interface SpeedDesigningProject {
   showComingSoon?: boolean;
 }
 
-export const speedDesigningProjects: SpeedDesigningProject[] = [];
+export const speedDesigningProjects: SpeedDesigningProject[] = [
+  {
+    episodeNumber: 1,
+    slug: 'ehsan-elsayed',
+    personName: 'Ehsan El Sayed',
+    profession: 'Operator-Teacher · Sales · Business Development · Practical AI',
+    positioning: 'A working system for turning knowledge into useful work.',
+    coverImage: '/speeddesigning/ehsan-elsayed/cover.svg',
+    accentColor: '#1D4ED8',
+    websitePath: '/speeddesigning/ehsan-elsayed',
+    blueprintPath: '/speeddesigning/ehsan-elsayed/blueprint',
+    publishDate: '2026-08-30',
+    status: 'published',
+    language: 'bilingual',
+    designStyles: ['Editorial', 'Bauhaus', 'Interactive Storytelling'],
+    featured: true,
+  },
+];
 
 export function getPublicSpeedDesigningProjects(
   projects: readonly SpeedDesigningProject[] = speedDesigningProjects,

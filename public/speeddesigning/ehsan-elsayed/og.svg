@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Ehsan El Sayed — The Working System</title>
+  <desc id="desc">Speed Designing episode one social graphic.</desc>
+  <rect width="1200" height="630" fill="#111318"/>
+  <circle cx="105" cy="100" r="44" fill="#FF6245"/>
+  <path d="M150 100H470V316H820V510H1086" fill="none" stroke="#F3EFE6" stroke-width="3"/>
+  <circle cx="470" cy="316" r="18" fill="#111318" stroke="#F3EFE6" stroke-width="3"/>
+  <rect x="794" y="484" width="52" height="52" fill="#1D4ED8"/>
+  <text x="68" y="78" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4" fill="#F3EFE6">SPEED DESIGNING / EP. 01</text>
+  <text x="68" y="276" font-family="Arial, sans-serif" font-size="108" font-weight="800" letter-spacing="-5" fill="#F3EFE6">KNOWING ≠</text>
+  <text x="68" y="382" font-family="Arial, sans-serif" font-size="108" font-weight="800" letter-spacing="-5" fill="#FF6245">USING</text>
+  <text x="68" y="555" font-family="Arial, sans-serif" font-size="58" font-weight="800" letter-spacing="-2" fill="#F3EFE6">EHSAN EL SAYED</text>
+  <text x="848" y="555" font-family="monospace" font-size="18" fill="#F3EFE6">THE WORKING SYSTEM →</text>
+</svg>

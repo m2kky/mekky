@@ -1,0 +1,90 @@
+.page {
+  --canvas: #f3efe6;
+  --ink: #111318;
+  --blue: #1d4ed8;
+  --coral: #ff6245;
+  --paper: #fffdf8;
+  --border: #d6d0c5;
+  --gutter: clamp(1rem, 4vw, 4rem);
+  min-height: 100vh;
+  overflow: clip;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--ehsan-body), Arial, sans-serif;
+}
+.page *, .page *::before, .page *::after { box-sizing: border-box; }
+.page h1, .page h2, .page h3, .page p, .page blockquote { margin: 0; }
+.page a { color: inherit; text-decoration: none; }
+.page :focus-visible { outline: 3px solid var(--coral); outline-offset: 5px; }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 4.5rem; padding: 0 var(--gutter); border-bottom: 1px solid var(--ink); font: 600 0.72rem/1 var(--ehsan-mono), monospace; letter-spacing: 0.08em; }
+.nav a { display: inline-flex; min-height: 44px; align-items: center; }
+.hero { min-height: calc(100svh - 4.5rem); padding: clamp(3rem, 7vh, 6rem) var(--gutter) 2rem; background: var(--ink); color: var(--canvas); }
+.heroMeta, .heroBottom { display: flex; justify-content: space-between; gap: 2rem; font: 500 0.72rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.08em; }
+.hero h1 { margin-top: clamp(4rem, 10vh, 8rem); font: 780 clamp(5rem, 15vw, 15rem)/0.73 var(--ehsan-display), sans-serif; letter-spacing: -0.08em; }
+.hero h1 em { color: var(--coral); font-style: normal; }
+.heroBottom { align-items: end; margin-top: clamp(5rem, 12vh, 10rem); padding-top: 1.5rem; border-top: 1px solid currentColor; }
+.heroBottom p:first-child { font: 700 clamp(1.8rem, 3vw, 3.4rem)/1 var(--ehsan-display), sans-serif; }
+.heroBottom p:last-child { max-width: 46ch; font-family: var(--ehsan-body), sans-serif; font-size: 0.95rem; letter-spacing: 0; }
+.label { color: #c73a24; font: 600 0.74rem/1.2 var(--ehsan-mono), monospace; letter-spacing: 0.1em; }
+.intro, .audience, .journey, .recipe, .system, .motion, .decisions, .preview { padding: clamp(6rem, 12vw, 11rem) var(--gutter); }
+.intro h2, .journey > h2, .motion > h2, .decisions > h2, .preview h2 { max-width: 14ch; margin-top: 2rem; font: 720 clamp(3.2rem, 7vw, 7.5rem)/0.9 var(--ehsan-display), sans-serif; letter-spacing: -0.06em; }
+.twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem clamp(2rem, 8vw, 9rem); max-width: 70rem; margin: clamp(4rem, 8vw, 8rem) 0 0 auto; }
+.twoCol p { font-size: clamp(1.15rem, 1.6vw, 1.5rem); }
+.problem { padding: clamp(6rem, 10vw, 10rem) var(--gutter); background: var(--blue); color: var(--paper); }
+.problem .label { color: var(--coral); }
+.problem blockquote { margin-top: 2rem; font: 650 clamp(3.2rem, 8vw, 8rem)/0.9 var(--ehsan-display), sans-serif; letter-spacing: -0.06em; }
+.problem blockquote strong { color: var(--coral); font-weight: inherit; }
+.problem > p:last-child { max-width: 46ch; margin: 4rem 0 0 auto; }
+.audience ol, .journey ol { margin: 3rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+.audience li { display: grid; grid-template-columns: 2fr 6fr 4fr; gap: 2rem; align-items: center; min-height: 10rem; border-bottom: 1px solid var(--ink); }
+.audience li span, .journey li b { font: 600 0.72rem/1.2 var(--ehsan-mono), monospace; }
+.audience li h2 { font: 680 clamp(1.8rem, 3.5vw, 4rem)/0.95 var(--ehsan-display), sans-serif; letter-spacing: -0.04em; }
+.audience li p { max-width: 34ch; }
+.journey { background: var(--paper); }
+.journey ol { counter-reset: step; }
+.journey li { display: grid; grid-template-columns: 1fr 3fr 8fr; gap: 2rem; align-items: center; min-height: 7.5rem; border-bottom: 1px solid var(--border); }
+.journey li h3 { font: 680 clamp(1.4rem, 2.2vw, 2.2rem)/1 var(--ehsan-display), sans-serif; }
+.recipeGrid { display: grid; grid-template-columns: 6fr 3fr 1fr; margin-top: 3rem; border: 1px solid var(--ink); }
+.recipeGrid article { display: flex; min-height: 31rem; flex-direction: column; padding: clamp(1.2rem, 3vw, 3rem); border-right: 1px solid var(--ink); }
+.recipeGrid article:last-child { border: 0; }
+.recipeGrid b { color: var(--blue); font: 750 clamp(4rem, 9vw, 9rem)/1 var(--ehsan-display), sans-serif; letter-spacing: -0.07em; }
+.recipeGrid h2 { margin-top: auto; font: 700 clamp(1.6rem, 3vw, 3rem)/1 var(--ehsan-display), sans-serif; }
+.recipeGrid p { margin-top: 1rem; }
+.system { display: grid; grid-template-columns: 4fr 8fr; gap: 4rem; background: var(--ink); color: var(--canvas); }
+.system > div:first-child h2 { margin-top: 2rem; font: 700 clamp(3rem, 6vw, 6rem)/0.9 var(--ehsan-display), sans-serif; letter-spacing: -0.055em; }
+.system .label { color: var(--coral); }
+.swatches { display: grid; grid-template-columns: 1fr 1fr; }
+.swatches span { display: flex; min-height: 15rem; align-items: end; padding: 1.25rem; font: 600 0.75rem/1.5 var(--ehsan-mono), monospace; }
+.typeSpecimen { grid-column: 1 / 3; padding-top: 5rem; border-top: 1px solid rgb(243 239 230 / 24%); }
+.typeSpecimen h2 { max-width: 15ch; margin-top: 2rem; font: 720 clamp(3rem, 6vw, 6.5rem)/0.9 var(--ehsan-display), sans-serif; letter-spacing: -0.055em; }
+.typeSpecimen > p:not(.label) { max-width: 50ch; margin: 2rem 0 0 auto; }
+.typeSpecimen strong { display: block; margin-top: 4rem; color: var(--coral); font: 600 clamp(2rem, 4vw, 4rem)/1.5 var(--ehsan-arabic), Tahoma, sans-serif; text-align: right; }
+.motionGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 4rem; background: var(--ink); border: 1px solid var(--ink); }
+.motionGrid p { min-height: 13rem; padding: 1.5rem; background: var(--canvas); font: 650 clamp(1.3rem, 2vw, 2rem)/1.05 var(--ehsan-display), sans-serif; }
+.decisions { background: var(--paper); }
+.decisions > div { margin-top: 4rem; }
+.decisions article { display: grid; grid-template-columns: 3fr 5fr 4fr; gap: 2rem; align-items: start; padding: 2rem 0; border-top: 1px solid var(--border); }
+.decisions article:last-child { border-bottom: 1px solid var(--border); }
+.decisions h3 { font: 680 clamp(1.4rem, 2.2vw, 2.3rem)/1 var(--ehsan-display), sans-serif; }
+.decisions small { font: 500 0.72rem/1.5 var(--ehsan-mono), monospace; }
+.preview { display: grid; grid-template-columns: 5fr 7fr; gap: 3rem; align-items: center; }
+.preview a { display: inline-flex; min-height: 48px; align-items: center; margin-top: 3rem; padding: 0.8rem 1rem; background: var(--blue); color: var(--paper); font-weight: 650; }
+.preview img { width: 100%; height: auto; border: 1px solid var(--ink); }
+.footer { display: grid; grid-template-columns: 8fr 4fr; gap: 3rem; padding: 2rem var(--gutter); background: var(--coral); font-size: 0.78rem; }
+.footer p { max-width: 75ch; }
+.footer a { font-weight: 650; }
+@media (max-width: 767px) {
+  .nav { align-items: flex-start; padding-top: 0.8rem; padding-bottom: 0.8rem; }
+  .hero { min-height: 44rem; }
+  .hero h1 { font-size: clamp(4.2rem, 20vw, 6.5rem); }
+  .heroBottom, .twoCol, .system, .preview, .footer { grid-template-columns: 1fr; }
+  .heroBottom { display: grid; }
+  .audience li { grid-template-columns: 1fr; gap: 0.7rem; padding: 2rem 0; }
+  .journey li { grid-template-columns: 2rem 1fr; padding: 1.5rem 0; }
+  .journey li p { grid-column: 2; }
+  .recipeGrid, .motionGrid { grid-template-columns: 1fr; }
+  .recipeGrid article { min-height: 22rem; border-right: 0; border-bottom: 1px solid var(--ink); }
+  .swatches { grid-template-columns: 1fr 1fr; }
+  .typeSpecimen { grid-column: 1; }
+  .decisions article { grid-template-columns: 1fr; }
+}

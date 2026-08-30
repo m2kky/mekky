@@ -28,6 +28,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${SITE.url}/speeddesigning/ehsan-elsayed`,
+            lastModified: new Date('2026-08-30'),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
+        {
+            url: `${SITE.url}/speeddesigning/ehsan-elsayed/blueprint`,
+            lastModified: new Date('2026-08-30'),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        },
+        {
             url: `${SITE.url}/rammah-project`,
             lastModified: new Date(),
             changeFrequency: 'weekly',

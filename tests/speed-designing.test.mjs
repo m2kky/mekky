@@ -23,7 +23,50 @@ test('publishes only intentional archive entries in newest-first order', async (
   ]);
 
   assert.deepEqual(visible.map((project) => project.slug), ['visible-soon', 'published']);
-  assert.deepEqual(registry.speedDesigningProjects, []);
+  assert.deepEqual(registry.speedDesigningProjects.map((project) => project.slug), ['ehsan-elsayed']);
+});
+
+test('publishes Ehsan episode one with its website and Blueprint contracts', () => {
+  const routeRoot = 'src/app/speeddesigning/ehsan-elsayed';
+  const experiencePath = `${routeRoot}/EhsanExperience.tsx`;
+  const blueprintPath = `${routeRoot}/blueprint/page.tsx`;
+  for (const path of [
+    `${routeRoot}/layout.tsx`, `${routeRoot}/page.tsx`, experiencePath,
+    `${routeRoot}/EhsanExperience.module.css`, blueprintPath,
+    `${routeRoot}/blueprint/Blueprint.module.css`,
+    'public/speeddesigning/ehsan-elsayed/cover.svg',
+    'public/speeddesigning/ehsan-elsayed/og.svg',
+  ]) {
+    assert.ok(existsSync(path), `${path} must exist`);
+  }
+
+  const experience = read(experiencePath);
+  for (const required of [
+    'KNOWING', 'USING', 'The difference is a working system.',
+    'ehn2Ox8YA7U', 'cngUW3Vv28k', 'BPppanxswGY',
+    'Sales Techies is one expression of the system.',
+    'independent speculative concept', 'prefers-reduced-motion',
+  ]) assert.match(experience, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+
+  assert.match(experience, /ScrollTrigger/);
+  assert.match(experience, /pin:\s*true/g);
+  assert.match(experience, /dir="rtl"/);
+  assert.match(read(blueprintPath), /The Working System/);
+  assert.match(read(blueprintPath), /Open the experience/);
+  assert.match(read(`${routeRoot}/layout.tsx`), /canonical:\s*['"]\/speeddesigning\/ehsan-elsayed['"]/);
+});
+
+test('makes Ehsan discoverable through the registry and sitemap', async () => {
+  const registry = await import(`${pathToFileURL(`${process.cwd()}/${registryPath}`).href}?episode=${Date.now()}`);
+  const project = registry.speedDesigningProjects[0];
+  assert.equal(project.slug, 'ehsan-elsayed');
+  assert.equal(project.episodeNumber, 1);
+  assert.equal(project.status, 'published');
+  assert.equal(project.websitePath, '/speeddesigning/ehsan-elsayed');
+  assert.equal(project.blueprintPath, '/speeddesigning/ehsan-elsayed/blueprint');
+  const sitemap = read('src/app/sitemap.ts');
+  assert.match(sitemap, /speeddesigning\/ehsan-elsayed/);
+  assert.match(sitemap, /speeddesigning\/ehsan-elsayed\/blueprint/);
 });
 
 test('ships the standalone series route, metadata, and intentional empty state', () => {
