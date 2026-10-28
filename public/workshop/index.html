@@ -29,6 +29,8 @@
 @media(max-width:600px){.connect-slide{overflow:auto}.connect-colour{inset:0 0 57%}.connect-layout{position:relative;inset:auto;display:block;margin-top:35px}.connect-statement{padding-right:0;min-height:270px;justify-content:flex-start}.connect-statement h2{font-size:82px}.connect-eyebrow{margin-bottom:18px}.connect-together{font-size:26px;margin-top:15px}.connect-signoff{display:none}.connect-destinations{padding:40px 0 80px}.connect-paths{gap:20px}.connect-intro{margin-bottom:22px}.connect-label{font-size:7px}.connect-path h3{font-size:16px}.connect-path p{font-size:11px}.connect-link{font-size:7px;line-height:1.7}.connect-scan{font-size:7px}}
 .deck[data-slide="24"] .controls{background:transparent;border-top-color:#eee9df55}.deck[data-slide="24"] .page-indicator{color:var(--ink)}
 
+.workbook-entry{position:absolute;right:5vw;bottom:125px;width:218px;z-index:4;background:var(--paper);color:var(--ink);padding:12px;text-decoration:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:9px}.workbook-entry img{display:block;width:100%;height:auto;image-rendering:pixelated}.workbook-entry .entry-label{font-size:8px;letter-spacing:.1em}.workbook-entry strong{font:700 19px Tahoma,Arial,sans-serif}.workbook-entry>span[lang]{font:11px Tahoma,Arial,sans-serif;line-height:1.6}.cover:has(.workbook-entry) .speaker{display:none}.workbook-entry:focus-visible{outline:3px solid var(--ink);outline-offset:5px}@media(max-width:750px){.workbook-entry{width:155px;right:6vw;bottom:125px;padding:9px;gap:6px}.workbook-entry strong{font-size:14px}.workbook-entry>span[lang]{font-size:9px}.workbook-entry .entry-label{font-size:6px}}
+
 /* Display original transparent logos through a cropped CSS viewport; source pixels unchanged. */
 .brand-art{display:inline-block;position:relative;overflow:hidden;flex-shrink:0;vertical-align:middle;direction:ltr}.brand-art img{position:absolute;max-width:none!important;height:auto;display:block;pointer-events:none}
 .brand-compact{width:146px;aspect-ratio:966/302}.brand-compact img{width:173.0849%;left:-39.3375%;top:-106.9536%}
@@ -41,7 +43,7 @@
  <header class="top"><div class="brand"><span class="brand-art brand-full"><img src="assets/brand/Logo.png" alt="Muhammed Mekky" width="1672" height="940"></span></div><span class="middle">AI-POWERED PERSONAL BRANDING</span><span class="tag">SEEN FORUM / WORKSHOP</span></header>
  <div class="cover-content"><p class="eyebrow reveal">YOUR IDEAS. YOUR VOICE. AMPLIFIED.</p><h1 class="reveal delay"><span>CREATE MORE.</span><span>STAY</span><span>YOU.</span></h1><p class="intro reveal delay2">Build a personal brand with AI.<br>Start with what makes you, you.</p></div>
  <div class="speaker reveal delay2"><strong>Muhammed Mekky</strong><span>Artist. Digital Problem Solver.<br>Strategist + Builder.</span></div>
- <div class="hint">USE ← → TO EXPLORE</div>
+ <a class="workbook-entry" href="https://muhammedmekky.com/workshop/participants.html" target="_blank" rel="noopener noreferrer"><span class="entry-label">YOUR WORKSHOP WORKBOOK</span><img src="assets/qr-participants.png" width="410" height="410" alt="امسح الكود لفتح دفتر الحضور"><strong lang="ar" dir="rtl">افتح دفتر الورشة</strong><span lang="ar" dir="rtl">امسح الكود وخلّي الصفحة معاك</span></a><div class="hint">USE ← → TO EXPLORE</div>
 </section></main><script>/* Presenter deck. Prompts are copied on explicit action, never rendered in a slide. */
 const icons={
 person:'<circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',
